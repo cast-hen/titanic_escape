@@ -3,6 +3,20 @@ import time
 
 class button:
     def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize, borderColour):
+        """
+        Maak een nieuwe knop aan
+        x: de x-positie van de linkerzijde van de knop
+        y: de y-positie van de top van de knop
+        width: hoe wijd de knop is
+        height: hoe hoog de knop is
+        colourNormal: de kleur van de knop
+        colourHover: de kleur van de knop als de muis eroverheen gaat
+        text: een string tekst die op de knop moet staan
+        textColour: de kleur van de tekst
+        textSize: de grootte van de tekst
+        borderColour: de kleur van de rand om de knop heen
+        return: De knop in het juiste format voor de functies
+        """
         self.x = x
         self.y = y
         self.width = width
@@ -15,6 +29,13 @@ class button:
         self.borderColour = borderColour
 
     def check(self, mouse, mouseDown, screen):
+        """
+        Print een knop, geeft aan als de knop wordt ingedrukt
+        :param mouse: De positie van de muis in een lijst met x en y
+        :param mouseDown: Is de muisknop ingedrukt True of False
+        :param screen: Het scherm waar de button op moet komen
+        :return: True of False
+        """
         font = pygame.font.Font("freesansbold.ttf", self.textSize)
         text = font.render(self.text, True, self.textColour)
         pygame.draw.rect(screen, self.borderColour, [self.x, self.y, self.width, self.height])
