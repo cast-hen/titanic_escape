@@ -24,8 +24,8 @@ scene = "main_menu"
 mouseDown = False
 
 
-class button:
-    def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour):
+class Button:
+    def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize):
         self.x = x
         self.y = y
         self.width = width
@@ -34,6 +34,7 @@ class button:
         self.colourHover = colourHover
         self.text = text
         self.textColour = textColour
+        self.textSize = textSize
 
 #objecten class
 class Objects:
@@ -102,8 +103,8 @@ class Objects:
 def draw_floor():
     pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
 
-def buttonCheck(button):
-    font = pygame.font.Font("freesansbold.ttf", int(button.width / 5))
+def buttonCheck(button, mouse, mouseDown):
+    font = pygame.font.Font("freesansbold.ttf", button.textSize)
     text = font.render(button.text, True, button.textColour)
     if button.x <= mouse[0] <= button.x + button.width and button.y <= mouse[1] <= button.y + \
             button.height:
@@ -138,8 +139,8 @@ while running:
     mouse = pygame.mouse.get_pos()
 
     if scene == "main_menu":
-        buttonStart = button((1166/2), (610/4), 200, 80, 'grey', 'darkgrey', "start", 'white')
-        if buttonCheck(buttonStart):
+        buttonStart = Button((1166/2), (610/4), 200, 80, 'grey', 'darkgrey', "start", 'white', 50)
+        if buttonCheck(buttonStart, mouse, mouseDown):
             scene = "scene1"
 
 
@@ -169,7 +170,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouseDown= True
+            mouseDown = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouseDown = False
         #movement
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_d:
