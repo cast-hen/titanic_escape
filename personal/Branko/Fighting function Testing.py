@@ -41,6 +41,7 @@ block = move("block", "Blocks your opponents next attack")
 player = player("greg", (0, 0, 255), 100, [punch, comboPunch, enrage, poison, lifeSteal, block], [])
 
 running = True
+screen = pygame.display.set_mode((1300, 600))
 mouseDown = False
 health = 100
 enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch", "heal"])
@@ -176,8 +177,6 @@ def fight(enemy, player):
     else:
         return False
 
-
-screen = pygame.display.set_mode((1300, 600))
 pygame.init()
 while running:
     mouse = pygame.mouse.get_pos()

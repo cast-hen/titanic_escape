@@ -14,7 +14,7 @@ class button:
         self.textSize = textSize
         self.borderColour = borderColour
 
-    def buttonCheck(self, mouse, mouseDown):
+    def check(self, mouse, mouseDown):
         font = pygame.font.Font("freesansbold.ttf", self.textSize)
         text = font.render(self.text, True, self.textColour)
         pygame.draw.rect(screen, self.borderColour, [self.x, self.y, self.width, self.height])
@@ -39,3 +39,18 @@ class button:
             return True
         else:
             return False
+
+buttonTest = button(0, 0, 50, 50, (255, 0, 0), (0, 0, 255), "ello", (0, 0, 0), 10, (0, 0, 0))
+running = True
+screen = pygame.display.set_mode((1300, 600))
+
+pygame.init()
+while running:
+    mouse = pygame.mouse.get_pos()
+    mouseDown = False
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouseDown = True
+    if button.check(buttonTest, mouse, mouseDown):
+        running = False
+pygame.quit()
