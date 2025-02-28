@@ -1,8 +1,7 @@
+from parkour_functies import *
 import pygame
 from pygame import RESIZABLE
 import time
-import parkour_functies
-
 
 pygame.init()
 
@@ -99,27 +98,6 @@ class Objects:
     def draw(self, surface):
         self.Rect = pygame.draw.rect(surface, self.color, (self.xpos, self.ypos, self.width, self.height))
 
-#maakt vloer
-def draw_floor():
-    pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
-
-def buttonCheck(button, mouse, mouseDown):
-    font = pygame.font.Font("freesansbold.ttf", button.textSize)
-    text = font.render(button.text, True, button.textColour)
-    if button.x <= mouse[0] <= button.x + button.width and button.y <= mouse[1] <= button.y + \
-            button.height:
-        pygame.draw.rect(screen, button.colourHover, [button.x, button.y, button.width, button.height])
-    else:
-        pygame.draw.rect(screen, button.colourNormal, [button.x, button.y, button.width, button.height])
-    textRect = text.get_rect()
-    textRect.center = (button.x + (button.width / 2), button.y + (button.height / 2))
-    screen.blit(text, textRect)
-    pygame.display.update()
-    if button.x <= mouse[0] <= button.x + button.width and button.y <= mouse[1] <= button.y + button.height and mouseDown == True:
-        return True
-    else:
-        return False
-
 #objects
 player = Objects(1000, 450, 50, 50, 'green', 2, 0, 0)
 cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0)
@@ -139,9 +117,7 @@ while running:
     mouse = pygame.mouse.get_pos()
 
     if scene == "main_menu":
-        buttonStart = Button((1166/2), (610/4), 200, 80, 'grey', 'darkgrey', "start", 'white', 50)
-        if buttonCheck(buttonStart, mouse, mouseDown):
-            scene = "scene1"
+        scene   = "scene1"
 
 
     elif scene == "scene1":
