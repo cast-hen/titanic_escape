@@ -21,9 +21,6 @@ running = True
 scene = "main_menu"
 mouseDown = False
 
-#texturestest
-#texture = pygame.image.load(r"C:\Users\12880\OneDrive - Atheneum College Hageveld\2024-2025\infomatica\game files\game assets\images\texturetest.png")
-#player_texture = pygame.image.load(r"C:\Users\12880\OneDrive - Atheneum College Hageveld\2024-2025\infomatica\game files\game assets\images\BozeJantje.png")
 
 class button:
     def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour):
@@ -130,11 +127,6 @@ cube4 = Objects(600, 100, 80, 80, 'orange', 1, 0, 0)
 #voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube1, cube2, cube3, cube4]
 
-#texturecropping
-#texture1 = texture.subsurface(pygame.Rect(0, 0, cube4.width, cube4.height))
-#texture2 = texture.subsurface(pygame.Rect(0, 0, cube3.width, cube3.height))
-#texture3 = texture.subsurface(pygame.Rect(0, 0, cube1.width, cube1.height))
-#texture4 = texture.subsurface(pygame.Rect(0, 0, cube2.width, cube2.height))
 
 #random ahhh movement fix, couldn't bother om een betere oplossing te vinden.
 keys = {"left": False, "right": False}
@@ -159,10 +151,6 @@ while running:
         cube2.draw(screen)
         cube3.draw(screen)
         cube4.draw(screen)
-        #screen.blit(texture1, cube4.Rect.topleft)
-        #screen.blit(texture2, cube3.Rect.topleft)
-        #screen.blit(texture3, cube1.Rect.topleft)
-        #screen.blit(texture4, cube2.Rect.topleft)
         player.xspeed = speed * (keys["right"] - keys["left"])
 
     if player.ypos >= 630:
