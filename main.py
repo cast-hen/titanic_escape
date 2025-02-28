@@ -1,6 +1,8 @@
 import pygame
 from pygame import RESIZABLE
 import time
+import parkour_functies
+
 
 pygame.init()
 
