@@ -1,57 +1,41 @@
 import pygame
 import time
-import random
 
-allMovesList = ["punch", "heal", "combo punch", "enrage", "poison", "life steal", "block"]
+class button:
+    def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize, borderColour):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.colourNormal = colourNormal
+        self.colourHover = colourHover
+        self.text = text
+        self.textColour = textColour
+        self.textSize = textSize
+        self.borderColour = borderColour
 
-running = True
-health = 100
-enimy1 = [(0, 0, 255), 100, ["punch", "block"]]
-enimy2 = [(255, 0, 255), 500, ["combo punch", "heal", "block"]]
-
-
-def fight(enimy):
-    def draw_scene():
-        background = pygame.image.load("../../sprint 1/fightBackground.jpg")
-        background = pygame.transform.scale(background, (1300, 600))
-        screen.blit(background, (0, 0))
-        healthFont = pygame.font.Font("freesansbold.ttf", 40)
-        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
-        pygame.draw.rect(screen, enimy[0], pygame.Rect(1000, 250, 100, 200))
-        healthTextPlayer = healthFont.render(str(playerHealth) + "/" + str(health), True, (255, 255, 255))
-        healthTextPlayerRect = healthTextPlayer.get_rect()
-        healthTextPlayerRect.center = (250, 200)
-        screen.blit(healthTextPlayer, healthTextPlayerRect)
-        healthTextEnimy = healthFont.render(str(enimyHealth) + "/" + str(enimy[1]), True, (255, 255, 255))
-        healthTextEnimyRect = healthTextPlayer.get_rect()
-        healthTextEnimyRect.center = (1050, 200)
-        screen.blit(healthTextEnimy, healthTextEnimyRect)
+    def buttonCheck(self, mouse, mouseDown):
+        font = pygame.font.Font("freesansbold.ttf", self.textSize)
+        text = font.render(self.text, True, self.textColour)
+        pygame.draw.rect(screen, self.borderColour, [self.x, self.y, self.width, self.height])
+        if self.width < self.height:
+            borderSize = self.width / 20
+        else:
+            borderSize = self.height / 20
+        if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[1] <= self.y + self.height:
+            pygame.draw.rect(screen, self.colourHover, [int(self.x + borderSize), int(self.y + borderSize),
+                                                          int(self.width - (2 * borderSize)),
+                                                          int(self.height - (2 * borderSize))])
+        else:
+            pygame.draw.rect(screen, self.colourNormal, [int(self.x + borderSize), int(self.y + borderSize),
+                                                           int(self.width - (2 * borderSize)),
+                                                           int(self.height - (2 * borderSize))])
+        textRect = text.get_rect()
+        textRect.center = (self.x + (self.width / 2), self.y + (self.height / 2))
+        screen.blit(text, textRect)
         pygame.display.update()
-
-    playerHealth = health
-    enimyHealth = enimy[1]
-    fighting = True
-    state = "turnPlayer"
-    while fighting:
-        draw_scene()
-        if state = "turnPlayer":
-            pass
-        elif state = "turnEnemy":
-            pass
-
-    pygame.display.update()
-
-
-screen = pygame.display.set_mode((1300, 600))
-pygame.init()
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_e:
-                fight(enimy1)
-            if event.key == pygame.K_r:
-                fight(enimy2)
-    time.sleep(0.1)
-pygame.quit()
+        if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[
+            1] <= self.y + self.height and mouseDown == True:
+            return True
+        else:
+            return False
