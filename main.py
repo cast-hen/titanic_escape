@@ -21,82 +21,7 @@ speed = 10
 running = True
 scene = "main_menu"
 mouseDown = False
-
-
-class Button:
-    def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.colourNormal = colourNormal
-        self.colourHover = colourHover
-        self.text = text
-        self.textColour = textColour
-        self.textSize = textSize
-
-#objecten class
-class Objects:
-    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed):
-        self.xpos = xpos
-        self.ypos = ypos
-        self.width = width
-        self.height = height
-        self.color = color
-        self.mass = mass
-        self.xspeed = xspeed
-        self.yspeed = yspeed
-        self.Rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
-        self.on_ground = False
-
-    def update_pos(self, platforms):
-        self.xpos += self.xspeed
-        self.Rect.topleft = (self.xpos, self.ypos)
-
-
-        for platform in platforms:
-            if self.Rect.colliderect(platform.Rect):
-                if self.xspeed > 0:
-                    self.xpos = platform.xpos - self.width
-                elif self.xspeed < 0:
-                    self.xpos = platform.xpos + platform.width
-                self.xspeed = 0
-                self.Rect.topleft = (self.xpos, self.ypos)
-
-
-        self.yspeed += self.mass * gravity
-
-
-        self.ypos += self.yspeed
-        self.Rect.topleft = (self.xpos, self.ypos)
-        self.on_ground = False
-
-        #platformcollision
-        for platform in platforms:
-            if self.Rect.colliderect(platform.Rect):
-                if self.yspeed > 0:  # Falling
-                    self.ypos = platform.ypos - self.height
-                    self.yspeed = 0
-                    self.on_ground = True
-                elif self.yspeed < 0:  # Hitting ceiling
-                    self.ypos = platform.ypos + platform.height
-                    self.yspeed = 0
-                self.Rect.topleft = (self.xpos, self.ypos)
-
-        #wall en floor collision
-        if self.ypos + self.height >= HEIGHT - 4:
-            self.ypos = HEIGHT - self.height - 4
-            self.yspeed = 0
-            self.on_ground = True
-            self.Rect.topleft = (self.xpos, self.ypos)
-        if self.xpos < 0:
-            self.xpos = 0
-        elif self.xpos + self.width > WIDTH:
-            self.xpos = WIDTH - self.width
-        self.Rect.topleft = (self.xpos, self.ypos)
-
-    def draw(self, surface):
-        self.Rect = pygame.draw.rect(surface, self.color, (self.xpos, self.ypos, self.width, self.height))
+keys = {"left": False, "right": False}
 
 #objects
 player = Objects(1000, 450, 50, 50, 'green', 2, 0, 0)
@@ -108,17 +33,12 @@ cube4 = Objects(600, 100, 80, 80, 'orange', 1, 0, 0)
 #voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube1, cube2, cube3, cube4]
 
-
-#random ahhh movement fix, couldn't bother om een betere oplossing te vinden.
-keys = {"left": False, "right": False}
-
 #game loop
 while running:
     mouse = pygame.mouse.get_pos()
 
     if scene == "main_menu":
         scene   = "scene1"
-
 
     elif scene == "scene1":
         clock.tick(fps)
@@ -139,7 +59,6 @@ while running:
         player.xpos = 1000
         pygame.display.flip()
         time.sleep(2)
-
 
 #event handler
     for event in pygame.event.get():
