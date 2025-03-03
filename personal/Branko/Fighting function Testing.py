@@ -16,8 +16,7 @@ class enemy:
         self.hitpoints = hitpoints
         self.moveset = moveset
 class move:
-    def __init__(self, picture, name, description):
-        self.picture = picture
+    def __init__(self, name, description):
         self.name = name
         self.description = description
 
@@ -49,7 +48,7 @@ def fight(enemy, player):
         healthTextPlayerRect = healthTextPlayer.get_rect()
         healthTextPlayerRect.center = (250, 200)
         screen.blit(healthTextPlayer, healthTextPlayerRect)
-        healthTextEnemy = healthFont.render(str(enemyHealth) + "/" + str(enemy.hitpoints), True, (255, 255, 255))
+        healthTextEnemy = healthFont.render(str(enemyCurrentHealth) + "/" + str(enemy.hitpoints), True, (255, 255, 255))
         healthTextEnemyRect = healthTextEnemy.get_rect()
         healthTextEnemyRect.center = (1050, 200)
         screen.blit(healthTextEnemy, healthTextEnemyRect)
@@ -61,13 +60,18 @@ def fight(enemy, player):
     healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
     fleeButton = button(width / 2, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), int(width / 12),  (0, 0, 0))
     playerCurrentHealth = player.hitpoints
-    enemyHealth = enemy.hitpoints
+    enemyCurrentHealth = enemy.hitpoints
+    damageMultiplierPlayer = 1
     fighting = True
     state = "turnPlayer"
     draw_scene()
     while fighting:
         mouse = pygame.mouse.get_pos()
         if state == "turnPlayer":
+            if playerCurrentHealth < player.hitpoints:
+                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
+            else:
+                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
             mouseDown = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -107,10 +111,25 @@ def fight(enemy, player):
                         done = True
                 draw_scene()
                 if move != "none":
+                    if move == "punch":
+                        damage = 10 * damageMultiplierPlayer
+                    elif move == "combo punch":
+                        pass
+                    elif move == "enrage":
+                        pass
+                    elif move == "poison":
+                        pass
+                    elif move == "life steal":
+                        pass
+                    elif move == "block":
+                        pass
+                    enemyCurrentHealth -= damage
+                    if enemyCurrentHealth <= 0:
+                        state = fighting = False
                     state = "turnEnemy"
             elif button.check(itemButton, mouse, mouseDown, screen):
                 pass
-            elif button.check(healButton, mouse, mouseDown, screen):
+            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.hitpoints:
                 playerCurrentHealth += 20
                 if playerCurrentHealth > player.hitpoints:
                     playerCurrentHealth = player.hitpoints
