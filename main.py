@@ -47,7 +47,7 @@ class Aanval:
         screen.blit(text, (x + 80 - len(self.naam) * 5, y - 40))
 
 
-A_Bom = Aanval(pygame.transform.scale(pygame.image.load("Bom.png"), (200, 200)), "Bom",
+A_Bom = Aanval(pygame.transform.scale(pygame.image.load("resources/textures/Bom.png"), (200, 200)), "Bom",
                "Valt elke vijand aan voor 5 schade", 5, 5)
 A_Zwaardslag = Aanval("", "Zwaard", "Valt 1 vijand aan voor 10 schade", 10, 0)
 A_Genezen = Aanval("", "Genezen", "Genees 10 levens", 0, 10)
