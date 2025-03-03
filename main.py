@@ -1,7 +1,6 @@
 from parkour_functies import *
 from button_code import *
 import pygame
-from pygame import RESIZABLE, Surface
 import time
 import random
 
@@ -187,15 +186,18 @@ def parkour():
 
 
     # objects
-    player = Objects(300, 200, 50, 50, 'green', 2, 0, 0)
-    cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0)
-    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0)
-    cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0)
-    cube4 = Objects(600, 100, 80, 80, 'orange', 1, 0, 0)
-    cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0)
+    player = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
+    cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
+    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1)
+    cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1)
+    cube4 = Objects(600, 100, 80, 80, 'orange', 1, 0, 0, 1)
+    cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2)
+    cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2)
+    cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2)
+    cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2)
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8]
 
     # texturecropping
     # texture1 = texture.subsurface(pygame.Rect(0, 0, cube4.width, cube4.height))
@@ -216,7 +218,7 @@ def parkour():
         clock.tick(fps)
         screen.fill((135, 206, 250))
         draw_floor()
-        EnemyCollider = player.update_pos(platforms, CameraPosx)
+        EnemyCollider = player.update_pos(platforms, CameraPosx, scene)
 
         if scene == 1:
             player.draw(screen, CameraPosx)
@@ -230,8 +232,10 @@ def parkour():
             # screen.blit(texture4, cube2.Rect.topleft)
         if scene == 2:
             player.draw(screen, CameraPosx)
-            cube3.draw(screen, CameraPosx)
+            cube6.draw(screen, CameraPosx)
             cube5.draw(screen, CameraPosx)
+            cube7.draw(screen, CameraPosx)
+            cube8.draw(screen, CameraPosx)
 
 
         player.xspeed = speed * (keys["right"] - keys["left"])

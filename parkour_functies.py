@@ -6,8 +6,9 @@ gravity = 0.6
 screen = pygame.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
 
 
+
 class Objects:
-    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed):
+    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene):
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -18,20 +19,22 @@ class Objects:
         self.yspeed = yspeed
         self.Rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
         self.on_ground = False
+        self.ObjectScene = ObjectScene
 
-    def update_pos(self, platforms, CameraPosx):
+    def update_pos(self, platforms, CameraPosx, scene):
 
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
 
         for platform in platforms:
-            if self.Rect.colliderect(platform.Rect):
-                if self.xspeed > 0:
-                    self.xpos = platform.xpos - self.width
-                elif self.xspeed < 0:
-                    self.xpos = platform.xpos + platform.width
-                self.xspeed = 0
-                self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+            if platform.ObjectScene == scene:
+                if self.Rect.colliderect(platform.Rect):
+                    if self.xspeed > 0:
+                        self.xpos = platform.xpos - self.width
+                    elif self.xspeed < 0:
+                        self.xpos = platform.xpos + platform.width
+                    self.xspeed = 0
+                    self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
 
         self.yspeed += self.mass * gravity
 
@@ -41,16 +44,17 @@ class Objects:
 
         # platformcollision
         for platform in platforms:
-            if self.Rect.colliderect(platform.Rect):
-                if self.yspeed > 0:  # Falling
-                    self.ypos = platform.ypos - self.height
-                    self.yspeed = 0
-                    self.on_ground = True
-                elif self.yspeed < 0:  # Hitting ceiling
-                    self.ypos = platform.ypos + platform.height
-                    self.yspeed = 0
-                self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                return platform.color == "orange"
+            if platform.ObjectScene == scene:
+                if self.Rect.colliderect(platform.Rect):
+                    if self.yspeed > 0:  # Falling
+                        self.ypos = platform.ypos - self.height
+                        self.yspeed = 0
+                        self.on_ground = True
+                    elif self.yspeed < 0:  # Hitting ceiling
+                        self.ypos = platform.ypos + platform.height
+                        self.yspeed = 0
+                    self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+                    return platform.color == "orange"
 
         # wall en floor collision
         if self.ypos + self.height >= HEIGHT - 4:
