@@ -1,4 +1,3 @@
-from pauze import *
 import pygame
 import time
 
