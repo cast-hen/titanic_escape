@@ -128,7 +128,7 @@ def WillekeurigeAanvalKiezen(AanvallenLijst):
 # Menu scherm
 def menu():
     font = pygame.font.Font("freesansbold.ttf", 100)
-    text = font.render("Titanic ecsape", True, (255, 255, 255))
+    text = font.render("Titanic escape", True, (255, 255, 255))
 
     mouseDown = False
     buttonKeuze1 = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
@@ -165,7 +165,7 @@ def parkour():
     WIDTH = 1366
     HEIGHT = 690
     font = pygame.font.Font("freesansbold.ttf", 100)
-    text = font.render("you ded", True, 'black')
+    text = font.render("you're dead", True, 'black')
     textRect = text.get_rect()
     textRect.center = (WIDTH / 2, HEIGHT / 2)
     clock = pygame.time.Clock()
