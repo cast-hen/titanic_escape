@@ -5,11 +5,6 @@ import pygame
 WIDTH = 1366
 HEIGHT = 690
 
-def Pause():
-    WIDTH = 1366
-    HEIGHT = 690
-    mouseDown = False
-
 def eind():
     return None
 
