@@ -1,5 +1,7 @@
+from pauze import *
 import pygame
 from pygame import RESIZABLE
+import time
 WIDTH = 1366
 HEIGHT = 690
 gravity = 0.6
@@ -73,3 +75,122 @@ class Objects:
 # maakt vloer
 def draw_floor():
     pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
+
+def parkour():
+    # global variables
+    WIDTH = 1366
+    HEIGHT = 690
+    font = pygame.font.Font("freesansbold.ttf", 100)
+    text = font.render("you're dead", True, 'black')
+    textRect = text.get_rect()
+    textRect.center = (WIDTH / 2, HEIGHT / 2)
+    clock = pygame.time.Clock()
+    fps = 60
+    gravity = 0.6
+    jump_height = -25
+    speed = 10
+    running = True
+    scene = 1
+    mouseDown = False
+    CameraPosx = 0
+
+    player = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
+    cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
+    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1)
+    cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1)
+    cube4 = Objects(600, 100, 80, 80, 'orange', 1, 0, 0, 1)
+    cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2)
+    cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2)
+    cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2)
+    cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2)
+    cube9 = Objects(736, 300, 1, 3400, 'aquamarine1', 2, 0, 0, 2)
+
+    # voeg hier nieuwe platformen to zodat ze collision krijgen.
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9]
+
+    # random ahhh movement fix, couldn't bother om een betere oplossing te vinden.
+    keys = {"left": False, "right": False}
+    EnemyCollider = False
+
+    L_border = 0
+    R_border = 500
+
+    # game loop
+    while running:
+        mouse = pygame.mouse.get_pos()
+        clock.tick(fps)
+        screen.fill((135, 206, 250))
+        EnemyCollider = player.update_pos(platforms, CameraPosx, scene)
+
+        if scene == 1:
+            player.draw(screen, CameraPosx)
+            cube1.draw(screen, CameraPosx)
+            cube2.draw(screen, CameraPosx)
+            cube3.draw(screen, CameraPosx)
+            cube4.draw(screen, CameraPosx)
+        if scene == 2:
+            player.draw(screen, CameraPosx)
+            cube6.draw(screen, CameraPosx)
+            cube5.draw(screen, CameraPosx)
+            cube7.draw(screen, CameraPosx)
+            cube8.draw(screen, CameraPosx)
+            cube9.draw(screen, CameraPosx)
+
+        draw_floor()
+
+        player.xspeed = speed * (keys["right"] - keys["left"])
+
+        if player.ypos >= 630:
+            screen.fill((255, 0, 0))
+            screen.blit(text, textRect)
+            player.ypos = 200
+            player.xpos = 200
+            pygame.display.flip()
+            time.sleep(2)
+
+        if EnemyCollider:
+            return "Vijand"
+        if L_border <= player.xpos <= R_border:
+            CameraPosx = player.xpos - 500
+
+
+        elif L_border - 500 > player.xpos and scene > 1:
+            player.xpos = R_border + 700
+            CameraPosx = R_border - 500
+            scene -= 1
+
+        elif player.xpos > R_border + 750:
+            player.xpos = L_border - 450
+            CameraPosx = L_border - 500
+            scene += 1
+
+        # event handler
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+                print(mouse[0] + CameraPosx, mouse[1])
+            # movement
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    keys["right"] = True
+                elif event.key == pygame.K_a:
+                    keys["left"] = True
+                elif event.key == pygame.K_w and player.on_ground:
+                    player.yspeed = jump_height
+
+                elif event.key == pygame.K_ESCAPE:
+                    if Pause() == "Menu":
+                        return "Menu"
+                    screen.fill((0, 0, 0))
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_d:
+                    keys["right"] = False
+                elif event.key == pygame.K_a:
+                    keys["left"] = False
+
+        pygame.display.flip()
+
+    pygame.quit()
