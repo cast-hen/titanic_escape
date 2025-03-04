@@ -1,3 +1,9 @@
+import pygame
+from button_code import *
+
+state = 32832757342657832458324658734265234687342657834265873658234682346598234652
+screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
+
 def Pause():
     WIDTH = 1366
     HEIGHT = 690
