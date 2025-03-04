@@ -195,9 +195,10 @@ def parkour():
     cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2)
     cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2)
     cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2)
+    cube9 = Objects(736, 300, 1, 3400, 'aquamarine1', 2, 0, 0, 2)
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9]
 
     # texturecropping
     # texture1 = texture.subsurface(pygame.Rect(0, 0, cube4.width, cube4.height))
@@ -217,7 +218,6 @@ def parkour():
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         screen.fill((135, 206, 250))
-        draw_floor()
         EnemyCollider = player.update_pos(platforms, CameraPosx, scene)
 
         if scene == 1:
@@ -236,6 +236,8 @@ def parkour():
             cube5.draw(screen, CameraPosx)
             cube7.draw(screen, CameraPosx)
             cube8.draw(screen, CameraPosx)
+
+        draw_floor()
 
 
         player.xspeed = speed * (keys["right"] - keys["left"])
