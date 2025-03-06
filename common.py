@@ -12,7 +12,6 @@ def game_over():
     return None
 
 
-
 def menu():
     font = pygame.font.Font("freesansbold.ttf", 100)
     text = font.render("Titanic escape", True, (255, 255, 255))
