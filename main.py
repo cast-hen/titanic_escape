@@ -8,8 +8,6 @@ import pygame
 import time
 import random
 
-# pygame.image.load("Bom.png")
-
 screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
 running = True
 pygame.init()
