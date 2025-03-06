@@ -98,12 +98,11 @@ def parkour():
     cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
     cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1)
     cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1)
-    cube4 = Objects(600, 240, 80, 80, 'orange', 1, 0, 0, 1)
+    cube4 = Objects(800, 300, 80, 80, 'orange', 1, 0, 0, 1)
     cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2)
     cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2)
     cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2)
     cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2)
-    cube9 = Objects(-600, 300, 4000, 3400, 'aquamarine1', 2, 0, 0, 2)
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
     platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8]

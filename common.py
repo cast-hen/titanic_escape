@@ -19,8 +19,7 @@ def menu():
 
     mouseDown = False
     buttonKeuze1 = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
-    buttonKeuze2 = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,
-                          'white')
+    buttonKeuze2 = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
 
     buttonCheck(buttonKeuze1, mouseDown)
     buttonCheck(buttonKeuze2, mouseDown)
