@@ -9,6 +9,10 @@ def Pause():
     HEIGHT = 690
     mouseDown = False
 
+    dimSurface = pygame.Surface((WIDTH, HEIGHT))
+    pygame.Surface.set_alpha(dimSurface, 150)
+    pygame.Surface.blit(screen, dimSurface)
+
     while True:
         mouse = pygame.mouse.get_pos()
 
@@ -20,13 +24,10 @@ def Pause():
             return state
         if button.check(buttonMenu, mouse, mouseDown, screen):
             screen.fill('black')
-            mouseDown = False
             return "Menu"
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
-            else:
-                mouseDown = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return state

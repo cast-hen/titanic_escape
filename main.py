@@ -34,12 +34,9 @@ state = "Menu"
 while running:
     if state == "Menu":
         state = menu()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
     # Hoofd code:
-    if state == "Begin":
+    elif state == "Begin":
         Encounter = parkour()
         if Encounter == "Menu":
             state = "Menu"
@@ -59,8 +56,12 @@ while running:
             else:
                 game_over()
 
-    if state == "Quit":
+    elif state == "Quit":
         running = False
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
     pygame.display.update()
 

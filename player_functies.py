@@ -60,6 +60,11 @@ def keuze(TeKiezenAanvallen):
                 if event.key == pygame.K_ESCAPE:
                     if Pause() == "Menu":
                         return "Menu"
+                    else:
+                        screen.fill((100, 100, 100))
+                        TeKiezenAanvallen[0].display_aanval(30, 110)
+                        TeKiezenAanvallen[1].display_aanval(330, 110)
+                        TeKiezenAanvallen[2].display_aanval(630, 110)
 
             if event.type == pygame.QUIT:
                 return False
