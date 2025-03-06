@@ -3,11 +3,12 @@ from button_code import *
 import pygame
 
 class player:
-    def __init__(self, name, lives, colour, hitpoints, moveset, items):
+    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items):
         self.name = name
         self.lives = lives
         self.colour = colour
         self.hitpoints = hitpoints
+        self.maxHitpoints = maxHitpoints
         self.moveset = moveset
         self.items = items
 class enemy:

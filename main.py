@@ -18,7 +18,7 @@ enrage = move("enrage", "Increases your damage on the next 3 turns")
 poison = move("poison", "poisons your opponent to take damage over time")
 lifeSteal = move("life steal", "Damages your opponent and gives you 30% back as health")
 block = move("block", "Blocks your opponents next attack")
-player = player("bob", 5, (0, 255, 0), 100, [punch, comboPunch], [])
+player = player("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [])
 WIDTH = 1366
 HEIGHT = 690
 
@@ -46,6 +46,7 @@ while running:
 
         else:
             result = fight(Encounter, player, screen)
+            player.hitpoints = result[1]
             if result[0] == "quit":
                 running = False
             elif result[0] == "loss":
