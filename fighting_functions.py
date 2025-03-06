@@ -3,9 +3,24 @@ import time
 import random
 from button_code import *
 class move:
-    def __init__(self, name, description):
+    def __init__(self, name, description, image):
         self.name = name
         self.description = description
+        self.image = image
+    def displayMove(self, x, y):
+        screen.blit(pygame.transform.scale(pygame.image.load("resources/textures/Kaart.png"), (400, 400)), (x - 100, y - 75))
+
+        font = pygame.font.Font("freesansbold.ttf", 10)
+
+        if not self.image == "":
+            screen.blit(self.image, (x, y))
+        text = font.render(self.description, True, (255, 255, 255))
+        screen.blit(text, (x + 80 - int(len(self.description) * 1.3), y + 200))
+
+        font = pygame.font.Font("freesansbold.ttf", 30)
+        text = font.render(self.name, True, (255, 255, 255))
+        screen.blit(text, (x + 80 - len(self.name) * 5, y - 40))
+
 
 def fight(enemy, player, screen):
     def draw_scene():
@@ -172,3 +187,37 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     return [result, playerCurrentHealth]
+
+def chooseNewAttack(options):
+    screen.fill((100, 100, 100))
+    options[0].displayMove(30, 110)
+    options[1].displayMove(330, 110)
+    options[2].displayMove(630, 110)
+
+    buttonChoice1 = button(50, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice2 = button(350, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice3 = button(650, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+
+    while True:
+        mouse = pygame.mouse.get_pos()
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    if Pause() == "Menu":
+                        return "Menu"
+                    else:
+                        screen.fill((100, 100, 100))
+                        options[0].displayMove(30, 110)
+                        options[1].displayMove(330, 110)
+                        options[2].displayMove(630, 110)
+                    if event.type == pygame.QUIT:
+                        return False
+        if button.check(buttonChoice1, mouse, mouseDown, screen):
+            return options[0]
+        if button.check(buttonChoice2, mouse, mouseDown, screen):
+            return options[1]
+        if button.check(buttonChoice3, mouse, mouseDown, screen):
+            return options[2]

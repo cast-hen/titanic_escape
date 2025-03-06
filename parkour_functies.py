@@ -155,7 +155,7 @@ def parkour():
         # event handler
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                return "quit"
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
                 print(mouse[0] + CameraPosx, mouse[1])
@@ -182,5 +182,3 @@ def parkour():
                     keys["left"] = False
 
         pygame.display.flip()
-
-    pygame.quit()
