@@ -34,9 +34,9 @@ def keuze(TeKiezenAanvallen):
     TeKiezenAanvallen[1].display_aanval(330, 110)
     TeKiezenAanvallen[2].display_aanval(630, 110)
 
-    buttonKeuze1 = button(70, 500, 160, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
-    buttonKeuze2 = button(370, 500, 160, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
-    buttonKeuze3 = button(670, 500, 160, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
+    buttonKeuze1 = button(50, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
+    buttonKeuze2 = button(350, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
+    buttonKeuze3 = button(650, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
 
     mouseDown = False
     mouse = pygame.mouse.get_pos()

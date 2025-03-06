@@ -1,3 +1,4 @@
+from parkour_functies import *
 from pauze import *
 from button_code import *
 import pygame
@@ -11,11 +12,22 @@ def eind():
 def game_over():
     backgroundColour = (255, 0, 0)
     screen.fill(backgroundColour)
-    deadText = button(WIDTH/2-100, HEIGHT/2-50, 200, 100, backgroundColour, backgroundColour, "You died", 'white', 100, backgroundColour)
-    button.check(deadText, pygame.mouse.get_pos(), False, screen)
+    lives = 0
+
+    font1 = pygame.font.Font("freesansbold.ttf", 100)
+    font2 = pygame.font.Font("freesansbold.ttf", 50)
+    text1 = font1.render("You're dead", True, 'black')
+    text2 = font2.render("Lives: " + str(lives), True, 'black')
+    text1Rect = text1.get_rect()
+    text2Rect = text2.get_rect()
+    text1Rect.center = (WIDTH/2, HEIGHT/2)
+    text2Rect.center = (WIDTH / 2, HEIGHT / 2 + 100)
+    screen.blit(text1, text1Rect)
+    screen.blit(text2, text2Rect)
+
     pygame.display.flip()
     time.sleep(2)
-    lives = 0
+
     return 200, 200, lives
 
 

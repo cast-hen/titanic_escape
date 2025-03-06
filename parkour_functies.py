@@ -78,9 +78,6 @@ def draw_floor():
     pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
 
 def parkour():
-    # global variables
-    WIDTH = 1366
-    HEIGHT = 690
     clock = pygame.time.Clock()
     fps = 60
     gravity = 0.6
@@ -174,6 +171,8 @@ def parkour():
                 elif event.key == pygame.K_ESCAPE:
                     if Pause() == "Menu":
                         return "Menu"
+                    else:
+                        keys = {"left": False, "right": False}
                     screen.fill((0, 0, 0))
 
             if event.type == pygame.KEYUP:
