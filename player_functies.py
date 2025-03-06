@@ -34,22 +34,23 @@ def keuze(TeKiezenAanvallen):
     TeKiezenAanvallen[1].display_aanval(330, 110)
     TeKiezenAanvallen[2].display_aanval(630, 110)
 
-    mouseDown = False
     buttonKeuze1 = button(70, 500, 160, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
     buttonKeuze2 = button(370, 500, 160, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
     buttonKeuze3 = button(670, 500, 160, 80, (0, 0, 255), (255, 0, 0), "Kiezen", 'white', 50, 'white')
 
-    buttonCheck(buttonKeuze1, mouseDown)
-    buttonCheck(buttonKeuze2, mouseDown)
-    buttonCheck(buttonKeuze3, mouseDown)
+    mouseDown = False
+    mouse = pygame.mouse.get_pos()
+    button.check(buttonKeuze1, mouse, mouseDown, screen)
+    button.check(buttonKeuze2, mouse, mouseDown, screen)
+    button.check(buttonKeuze3, mouse, mouseDown, screen)
 
     while True:
         for event in pygame.event.get():
-            if buttonCheck(buttonKeuze1, mouseDown):
+            if button.check(buttonKeuze1, pygame.mouse.get_pos(), mouseDown, screen):
                 return TeKiezenAanvallen[0]
-            if buttonCheck(buttonKeuze2, mouseDown):
+            if button.check(buttonKeuze2, pygame.mouse.get_pos(), mouseDown, screen):
                 return TeKiezenAanvallen[1]
-            if buttonCheck(buttonKeuze3, mouseDown):
+            if button.check(buttonKeuze3, pygame.mouse.get_pos(), mouseDown, screen):
                 return TeKiezenAanvallen[2]
 
             if event.type == pygame.MOUSEBUTTONDOWN:

@@ -1,4 +1,5 @@
 from pauze import *
+from common import *
 import pygame
 from pygame import RESIZABLE
 import time
@@ -80,10 +81,6 @@ def parkour():
     # global variables
     WIDTH = 1366
     HEIGHT = 690
-    font = pygame.font.Font("freesansbold.ttf", 100)
-    text = font.render("you're dead", True, 'black')
-    textRect = text.get_rect()
-    textRect.center = (WIDTH / 2, HEIGHT / 2)
     clock = pygame.time.Clock()
     fps = 60
     gravity = 0.6
@@ -140,12 +137,7 @@ def parkour():
         player.xspeed = speed * (keys["right"] - keys["left"])
 
         if player.ypos >= 630:
-            screen.fill((255, 0, 0))
-            screen.blit(text, textRect)
-            player.ypos = 200
-            player.xpos = 200
-            pygame.display.flip()
-            time.sleep(2)
+            player.xpos, player.ypos, lives = game_over()
 
         if EnemyCollider:
             return "Vijand"

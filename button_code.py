@@ -62,22 +62,3 @@ class button:
             return True
         else:
             return False
-
-def buttonCheck(button, mouseDown):
-    mouse = pygame.mouse.get_pos()
-    font = pygame.font.Font("freesansbold.ttf", int(button.width / 5))
-    text = font.render(button.text, True, (255, 255, 255))
-    if button.x <= mouse[0] <= button.x + button.width and button.y <= mouse[1] <= button.y + \
-            button.height:
-        pygame.draw.rect(screen, button.colourHover, [button.x, button.y, button.width, button.height])
-    else:
-        pygame.draw.rect(screen, button.colourNormal, [button.x, button.y, button.width, button.height])
-    textRect = text.get_rect()
-    textRect.center = (button.x + (button.width / 2), button.y + (button.height / 2))
-    screen.blit(text, textRect)
-    pygame.display.update()
-    if button.x <= mouse[0] <= button.x + button.width and button.y <= mouse[
-        1] <= button.y + button.height and mouseDown == True:
-        return True
-    else:
-        return False

@@ -9,25 +9,33 @@ def eind():
     return None
 
 def game_over():
-    return None
+    backgroundColour = (255, 0, 0)
+    screen.fill(backgroundColour)
+    deadText = button(WIDTH/2-100, HEIGHT/2-50, 200, 100, backgroundColour, backgroundColour, "You died", 'white', 100, backgroundColour)
+    button.check(deadText, pygame.mouse.get_pos(), False, screen)
+    pygame.display.flip()
+    time.sleep(2)
+    lives = 0
+    return 200, 200, lives
 
 
 def menu():
     font = pygame.font.Font("freesansbold.ttf", 100)
     text = font.render("Titanic escape", True, (255, 255, 255))
 
-    mouseDown = False
     buttonKeuze1 = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonKeuze2 = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
 
-    buttonCheck(buttonKeuze1, mouseDown)
-    buttonCheck(buttonKeuze2, mouseDown)
+    mouse = pygame.mouse.get_pos()
+    mouseDown = False
+    button.check(buttonKeuze1, mouse, mouseDown, screen)
+    button.check(buttonKeuze2, mouse, mouseDown, screen)
 
     while True:
         for event in pygame.event.get():
-            if buttonCheck(buttonKeuze1, mouseDown):
+            if button.check(buttonKeuze1, pygame.mouse.get_pos(), mouseDown, screen):
                 return "Begin"
-            if buttonCheck(buttonKeuze2, mouseDown):
+            if button.check(buttonKeuze2, pygame.mouse.get_pos(), mouseDown, screen):
                 return "Quit"
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -72,7 +80,7 @@ def gevecht(health, enemy):
                     return "quit"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
-                    if buttonCheck(buttonKeuze1, mouseDown):
+                    if button.check(buttonKeuze1, pygame.mouse.get_pos(), mouseDown, screen):
                         enemy.hitpoints -= 10
                     if enemy.hitpoints <= 0:
                         return True
