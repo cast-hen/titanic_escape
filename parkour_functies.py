@@ -137,7 +137,7 @@ def parkour():
             player.xpos, player.ypos, lives = game_over()
 
         if EnemyCollider:
-            return "Vijand"
+            return enemy("greg", (255, 0, 0), 50, ["punch"])
         if L_border <= player.xpos <= R_border:
             CameraPosx = player.xpos - 500
 

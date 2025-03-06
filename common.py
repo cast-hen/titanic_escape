@@ -1,8 +1,21 @@
-from parkour_functies import *
 from pauze import *
 from button_code import *
 import pygame
 
+class player:
+    def __init__(self, name, lives, colour, hitpoints, moveset, items):
+        self.name = name
+        self.lives = lives
+        self.colour = colour
+        self.hitpoints = hitpoints
+        self.moveset = moveset
+        self.items = items
+class enemy:
+    def __init__(self, name, colour, hitpoints, moveset):
+        self.name = name
+        self.colour = colour
+        self.hitpoints = hitpoints
+        self.moveset = moveset
 WIDTH = 1366
 HEIGHT = 690
 
@@ -10,55 +23,29 @@ def eind():
     return None
 
 def game_over():
-    backgroundColour = (255, 0, 0)
-    screen.fill(backgroundColour)
-    lives = 0
-
-    font1 = pygame.font.Font("freesansbold.ttf", 100)
-    font2 = pygame.font.Font("freesansbold.ttf", 50)
-    text1 = font1.render("You're dead", True, 'black')
-    text2 = font2.render("Lives: " + str(lives), True, 'black')
-    text1Rect = text1.get_rect()
-    text2Rect = text2.get_rect()
-    text1Rect.center = (WIDTH/2, HEIGHT/2)
-    text2Rect.center = (WIDTH / 2, HEIGHT / 2 + 100)
-    screen.blit(text1, text1Rect)
-    screen.blit(text2, text2Rect)
-
-    pygame.display.flip()
-    time.sleep(2)
-
-    return 200, 200, lives
+    return None
 
 
 def menu():
     font = pygame.font.Font("freesansbold.ttf", 100)
     text = font.render("Titanic escape", True, (255, 255, 255))
 
-    buttonKeuze1 = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
-    buttonKeuze2 = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
-
-    mouse = pygame.mouse.get_pos()
     mouseDown = False
-    button.check(buttonKeuze1, mouse, mouseDown, screen)
-    button.check(buttonKeuze2, mouse, mouseDown, screen)
-
+    buttonBegin = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
+    buttonQuit = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
+    screen.blit(text, (300, 50))
     while True:
+        mouse = pygame.mouse.get_pos()
+        mouseDown = False
         for event in pygame.event.get():
-            if button.check(buttonKeuze1, pygame.mouse.get_pos(), mouseDown, screen):
-                return "Begin"
-            if button.check(buttonKeuze2, pygame.mouse.get_pos(), mouseDown, screen):
-                return "Quit"
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
-            else:
-                mouseDown = False
-
             if event.type == pygame.QUIT:
                 return False
-
-        screen.blit(text, (300, 50))
+        if button.check(buttonBegin, mouse, mouseDown, screen):
+            return "Begin"
+        if button.check(buttonQuit, mouse, mouseDown, screen):
+            return "Quit"
 
 def gevecht(health, enemy):
     def draw_scene():
@@ -92,7 +79,7 @@ def gevecht(health, enemy):
                     return "quit"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
-                    if button.check(buttonKeuze1, pygame.mouse.get_pos(), mouseDown, screen):
+                    if buttonCheck(buttonKeuze1, mouseDown):
                         enemy.hitpoints -= 10
                     if enemy.hitpoints <= 0:
                         return True

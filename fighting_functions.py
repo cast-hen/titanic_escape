@@ -2,43 +2,10 @@ import pygame
 import time
 import random
 from button_code import *
-
-class player:
-    def __init__(self, name, lives, colour, hitpoints, moveset, items):
-        self.name = name
-        self.lives = lives
-        self.colour = colour
-        self.hitpoints = hitpoints
-        self.moveset = moveset
-        self.items = items
-class enemy:
-    def __init__(self, name, colour, hitpoints, moveset):
-        self.name = name
-        self.colour = colour
-        self.hitpoints = hitpoints
-        self.moveset = moveset
 class move:
     def __init__(self, name, description):
         self.name = name
         self.description = description
-
-punch = move("punch", "Hits the opponent for 10 damage")
-comboPunch = move("combo punch", "Hits the opponent a random number of times")
-enrage = move("enrage", "Increases your damage on the next 3 turns")
-poison = move("poison", "poisons your opponent to take damage over time")
-lifeSteal = move("life steal", "Damages your opponent and gives you 30% back as health")
-block = move("block", "Blocks your opponents next attack")
-
-player = player("greg", (0, 0, 255), 100, [punch, comboPunch, enrage, poison, lifeSteal, block], [])
-
-running = True
-screen = pygame.display.set_mode((1300, 600))
-mouseDown = False
-health = 100
-enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch", "heal"])
-enemy2 = enemy("ASHRddgteGEtek, destroyer of lightbulbs", (255, 0, 255), 20, ["punch", "combo punch", "enrage"])
-buttonEnemy1 = button(100, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy1", (255, 255, 255), 80,  (255, 0, 0))
-buttonEnemy2 = button(800, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy2", (255, 255, 255), 80, (255, 0, 0))
 
 def fight(enemy, player, screen):
     def draw_scene():
@@ -205,27 +172,3 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     return [result, playerCurrentHealth]
-
-pygame.init()
-while running:
-    mouse = pygame.mouse.get_pos()
-    result = "pass"
-    mouseDown = False
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouseDown = True
-    if button.check(buttonEnemy1, mouse, mouseDown, screen):
-        result = fight(enemy1, player)
-        screen.fill((0, 0, 0))
-    elif button.check(buttonEnemy2, mouse, mouseDown, screen):
-        result = fight(enemy2, player)
-        screen.fill((0, 0, 0))
-    if result[0] == "win":
-        screen.fill((0, 255, 0))
-    elif result[0] == "quit":
-        running = False
-
-    time.sleep(0.01)
-pygame.quit()
