@@ -38,7 +38,7 @@ def game_over(lives, state=None):
     if lives == 0:
         textPrint("Game over", 100, 'white', (WIDTH/2, HEIGHT/2 - 100))
         state = "Menu"
-        lives = 2
+        lives = 5
     else:
         textPrint("You died", 100, 'white', (WIDTH/2, HEIGHT/2))
         textPrint("You have " + str(lives) + " live(s) left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
