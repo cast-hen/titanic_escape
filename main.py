@@ -24,6 +24,7 @@ state = "Menu"
 
 while running:
     if state == "Menu":
+        player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [])
         state = menu()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -42,12 +43,22 @@ while running:
             player.hitpoints = result[1]
             if result[0] == "quit":
                 running = False
+            elif result[0] == "Menu":
+                state = "Menu"
             elif result[0] == "loss":
                 game_over(player.lives)
             elif result[0] == "win":
-                player.moveset.append(chooseNewAttack([enrage, lifeSteal, block]))
+                NieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
+                player.moveset.append(NieuweAanval)
+                if NieuweAanval == "quit":
+                    running = False
+                elif NieuweAanval == "Menu":
+                    state = "Menu"
+                else:
+                    state = "begin"
     if state == "quit":
         running = False
+
 
     pygame.display.update()
 

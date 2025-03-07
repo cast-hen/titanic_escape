@@ -65,3 +65,14 @@ def menu():
             return "begin"
         if button.check(buttonQuit, mouse, mouseDown, screen):
             return "quit"
+def LevelGehaald():
+
+        screen.fill((0, 0, 0))
+        textPrint("Level gehaald", 100, 'white', (WIDTH / 2, HEIGHT / 4))
+        textPrint("alle levens zijn hersteld", 100, 'white', (WIDTH / 2, HEIGHT / 4 + 300))
+        pygame.display.update()
+        time.sleep(3)
+
+
+
+
