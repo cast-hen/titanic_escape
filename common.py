@@ -24,25 +24,25 @@ HEIGHT = 690
 def eind():
     return None
 
-def game_over(lives):
-    lives -= 1
-    if lives == 0:
-        print("oh no")
-    screen.fill('red')
-    font = pygame.font.Font("freesansbold.ttf", 100)
-    text = font.render("You died", True, (255, 255, 255))
+def textPrint(text, textSize, textColour, center):
+    """Prints the text on the screen. center is tuple."""
+    font = pygame.font.Font("freesansbold.ttf", textSize)
+    text = font.render(text, True, textColour)
     textRect = text.get_rect()
-    textRect.center = (WIDTH/2, HEIGHT/2)
+    textRect.center = center
     screen.blit(text, textRect)
 
-    font = pygame.font.Font("freesansbold.ttf", 40)
-    text = font.render("You have " + str(lives) + " lives left", True, (255, 255, 255))
-    textRect = text.get_rect()
-    textRect.center = (WIDTH / 2, HEIGHT / 2 + 100)
-    screen.blit(text, textRect)
+def game_over(lives, state):
+    lives -= 1
+    screen.fill('red')
+    if lives == 0:
+        textPrint("Game over", 100, 'white', (WIDTH/2, HEIGHT/2 - 100))
+        lives = 2
+    textPrint("You died", 100, 'white', (WIDTH/2, HEIGHT/2))
+    textPrint("You have " + str(lives) + " lives left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
     pygame.display.flip()
     time.sleep(2)
-    return 200, 200, lives
+    return 200, 200, lives, state
 
 
 def menu():

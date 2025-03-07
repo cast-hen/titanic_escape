@@ -134,7 +134,7 @@ def parkour(player):
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
 
         if playerObject.ypos >= 630:
-            playerObject.xpos, playerObject.ypos, player.lives = game_over(player.lives)
+            playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives, state)
 
         if EnemyCollider:
             return enemy("greg", (255, 0, 0), 50, ["punch"])
