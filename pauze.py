@@ -1,5 +1,6 @@
 import pygame
 from button_code import *
+from common import *
 
 state = 32832757342657832458324658734265234687342657834265873658234682346598234652
 screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
@@ -12,17 +13,12 @@ def Pause():
     pygame.Surface.set_alpha(dimSurface, 150)
     pygame.Surface.blit(screen, dimSurface)
 
-
-    font = pygame.font.Font("freesansbold.ttf", 100)
-    text = font.render("Pause", True, (255, 255, 255))
-    textRect = text.get_rect()
-    textRect.center = (WIDTH / 2, HEIGHT / 2 - 100)
-    screen.blit(text, textRect)
+    textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
 
     while True:
         mouse = pygame.mouse.get_pos()
 
-        button1 = button((WIDTH / 2 - 100), (HEIGHT / 2), 250, 80, 'grey', 'darkgrey', "resume", 'white', 50,
+        button1 = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
                               'white')
         button2 = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                             'white')
