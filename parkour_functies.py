@@ -3,6 +3,7 @@ from common import *
 import pygame
 from pygame import RESIZABLE
 import time
+import time
 WIDTH = 1366
 HEIGHT = 690
 gravity = 0.6
@@ -88,6 +89,7 @@ def parkour(player):
     scene = 1
     mouseDown = False
     CameraPosx = 0
+    RespawnPos = (0, 0)
 
     playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
     cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
@@ -98,9 +100,10 @@ def parkour(player):
     cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2)
     cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2)
     cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2)
+    cube9 = Objects(-500, 546, 5000, 40, 'black', 1, 0, 0, 4)
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9]
 
     # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
     keys = {"left": False, "right": False}
@@ -116,18 +119,31 @@ def parkour(player):
         screen.fill((135, 206, 250))
         EnemyCollider = playerObject.update_pos(platforms, CameraPosx, scene)
 
+
         if scene == 1:
+            RespawnPos = (200, 300)
             playerObject.draw(screen, CameraPosx)
             cube1.draw(screen, CameraPosx)
             cube2.draw(screen, CameraPosx)
             cube3.draw(screen, CameraPosx)
             cube4.draw(screen, CameraPosx)
         if scene == 2:
+            RespawnPos = (665, 320)
             playerObject.draw(screen, CameraPosx)
             cube6.draw(screen, CameraPosx)
             cube5.draw(screen, CameraPosx)
             cube7.draw(screen, CameraPosx)
             cube8.draw(screen, CameraPosx)
+        if scene == 3:
+            LevelGehaald()
+            scene += 1
+            player.lives = 5
+        if scene == 4:
+            RespawnPos = (-360, 500)
+            playerObject.draw(screen, CameraPosx)
+            cube9.draw(screen, CameraPosx)
+
+
 
         draw_floor()
 
@@ -135,6 +151,7 @@ def parkour(player):
 
         if playerObject.ypos >= 630:
             playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives)
+            (playerObject.xpos, playerObject.ypos) = RespawnPos
             if state == "Menu":
                 return "Menu"
 
@@ -144,7 +161,7 @@ def parkour(player):
             CameraPosx = playerObject.xpos - 500
 
 
-        elif L_border - 500 > playerObject.xpos and scene > 1:
+        elif L_border - 500 > playerObject.xpos and not scene  in [1, 4]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             scene -= 1

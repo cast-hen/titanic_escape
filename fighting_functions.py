@@ -92,6 +92,10 @@ def fight(enemy, player, screen):
                     result = "quit"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        if Pause() == "Menu":
+                            return ["Menu", playerCurrentHealth]
             #aanvalsknop checken
             if button.check(attackButton, mouse, mouseDown, screen):
                 #maakt nieuwe variabelen voor weergave van de moveopties
@@ -100,7 +104,7 @@ def fight(enemy, player, screen):
                 buttonPrevPage = button(0, int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), int(width / 30), (0, 0, 0))
                 buttonBack = button(0, 0, int(width / 5), int(height / 7), (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), int(width / 25), (0, 0, 0))
                 done = False
-                pages = int(len(player.moveset) / 4)
+                pages = int((len(player.moveset) - 1) / 4)
                 page = 0
                 move = "none"
                 #nieuwe loop waarin move wordt geselecteerd
@@ -137,7 +141,7 @@ def fight(enemy, player, screen):
                     if move == "punch":
                         damage = 10 * damageMultiplierPlayer
                     elif move == "combo punch":
-                        pass
+                        damage = 30
                     elif move == "enrage":
                         pass
                     elif move == "poison":
@@ -243,13 +247,13 @@ def chooseNewAttack(options):
     """
     #tekent de 3 opties als kaarten
     screen.fill((100, 100, 100))
-    options[0].displayMove(30, 110)
-    options[1].displayMove(330, 110)
-    options[2].displayMove(630, 110)
+    options[0].displayMove(270, 160)
+    options[1].displayMove(570, 160)
+    options[2].displayMove(870, 160)
     #maakt drie knoppen aan om je keuze te maken
-    buttonChoice1 = button(50, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
-    buttonChoice2 = button(350, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
-    buttonChoice3 = button(650, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice1 = button(300, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice2 = button(600, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice3 = button(900, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
     #loop waarin gekeken wordt welke knop wordt ingedrukt
     while True:
         mouse = pygame.mouse.get_pos()
@@ -257,6 +261,8 @@ def chooseNewAttack(options):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
+            if event.type == pygame.QUIT:
+                return "quit"
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     if Pause() == "Menu":

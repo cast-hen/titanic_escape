@@ -2,7 +2,7 @@ import pygame
 from button_code import *
 from common import *
 
-state = 32832757342657832458324658734265234687342657834265873658234682346598234652
+
 screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
 
 def Pause():
@@ -23,7 +23,7 @@ def Pause():
         button2 = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                             'white')
         if button.check(button1, mouse, mouseDown, screen):
-            return state
+            return None
         if button.check(button2, mouse, mouseDown, screen):
             screen.fill('black')
             return "Menu"
@@ -32,4 +32,4 @@ def Pause():
                 mouseDown = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    return state
+                    return None
