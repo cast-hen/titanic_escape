@@ -4,7 +4,7 @@ import random
 from button_code import *
 
 class character:
-    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items):
+    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
         self.name = name
         self.lives = lives
         self.colour = colour
@@ -12,12 +12,14 @@ class character:
         self.maxHitpoints = maxHitpoints
         self.moveset = moveset
         self.items = items
+        self.heals = heals
 class enemy:
-    def __init__(self, name, colour, hitpoints, moveset):
+    def __init__(self, name, colour, hitpoints, moveset, heals):
         self.name = name
         self.colour = colour
         self.hitpoints = hitpoints
         self.moveset = moveset
+        self.heals = heals
 class move:
     def __init__(self, name, description):
         self.name = name
@@ -30,14 +32,14 @@ poison = move("poison", "poisons your opponent to take damage over time")
 lifeSteal = move("life steal", "Damages your opponent and gives you 30% back as health")
 block = move("block", "Blocks your opponents next attack")
 
-player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [])
+player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [], 5)
 
 running = True
 screen = pygame.display.set_mode((1300, 600))
 mouseDown = False
 health = 100
-enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch", "heal"])
-enemy2 = enemy("ASHRddgteGEtek, destroyer of lightbulbs", (255, 0, 255), 20, ["punch", "combo punch", "enrage"])
+enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch"], 5)
+enemy2 = enemy("ASHRddgteGEtek, destroyer of lightbulbs", (255, 0, 255), 20, ["punch", "combo punch", "enrage"], 0)
 buttonEnemy1 = button(100, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy1", (255, 255, 255), 80,  (255, 0, 0))
 buttonEnemy2 = button(800, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy2", (255, 255, 255), 80, (255, 0, 0))
 
@@ -63,6 +65,8 @@ def fight(enemy, player, screen):
     fleeButton = button(width / 2, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), int(width / 12),  (0, 0, 0))
     playerCurrentHealth = player.hitpoints
     enemyCurrentHealth = enemy.hitpoints
+    playerHeals = player.heals
+    enemyHeals = enemy.heals
     damageMultiplierPlayer = 1
     damageMultiplierEnemy = 1
     fighting = True
@@ -71,7 +75,7 @@ def fight(enemy, player, screen):
     while fighting:
         mouse = pygame.mouse.get_pos()
         if state == "turnPlayer":
-            if playerCurrentHealth < player.maxHitpoints:
+            if playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
                 healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
             else:
                 healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
@@ -119,7 +123,11 @@ def fight(enemy, player, screen):
                     if move == "punch":
                         damage = 10 * damageMultiplierPlayer
                     elif move == "combo punch":
-                        pass
+                        done = False
+                        while not done:
+                            damage += 3
+                            if random.randint(0, 1) == 0:
+                                done = True
                     elif move == "enrage":
                         pass
                     elif move == "poison":
@@ -141,7 +149,8 @@ def fight(enemy, player, screen):
                         state = "turnEnemy"
             elif button.check(itemButton, mouse, mouseDown, screen):
                 pass
-            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints:
+            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
+                playerHeals -= 1
                 playerCurrentHealth += 20
                 if playerCurrentHealth > player.maxHitpoints:
                     playerCurrentHealth = player.maxHitpoints
@@ -173,15 +182,22 @@ def fight(enemy, player, screen):
             draw_scene()
             selected = False
             while not selected:
-                roll = random.randint(0, len(enemy.moveset) - 1)
-                move = enemy.moveset[roll]
-                if move != "heal" or enemyCurrentHealth < enemy.hitpoints:
+                roll = random.randint(0, len(enemy.moveset))
+                if roll == len(enemy.moveset):
+                    move = "heal"
+                else:
+                    move = enemy.moveset[roll]
+                if move != "heal" or enemyCurrentHealth < enemy.hitpoints and enemyHeals > 0:
                     selected = True
             damage = 0
             if move == "punch":
                 damage = 10 * damageMultiplierEnemy
             elif move == "combo punch":
-                pass
+                done = False
+                while not done:
+                    damage += 3
+                    if random.randint(0, 1) == 0:
+                        done = True
             elif move == "enrage":
                 pass
             elif move == "poison":
@@ -191,6 +207,7 @@ def fight(enemy, player, screen):
             elif move == "block":
                 pass
             elif move == "heal":
+                enemyHeals -= 1
                 enemyCurrentHealth += 20
                 if enemyCurrentHealth > enemy.hitpoints:
                     enemyCurrentHealth = enemy.hitpoints
@@ -205,7 +222,7 @@ def fight(enemy, player, screen):
             state = "turnPlayer"
         time.sleep(0.01)
         pygame.display.update()
-    return [result, playerCurrentHealth]
+    return [result, playerCurrentHealth, playerHeals]
 
 pygame.init()
 while running:
