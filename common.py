@@ -49,14 +49,11 @@ def game_over(lives, state=None):
 
 def menu():
     screen.fill('black')
-    font = pygame.font.Font("freesansbold.ttf", 100)
-    text = font.render("Titanic escape", True, (255, 255, 255))
-
     mouseDown = False
     buttonBegin = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
-    screen.blit(text, (300, 50))
     while True:
+        textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT / 4))
         mouse = pygame.mouse.get_pos()
         mouseDown = False
         for event in pygame.event.get():
