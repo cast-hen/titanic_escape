@@ -78,7 +78,7 @@ class Objects:
 def draw_floor():
     pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
 
-def parkour():
+def parkour(player):
     clock = pygame.time.Clock()
     fps = 60
     gravity = 0.6
@@ -89,7 +89,7 @@ def parkour():
     mouseDown = False
     CameraPosx = 0
 
-    player = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
+    playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
     cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
     cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1)
     cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1)
@@ -114,16 +114,16 @@ def parkour():
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         screen.fill((135, 206, 250))
-        EnemyCollider = player.update_pos(platforms, CameraPosx, scene)
+        EnemyCollider = playerObject.update_pos(platforms, CameraPosx, scene)
 
         if scene == 1:
-            player.draw(screen, CameraPosx)
+            playerObject.draw(screen, CameraPosx)
             cube1.draw(screen, CameraPosx)
             cube2.draw(screen, CameraPosx)
             cube3.draw(screen, CameraPosx)
             cube4.draw(screen, CameraPosx)
         if scene == 2:
-            player.draw(screen, CameraPosx)
+            playerObject.draw(screen, CameraPosx)
             cube6.draw(screen, CameraPosx)
             cube5.draw(screen, CameraPosx)
             cube7.draw(screen, CameraPosx)
@@ -131,24 +131,24 @@ def parkour():
 
         draw_floor()
 
-        player.xspeed = speed * (keys["right"] - keys["left"])
+        playerObject.xspeed = speed * (keys["right"] - keys["left"])
 
-        if player.ypos >= 630:
-            player.xpos, player.ypos, lives = game_over()
+        if playerObject.ypos >= 630:
+            playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives, state)
 
         if EnemyCollider:
             return enemy("greg", (255, 0, 0), 50, ["punch"])
-        if L_border <= player.xpos <= R_border:
-            CameraPosx = player.xpos - 500
+        if L_border <= playerObject.xpos <= R_border:
+            CameraPosx = playerObject.xpos - 500
 
 
-        elif L_border - 500 > player.xpos and scene > 1:
-            player.xpos = R_border + 700
+        elif L_border - 500 > playerObject.xpos and scene > 1:
+            playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             scene -= 1
 
-        elif player.xpos > R_border + 750:
-            player.xpos = L_border - 450
+        elif playerObject.xpos > R_border + 750:
+            playerObject.xpos = L_border - 450
             CameraPosx = L_border - 500
             scene += 1
 
@@ -165,8 +165,8 @@ def parkour():
                     keys["right"] = True
                 elif event.key == pygame.K_a:
                     keys["left"] = True
-                elif event.key == pygame.K_w and player.on_ground:
-                    player.yspeed = jump_height
+                elif event.key == pygame.K_w and playerObject.on_ground:
+                    playerObject.yspeed = jump_height
 
                 elif event.key == pygame.K_ESCAPE:
                     if Pause() == "Menu":
