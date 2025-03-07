@@ -2,7 +2,7 @@ from pauze import *
 from button_code import *
 import pygame
 
-class player:
+class character:
     def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items):
         self.name = name
         self.lives = lives

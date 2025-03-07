@@ -3,12 +3,13 @@ import time
 import random
 from button_code import *
 
-class player:
-    def __init__(self, name, lives, colour, hitpoints, moveset, items):
+class character:
+    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items):
         self.name = name
         self.lives = lives
         self.colour = colour
         self.hitpoints = hitpoints
+        self.maxHitpoints = maxHitpoints
         self.moveset = moveset
         self.items = items
 class enemy:
@@ -29,7 +30,7 @@ poison = move("poison", "poisons your opponent to take damage over time")
 lifeSteal = move("life steal", "Damages your opponent and gives you 30% back as health")
 block = move("block", "Blocks your opponents next attack")
 
-player = player("greg", (0, 0, 255), 100, [punch, comboPunch, enrage, poison, lifeSteal, block], [])
+player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [])
 
 running = True
 screen = pygame.display.set_mode((1300, 600))
@@ -46,7 +47,7 @@ def fight(enemy, player, screen):
         healthFont = pygame.font.Font("freesansbold.ttf", 40)
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
         pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
-        healthTextPlayer = healthFont.render(str(playerCurrentHealth) + "/" + str(player.hitpoints), True, (255, 255, 255))
+        healthTextPlayer = healthFont.render(str(playerCurrentHealth) + "/" + str(player.maxHitpoints), True, (255, 255, 255))
         healthTextPlayerRect = healthTextPlayer.get_rect()
         healthTextPlayerRect.center = (250, 200)
         screen.blit(healthTextPlayer, healthTextPlayerRect)
@@ -70,7 +71,7 @@ def fight(enemy, player, screen):
     while fighting:
         mouse = pygame.mouse.get_pos()
         if state == "turnPlayer":
-            if playerCurrentHealth < player.hitpoints:
+            if playerCurrentHealth < player.maxHitpoints:
                 healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
             else:
                 healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
@@ -140,10 +141,10 @@ def fight(enemy, player, screen):
                         state = "turnEnemy"
             elif button.check(itemButton, mouse, mouseDown, screen):
                 pass
-            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.hitpoints:
+            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints:
                 playerCurrentHealth += 20
-                if playerCurrentHealth > player.hitpoints:
-                    playerCurrentHealth = player.hitpoints
+                if playerCurrentHealth > player.maxHitpoints:
+                    playerCurrentHealth = player.maxHitpoints
                 state = "turnEnemy"
             elif button.check(fleeButton, mouse, mouseDown, screen):
                 confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
@@ -217,10 +218,10 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouseDown = True
     if button.check(buttonEnemy1, mouse, mouseDown, screen):
-        result = fight(enemy1, player)
+        result = fight(enemy1, player, screen)
         screen.fill((0, 0, 0))
     elif button.check(buttonEnemy2, mouse, mouseDown, screen):
-        result = fight(enemy2, player)
+        result = fight(enemy2, player, screen)
         screen.fill((0, 0, 0))
     if result[0] == "win":
         screen.fill((0, 255, 0))
