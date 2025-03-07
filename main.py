@@ -31,7 +31,7 @@ while running:
 
     # Hoofd code:
     if state == "begin":
-        encounter = parkour()
+        encounter = parkour(player)
         if encounter == "Menu":
             state = "Menu"
         elif encounter == "quit":

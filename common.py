@@ -1,6 +1,7 @@
 from pauze import *
 from button_code import *
 import pygame
+import time
 
 class character:
     def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items):
@@ -23,8 +24,25 @@ HEIGHT = 690
 def eind():
     return None
 
-def game_over():
-    return None
+def game_over(lives):
+    lives -= 1
+    if lives == 0:
+        print("oh no")
+    screen.fill('red')
+    font = pygame.font.Font("freesansbold.ttf", 100)
+    text = font.render("You died", True, (255, 255, 255))
+    textRect = text.get_rect()
+    textRect.center = (WIDTH/2, HEIGHT/2)
+    screen.blit(text, textRect)
+
+    font = pygame.font.Font("freesansbold.ttf", 40)
+    text = font.render("You have " + str(lives) + " lives left", True, (255, 255, 255))
+    textRect = text.get_rect()
+    textRect.center = (WIDTH / 2, HEIGHT / 2 + 100)
+    screen.blit(text, textRect)
+    pygame.display.flip()
+    time.sleep(2)
+    return 200, 200, lives
 
 
 def menu():
