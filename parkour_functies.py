@@ -26,6 +26,7 @@ class Objects:
 
     def update_pos(self, platforms, CameraPosx, scene):
 
+
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
 
@@ -127,7 +128,6 @@ def parkour():
             cube5.draw(screen, CameraPosx)
             cube7.draw(screen, CameraPosx)
             cube8.draw(screen, CameraPosx)
-            #cube9.draw(screen, CameraPosx)
 
         draw_floor()
 

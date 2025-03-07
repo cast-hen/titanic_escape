@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 from button_code import *
+from pauze import *
 class move:
     def __init__(self, name, description, image):
         self.name = name
@@ -125,7 +126,7 @@ def fight(enemy, player, screen):
             elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints:
                 playerCurrentHealth += 20
                 if playerCurrentHealth > player.maxHitpoints:
-                    playerCurrentHealth = player.maxHAitpoints
+                    playerCurrentHealth = player.maxHitpoints
                 state = "turnEnemy"
             elif button.check(fleeButton, mouse, mouseDown, screen):
                 confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
