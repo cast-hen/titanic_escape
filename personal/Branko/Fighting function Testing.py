@@ -69,6 +69,8 @@ def fight(enemy, player, screen):
     enemyHeals = enemy.heals
     damageMultiplierPlayer = 1
     damageMultiplierEnemy = 1
+    enrageTurnsLeftPlayer = 0
+    enrageTurnsLeftEnemy = 0
     fighting = True
     state = "turnPlayer"
     draw_scene()
@@ -128,8 +130,10 @@ def fight(enemy, player, screen):
                             damage += 3
                             if random.randint(0, 1) == 0:
                                 done = True
+                        damage *= damageMultiplierPlayer
                     elif move == "enrage":
-                        pass
+                        damageMultiplierPlayer = 1.3
+                        enrageTurnsLeftPlayer = 4
                     elif move == "poison":
                         pass
                     elif move == "life steal":
@@ -140,6 +144,10 @@ def fight(enemy, player, screen):
                         enemyCurrentHealth += 20
                         if enemyCurrentHealth > enemy.hitpoints:
                             enemyCurrentHealth = enemy.hitpoints
+                    if enrageTurnsLeftPlayer > 0:
+                        enrageTurnsLeftPlayer -= 1
+                        if enrageTurnsLeftPlayer == 0:
+                            damageMultiplierPlayer = 1
                     enemyCurrentHealth -= damage
                     if enemyCurrentHealth <= 0:
                         enemyCurrentHealth = 0
@@ -198,8 +206,10 @@ def fight(enemy, player, screen):
                     damage += 3
                     if random.randint(0, 1) == 0:
                         done = True
+                damage *= damageMultiplierEnemy
             elif move == "enrage":
-                pass
+                damageMultiplierEnemy = 1.3
+                enrageTurnsLeftEnemy = 4
             elif move == "poison":
                 pass
             elif move == "life steal":
@@ -211,6 +221,10 @@ def fight(enemy, player, screen):
                 enemyCurrentHealth += 20
                 if enemyCurrentHealth > enemy.hitpoints:
                     enemyCurrentHealth = enemy.hitpoints
+            if enrageTurnsLeftEnemy > 0:
+                enrageTurnsLeftEnemy -= 1
+                if enrageTurnsLeftEnemy == 0:
+                    damageMultiplierEnemy = 1
             playerCurrentHealth -= damage
             if playerCurrentHealth <= 0:
                 playerCurrentHealth = 0
