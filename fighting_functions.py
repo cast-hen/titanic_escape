@@ -9,6 +9,12 @@ class move:
         self.description = description
         self.image = image
     def displayMove(self, x, y):
+        """
+        Displays a card with a move and its description
+        :param x: position of the left side of the card
+        :param y: position of the top side of the card
+        :return: nothing
+        """
         screen.blit(pygame.transform.scale(pygame.image.load("resources/textures/Kaart.png"), (400, 400)), (x - 100, y - 75))
 
         font = pygame.font.Font("freesansbold.ttf", 10)
@@ -24,7 +30,18 @@ class move:
 
 
 def fight(enemy, player, screen):
+    """
+    Starts a fight between the player and a given enemy
+    :param enemy: the enemy the player will fight
+    :param player: the players stats
+    :param screen: the screen where the fight should be displayed
+    :return: the result of the fight as "win", "lose", "flee" or "quit"
+    """
     def draw_scene():
+        """
+        Draws the fighting scene with the characters and their health displayed
+        :return: none
+        """
         screen.fill((40, 255, 255))
         healthFont = pygame.font.Font("freesansbold.ttf", 40)
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
@@ -190,6 +207,11 @@ def fight(enemy, player, screen):
     return [result, playerCurrentHealth]
 
 def chooseNewAttack(options):
+    """
+    Displays 3 moves the player can choose from to add to their deck
+    :param options: list of 3 moves the player can choose from
+    :return: the chosen move
+    """
     screen.fill((100, 100, 100))
     options[0].displayMove(30, 110)
     options[1].displayMove(330, 110)
