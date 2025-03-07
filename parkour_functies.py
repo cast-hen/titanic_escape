@@ -91,7 +91,7 @@ def parkour(player):
 
     playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
     cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
-    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1)
+    cube2 = Objects(690, 546, 700, 40, 'black', 1, 0, 0, 1)
     cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1)
     cube4 = Objects(800, 300, 80, 80, 'orange', 1, 0, 0, 1)
     cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2)
@@ -145,11 +145,11 @@ def parkour(player):
 
 
         elif L_border - 500 > playerObject.xpos and scene > 1:
-            playerObject.xpos = R_border + 700
+            playerObject.xpos = R_border + 800
             CameraPosx = R_border - 500
             scene -= 1
 
-        elif playerObject.xpos > R_border + 750:
+        elif playerObject.xpos > R_border + 850:
             playerObject.xpos = L_border - 450
             CameraPosx = L_border - 500
             scene += 1
