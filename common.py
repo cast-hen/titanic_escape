@@ -25,7 +25,14 @@ def eind():
     return None
 
 def textPrint(text, textSize, textColour, center):
-    """Prints the text on the screen. center is tuple."""
+    """
+    Prints the text on the screen. center is tuple.
+    :param text: What text will print
+    :param textSize: How big is the text
+    :param textColour: What color is the text
+    :param center: location of center text
+    :return: None
+    """
     font = pygame.font.Font("freesansbold.ttf", textSize)
     text = font.render(text, True, textColour)
     textRect = text.get_rect()
@@ -33,6 +40,12 @@ def textPrint(text, textSize, textColour, center):
     screen.blit(text, textRect)
 
 def game_over(lives, state=None):
+    """
+    Shows the Game Over screen
+    :param lives: the amount of lives left of the player
+    :param state : The state of the game
+    :return: None
+    """
     lives -= 1
     screen.fill('red')
     if lives == 0:
@@ -48,6 +61,10 @@ def game_over(lives, state=None):
 
 
 def menu():
+    """
+    Shows the menu screen
+    :return the pressed button (Start, Quit, Tuturial?):
+    """
     screen.fill('black')
     mouseDown = False
     buttonBegin = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
@@ -66,6 +83,11 @@ def menu():
         if button.check(buttonQuit, mouse, mouseDown, screen):
             return "quit"
 def LevelGehaald():
+
+        """
+        Shows the level complete screen and moves on to the next level
+        :return none:
+        """
 
         screen.fill((0, 0, 0))
         textPrint("Level gehaald", 100, 'white', (WIDTH / 2, HEIGHT / 4))

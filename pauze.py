@@ -6,6 +6,10 @@ from common import *
 screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
 
 def Pause():
+    """
+    Shows the pauze screen
+    :return None:
+    """
     WIDTH = 1366
     HEIGHT = 690
     mouseDown = False

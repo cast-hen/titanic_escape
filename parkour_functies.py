@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
 
 
 class Objects:
-    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene):
+    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -24,6 +24,7 @@ class Objects:
         self.Rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
         self.on_ground = False
         self.ObjectScene = ObjectScene
+        self.Type = Type
 
     def update_pos(self, platforms, CameraPosx, scene):
 
@@ -59,7 +60,9 @@ class Objects:
                         self.ypos = platform.ypos + platform.height
                         self.yspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                    return platform.color == "orange"
+                    return platform.Type
+
+
 
         # wall en floor collision
         if self.ypos + self.height >= HEIGHT - 4:
@@ -74,12 +77,46 @@ class Objects:
     def draw(self, surface, CameraPosx):
         self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
+class MoveObject:
+    def __init__(self, StartPos, EndPos, Speed, WaitTime):
+        self.StartPos = StartPos
+        self.EndPos = EndPos
+        self.Speed = 100 / Speed
+        self.WaitTime = WaitTime
+
+        self.xDirection = self.EndPos[0] - self.StartPos[0]
+        self.yDirection = self.EndPos[1] - self.StartPos[1]
+        self.Direction = (self.xDirection / self.Speed, self.yDirection / self.Speed)
+
+    def Move(self, pos):
+
+        if pos == self.StartPos:
+            xDirection = self.EndPos[0] - self.StartPos[0]
+            yDirection = self.EndPos[1] - self.StartPos[1]
+            self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
+        if pos == self.EndPos:
+            xDirection = self.StartPos[0] - self.EndPos[0]
+            yDirection = self.StartPos[1] - self.EndPos[1]
+            self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
+        print(pos[0] + self.Direction[0], pos[1] + self.Direction[1])
+        return pos[0] + self.Direction[0], pos[1] + self.Direction[1]
+
+
 
 # maakt vloer
 def draw_floor():
+    """
+    Draws the floor
+    :return:
+    """
     pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
 
 def parkour(player):
+    """
+    The entire code of the platforming part of the game
+    :param player: The active player
+    :return:
+    """
     clock = pygame.time.Clock()
     fps = 60
     gravity = 0.6
@@ -91,23 +128,23 @@ def parkour(player):
     CameraPosx = 0
     RespawnPos = (0, 0)
 
-    playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1)
-    cube1 = Objects(580, 400, 60, 60, 'black', 1, 0, 0, 1)
-    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1)
-    cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1)
-    cube4 = Objects(800, 300, 80, 80, 'orange', 1, 0, 0, 1)
-    cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2)
-    cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2)
-    cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2)
-    cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2)
-    cube9 = Objects(-500, 546, 5000, 40, 'black', 1, 0, 0, 4)
+    playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1, "Player")
+    cube1 = Objects(580, 400, 60, 60, 'Red', 1, 0, 0, 1, MoveObject((580, 400), (580, 0), 1, 0))
+    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1, "Collider")
+    cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1, "Collider")
+    cube4 = Objects(800, 300, 80, 80, 'orange', 1, 0, 0, 1, enemy("greg", (255, 0, 0), 50, ["punch"]))
+    cube10 = Objects(-200, 300, 80, 80, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 500, ["punch"]))
+    cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2, "Collider")
+    cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2, "Collider")
+    cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2, "Collider")
+    cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2, "Collider")
+    cube9 = Objects(-500, 546, 5000, 40, 'black', 1, 0, 0, 4, "Collider")
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10]
 
     # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
     keys = {"left": False, "right": False}
-    EnemyCollider = False
 
     L_border = 0
     R_border = 500
@@ -117,13 +154,14 @@ def parkour(player):
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         screen.fill((135, 206, 250))
-        EnemyCollider = playerObject.update_pos(platforms, CameraPosx, scene)
+        Collider = playerObject.update_pos(platforms, CameraPosx, scene)
 
 
         if scene == 1:
             RespawnPos = (200, 300)
             playerObject.draw(screen, CameraPosx)
             cube1.draw(screen, CameraPosx)
+            cube10.draw(screen, CameraPosx)
             cube2.draw(screen, CameraPosx)
             cube3.draw(screen, CameraPosx)
             cube4.draw(screen, CameraPosx)
@@ -149,14 +187,19 @@ def parkour(player):
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
 
-        if playerObject.ypos >= 630:
+        if playerObject.ypos >= 630 or Collider == "Death":
             playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives)
             (playerObject.xpos, playerObject.ypos) = RespawnPos
             if state == "Menu":
                 return "Menu"
 
-        if EnemyCollider:
-            return enemy("greg", (255, 0, 0), 50, ["punch"])
+        if type(Collider) == enemy:
+            return Collider
+
+
+        (cube1.xpos, cube1.ypos) = cube1.Type.Move((cube1.xpos, cube1.ypos))
+
+
         if L_border <= playerObject.xpos <= R_border:
             CameraPosx = playerObject.xpos - 500
 
