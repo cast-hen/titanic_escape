@@ -96,6 +96,8 @@ def fight(enemy, player, screen):
                     if event.key == pygame.K_ESCAPE:
                         if Pause() == "Menu":
                             return ["Menu", playerCurrentHealth]
+                        else:
+                            draw_scene()
             #aanvalsknop checken
             if button.check(attackButton, mouse, mouseDown, screen):
                 #maakt nieuwe variabelen voor weergave van de moveopties
