@@ -94,12 +94,18 @@ class MoveObject:
             xDirection = self.EndPos[0] - self.StartPos[0]
             yDirection = self.EndPos[1] - self.StartPos[1]
             self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
-        if pos == self.EndPos:
-            xDirection = self.StartPos[0] - self.EndPos[0]
-            yDirection = self.StartPos[1] - self.EndPos[1]
+
+        if 5 > (self.EndPos[0] - pos[0]) + (self.EndPos[1] - pos[1]) > -5 :
+            endpos = self.EndPos
+            self.EndPos = self.StartPos
+            self.StartPos = endpos
+            xDirection = self.EndPos[0] - self.StartPos[0]
+            yDirection = self.EndPos[1] - self.StartPos[1]
             self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
-        print(pos[0] + self.Direction[0], pos[1] + self.Direction[1])
-        return pos[0] + self.Direction[0], pos[1] + self.Direction[1]
+
+        TargetPos = pos[0] + self.Direction[0], pos[1] + self.Direction[1]
+
+        return TargetPos
 
 
 
@@ -138,10 +144,16 @@ def parkour(player):
     cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2, "Collider")
     cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2, "Collider")
     cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2, "Collider")
-    cube9 = Objects(-500, 546, 5000, 40, 'black', 1, 0, 0, 4, "Collider")
+    cube9 = Objects(-300, 550, 5000, 100, 'black', 1, 0, 0, 4, "Collider")
+
+    cube11 = Objects(-500, 275, 200, 400, 'black', 1, 0, 0, 4, "Collider")
+    cube12 = Objects(330, 415, 230, 10, 'black', 1, 0, 0, 4, "Collider")
+    cube13 = Objects(750, 0, 230, 450, 'black', 1, 0, 0, 4, "Collider")
+    cube14 = Objects(1240, 637, 120, 250, 'black', 1, 0, 0, 4, "Collider")
+    cube15 = Objects(-285, 500, 60, 60, 'Red', 1, 0, 0, 4, MoveObject((-285, 500), (1220, 500), 0.5, 0))
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15]
 
     # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
     keys = {"left": False, "right": False}
@@ -180,6 +192,11 @@ def parkour(player):
             RespawnPos = (-360, 500)
             playerObject.draw(screen, CameraPosx)
             cube9.draw(screen, CameraPosx)
+            cube11.draw(screen, CameraPosx)
+            cube12.draw(screen, CameraPosx)
+            cube13.draw(screen, CameraPosx)
+            cube14.draw(screen, CameraPosx)
+            cube15.draw(screen, CameraPosx)
 
 
 
@@ -198,6 +215,8 @@ def parkour(player):
 
 
         (cube1.xpos, cube1.ypos) = cube1.Type.Move((cube1.xpos, cube1.ypos))
+        (cube15.xpos, cube15.ypos) = cube15.Type.Move((int(cube15.xpos), int(cube15.ypos)))
+        print((cube15.xpos, cube15.ypos))
 
 
         if L_border <= playerObject.xpos <= R_border:

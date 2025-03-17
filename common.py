@@ -54,7 +54,10 @@ def game_over(lives, state=None):
         lives = 5
     else:
         textPrint("You died", 100, 'white', (WIDTH/2, HEIGHT/2))
-        textPrint("You have " + str(lives) + " live(s) left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
+        if lives == 1:
+            textPrint("You have " + str(lives) + " life left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
+        else:
+            textPrint("You have " + str(lives) + " lives left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
     pygame.display.flip()
     time.sleep(2)
     return 200, 200, lives, state
