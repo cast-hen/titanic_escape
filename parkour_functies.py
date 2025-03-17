@@ -95,7 +95,7 @@ class MoveObject:
             yDirection = self.EndPos[1] - self.StartPos[1]
             self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
 
-        if 5 > (self.EndPos[0] - pos[0]) + (self.EndPos[1] - pos[1]) > -5 :
+        if 8 > (self.EndPos[0] - pos[0]) + (self.EndPos[1] - pos[1]) > -8 :
             endpos = self.EndPos
             self.EndPos = self.StartPos
             self.StartPos = endpos
@@ -150,7 +150,7 @@ def parkour(player):
     cube12 = Objects(330, 415, 230, 10, 'black', 1, 0, 0, 4, "Collider")
     cube13 = Objects(750, 0, 230, 450, 'black', 1, 0, 0, 4, "Collider")
     cube14 = Objects(1240, 637, 120, 250, 'black', 1, 0, 0, 4, "Collider")
-    cube15 = Objects(-285, 500, 60, 60, 'Red', 1, 0, 0, 4, MoveObject((-285, 500), (1220, 500), 0.5, 0))
+    cube15 = Objects(-285, 450, 60, 120, 'Red', 1, 0, 0, 4, MoveObject((-285, 500), (1220, 500), 1.5, 0))
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
     platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15]
@@ -189,7 +189,7 @@ def parkour(player):
             scene += 1
             player.lives = 5
         if scene == 4:
-            RespawnPos = (-360, 500)
+            RespawnPos = (-360, 100)
             playerObject.draw(screen, CameraPosx)
             cube9.draw(screen, CameraPosx)
             cube11.draw(screen, CameraPosx)
