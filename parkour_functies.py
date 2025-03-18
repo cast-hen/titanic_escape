@@ -158,7 +158,7 @@ def parkour(player):
     platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15, cube16]
 
     # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
-    keys = {"left": False, "right": False}
+    keys = {"left": False, "right": False, "up": False}
 
     L_border = 0
     R_border = 500
@@ -255,14 +255,14 @@ def parkour(player):
                     keys["right"] = True
                 elif event.key == pygame.K_a:
                     keys["left"] = True
-                elif event.key == pygame.K_w and playerObject.on_ground:
-                    playerObject.yspeed = jump_height
+                elif event.key == pygame.K_w:
+                    keys["up"] = True
 
                 elif event.key == pygame.K_ESCAPE:
                     if Pause() == "Menu":
                         return "Menu"
                     else:
-                        keys = {"left": False, "right": False}
+                        keys = {"left": False, "right": False, "up": False}
                     screen.fill((0, 0, 0))
 
             if event.type == pygame.KEYUP:
@@ -270,5 +270,9 @@ def parkour(player):
                     keys["right"] = False
                 elif event.key == pygame.K_a:
                     keys["left"] = False
+                elif event.key == pygame.K_w:
+                    keys["up"] = False
 
+            if keys["up"] == True and playerObject.on_ground:
+                playerObject.yspeed = jump_height
         pygame.display.flip()
