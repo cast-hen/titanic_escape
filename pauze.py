@@ -12,6 +12,7 @@ def Pause():
     """
     WIDTH = 1366
     HEIGHT = 690
+
     mouseDown = False
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
     pygame.Surface.set_alpha(dimSurface, 150)
