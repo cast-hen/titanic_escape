@@ -133,6 +133,7 @@ def parkour(player):
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (0, 0)
+    pos1 = (0, 0)
 
     playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1, "Player")
     cube1 = Objects(580, 400, 60, 60, 'Red', 1, 0, 0, 1, MoveObject((580, 400), (580, 0), 1, 0))
@@ -149,11 +150,12 @@ def parkour(player):
     cube11 = Objects(-500, 275, 200, 400, 'black', 1, 0, 0, 4, "Collider")
     cube12 = Objects(330, 415, 230, 10, 'black', 1, 0, 0, 4, "Collider")
     cube13 = Objects(750, 0, 230, 450, 'black', 1, 0, 0, 4, "Collider")
-    cube14 = Objects(1240, 637, 120, 250, 'black', 1, 0, 0, 4, "Collider")
+    cube14 = Objects(1240, 400, 120, 250, 'black', 1, 0, 0, 4, "Collider")
     cube15 = Objects(-285, 450, 60, 120, 'Red', 1, 0, 0, 4, MoveObject((-285, 500), (1220, 500), 1.5, 0))
 
+    cube16 = Objects(-494, 29, 202, 571, 'black', 1, 0, 0, 1, "Collider")
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15, cube16]
 
     # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
     keys = {"left": False, "right": False}
@@ -177,6 +179,8 @@ def parkour(player):
             cube2.draw(screen, CameraPosx)
             cube3.draw(screen, CameraPosx)
             cube4.draw(screen, CameraPosx)
+
+            cube16.draw(screen, CameraPosx)
         if scene == 2:
             RespawnPos = (665, 320)
             playerObject.draw(screen, CameraPosx)
@@ -204,7 +208,7 @@ def parkour(player):
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
 
-        if playerObject.ypos >= 630 or Collider == "Death":
+        if playerObject.ypos >= 630 or Collider == "Death" or type(Collider) == MoveObject:
             playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives)
             (playerObject.xpos, playerObject.ypos) = RespawnPos
             if state == "Menu":
@@ -216,7 +220,7 @@ def parkour(player):
 
         (cube1.xpos, cube1.ypos) = cube1.Type.Move((cube1.xpos, cube1.ypos))
         (cube15.xpos, cube15.ypos) = cube15.Type.Move((int(cube15.xpos), int(cube15.ypos)))
-        print((cube15.xpos, cube15.ypos))
+
 
 
         if L_border <= playerObject.xpos <= R_border:
@@ -239,7 +243,12 @@ def parkour(player):
                 return "quit"
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
-                print(mouse[0] + CameraPosx, mouse[1])
+                if pos1 == (0, 0):
+                    pos1 = (mouse[0] + CameraPosx, mouse[1])
+                else:
+                    print(pos1[0], pos1[1], mouse[0] + CameraPosx - pos1[0], mouse[1] - pos1[1])
+                    pos1 = (0, 0)
+
             # movement
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_d:
