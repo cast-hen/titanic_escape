@@ -1,6 +1,8 @@
 import pygame
+
+import common
 from button_code import *
-from common import *
+from common import textPrint
 
 state = 32832757342657832458324658734265234687342657834265873658234682346598234652
 screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
@@ -20,9 +22,8 @@ def Pause():
     pygame.Surface.set_alpha(dimSurface, 150)
     pygame.Surface.blit(screen, dimSurface)
 
-    textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-
     while True:
+        textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
         mouse = pygame.mouse.get_pos()
         mouseDown = False
         for event in pygame.event.get():
@@ -34,5 +35,4 @@ def Pause():
         if button.check(resumeButton, mouse, mouseDown, screen):
             return state
         if button.check(menuButton, mouse, mouseDown, screen):
-            screen.fill('black')
             return "Menu"

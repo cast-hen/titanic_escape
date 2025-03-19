@@ -208,6 +208,7 @@ def parkour(player):
 
 
 
+
         draw_floor()
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
