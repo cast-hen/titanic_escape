@@ -28,7 +28,7 @@ class Objects:
 
     def update_pos(self, platforms, CameraPosx, scene):
 
-
+        Collider = ""
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
 
@@ -41,6 +41,7 @@ class Objects:
                         self.xpos = platform.xpos + platform.width
                     self.xspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+                    Collider = platform.Type
 
         self.yspeed += self.mass * gravity
 
@@ -60,7 +61,7 @@ class Objects:
                         self.ypos = platform.ypos + platform.height
                         self.yspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                    return platform.Type
+                    Collider = platform.Type
 
 
 
@@ -70,9 +71,12 @@ class Objects:
             self.yspeed = 0
             self.on_ground = True
             self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+            Collider = platform.Type
         if self.xpos + self.width > WIDTH:
             self.xpos = WIDTH - self.width
+            Collider = platform.Type
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+        return Collider
 
     def draw(self, surface, CameraPosx):
         self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
@@ -189,7 +193,7 @@ def parkour(player):
             cube7.draw(screen, CameraPosx)
             cube8.draw(screen, CameraPosx)
         if scene == 3:
-            LevelGehaald()
+            LevelGehaald(screen)
             scene += 1
             player.lives = 5
         if scene == 4:
@@ -225,14 +229,18 @@ def parkour(player):
 
         if L_border <= playerObject.xpos <= R_border:
             CameraPosx = playerObject.xpos - 500
+        elif L_border >= playerObject.xpos:
+            CameraPosx = L_border - 500
+        elif playerObject.xpos >= R_border:
+            CameraPosx = R_border - 500
 
 
-        elif L_border - 500 > playerObject.xpos and not scene  in [1, 4]:
+        if L_border - 500 > playerObject.xpos and not scene  in [1, 4]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             scene -= 1
 
-        elif playerObject.xpos > R_border + 750:
+        elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
             CameraPosx = L_border - 500
             scene += 1

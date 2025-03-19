@@ -85,3 +85,5 @@ def menu():
             return "begin"
         if button.check(buttonQuit, mouse, mouseDown, screen):
             return "quit"
+def LevelGehaald(screen):
+    pass
