@@ -64,9 +64,9 @@ def fight(enemy, player, screen):
     #variabelen en knoppen aanmaken
     width = screen.get_width()
     height = screen.get_height()
-    attackButton = button(0, int((height / 5) * 3), int(width / 2), int(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), int(width / 12), (0, 0, 0))
-    itemButton = button(0, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255), "Use item", (0, 0, 0), int(width / 12),  (0, 0, 0))
-    fleeButton = button(width / 2, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), int(width / 12),  (0, 0, 0))
+    attackButton = button(0, height * 3 // 5, width // 2, height // 5, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
+    itemButton = button(0, height * 4 // 5, width // 2, height // 5, (255, 180, 0), (255, 255, 255), "Use item", (0, 0, 0), width // 12,  (0, 0, 0))
+    fleeButton = button(width // 2, height * 4 // 5, width // 2, height // 5, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
     playerCurrentHealth = player.hitpoints
     enemyCurrentHealth = enemy.hitpoints
     damageMultiplierPlayer = 1
@@ -80,9 +80,9 @@ def fight(enemy, player, screen):
         if state == "turnPlayer":
             #kijkt of healen een optie is en geeft de correcte texture
             if playerCurrentHealth < player.maxHitpoints:
-                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
+                healButton = button(width // 2, height * 3 // 5, width // 2, height // 5, (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
             else:
-                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
+                healButton = button(width // 2, height * 3 // 5, width // 2, height // 5, (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
             #checkt de events en past variabelen aan
             mouseDown = False
             for event in pygame.event.get():
@@ -101,9 +101,9 @@ def fight(enemy, player, screen):
             if button.check(attackButton, mouseDown, screen):
                 #maakt nieuwe variabelen voor weergave van de moveopties
                 draw_scene()
-                buttonNextPage = button(int(width / 2), int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), int(width / 30), (0, 0, 0))
-                buttonPrevPage = button(0, int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), int(width / 30), (0, 0, 0))
-                buttonBack = button(0, 0, int(width / 5), int(height / 7), (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), int(width / 25), (0, 0, 0))
+                buttonNextPage = button(width // 2, height * 6 // 7, width // 2, height // 7, (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
+                buttonPrevPage = button(0, height * 6 // 7, width // 2, height // 7, (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), width // 30, (0, 0, 0))
+                buttonBack = button(0, 0, width // 5, height // 7, (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), width // 25, (0, 0, 0))
                 done = False
                 pages = int((len(player.moveset) - 1) / 4)
                 page = 0
@@ -127,7 +127,7 @@ def fight(enemy, player, screen):
                     #tekent de moves die op een pagina worden weergeven en controleert of er een wordt geselecteerd
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
-                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), int(width / 40), (0, 0, 0))
+                            moveButton = button(width * i // 4, height * 4 // 7, width // 4, height * 2 // 7, (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
                             if button.check(moveButton, mouseDown, screen):
                                 move = player.moveset[i].name
                                 done = True
@@ -174,15 +174,15 @@ def fight(enemy, player, screen):
             #button of weg te rennen van het gevecht
             elif button.check(fleeButton, mouseDown, screen):
                 #variabelen en knoppen aanmaken
-                confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
+                confirmFont = pygame.font.Font("freesansbold.ttf", width // 50)
                 confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
                 confirmRect = confirmText.get_rect()
-                confirmRect.center = (int(width / 2), int((height / 12) * 5))
-                pygame.draw.rect(screen, (255, 180, 0), [int(width / 3), int(height / 3), int(width / 3), int(height / 3)])
+                confirmRect.center = (width // 2, height * 5 // 12)
+                pygame.draw.rect(screen, (255, 180, 0), [width // 3, height // 3, width // 3, height // 3])
                 screen.blit(confirmText, confirmRect)
                 confirmed = False
-                confirmButton = button(int(width / 3), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), int(width / 30),  (0, 0, 0))
-                cancelButton = button(int(width / 2), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), int(width / 30), (0, 0, 0))
+                confirmButton = button(width // 3, height // 2, width // 6, height // 6, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
+                cancelButton = button(width // 2, height // 2, width // 6, height // 6, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
                 #loop om te confirmen dat de speler het gevecht wil eindigen
                 while not confirmed:
                     mouseDown = False
