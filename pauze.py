@@ -32,7 +32,7 @@ def Pause():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return state
-        if button.check(resumeButton, mouse, mouseDown, screen):
+        if button.check(resumeButton, mouseDown, screen):
             return state
-        if button.check(menuButton, mouse, mouseDown, screen):
+        if button.check(menuButton, mouseDown, screen):
             return "Menu"

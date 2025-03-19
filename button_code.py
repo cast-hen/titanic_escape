@@ -30,14 +30,15 @@ class button:
         self.textSize = textSize
         self.borderColour = borderColour
 
-    def check(self, mouse, mouseDown, screen):
+    def check(self, mouseDown, screen):
         """
         Print een knop, geeft aan als de knop wordt ingedrukt
-        :param mouse: De positie van de muis in een lijst met x en y
         :param mouseDown: Is de muisknop ingedrukt True of False
         :param screen: Het scherm waar de button op moet komen
         :return: True of False
         """
+        mouse = pygame.mouse.get_pos()
+
         font = pygame.font.Font("freesansbold.ttf", self.textSize)
         text = font.render(self.text, True, self.textColour)
         pygame.draw.rect(screen, self.borderColour, [self.x, self.y, self.width, self.height])

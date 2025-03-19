@@ -61,9 +61,9 @@ def game_over(lives, state=None):
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
-            if button.check(yesButton, mouse, mouseDown, screen):
+            if button.check(yesButton, mouseDown, screen):
                 break
-            if button.check(noButton, mouse, mouseDown, screen):
+            if button.check(noButton, mouseDown, screen):
                 state = "Menu"
                 break
     else:
@@ -95,9 +95,9 @@ def menu():
                 mouseDown = True
             if event.type == pygame.QUIT:
                 return "quit"
-        if button.check(buttonBegin, mouse, mouseDown, screen):
+        if button.check(buttonBegin, mouseDown, screen):
             return "begin"
-        if button.check(buttonQuit, mouse, mouseDown, screen):
+        if button.check(buttonQuit, mouseDown, screen):
             return "quit"
 
 
@@ -116,5 +116,5 @@ def LevelGehaald(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
-        if button.check(menuButton, mouse, mouseDown, screen):
+        if button.check(menuButton, mouseDown, screen):
             return "Menu"

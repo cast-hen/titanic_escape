@@ -76,7 +76,6 @@ def fight(enemy, player, screen):
     draw_scene()
     #main loop
     while fighting:
-        mouse = pygame.mouse.get_pos()
         #beurt van de speler
         if state == "turnPlayer":
             #kijkt of healen een optie is en geeft de correcte texture
@@ -99,7 +98,7 @@ def fight(enemy, player, screen):
                         else:
                             draw_scene()
             #aanvalsknop checken
-            if button.check(attackButton, mouse, mouseDown, screen):
+            if button.check(attackButton, mouseDown, screen):
                 #maakt nieuwe variabelen voor weergave van de moveopties
                 draw_scene()
                 buttonNextPage = button(int(width / 2), int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), int(width / 30), (0, 0, 0))
@@ -112,29 +111,28 @@ def fight(enemy, player, screen):
                 #nieuwe loop waarin move wordt geselecteerd
                 while not done:
                     #positie van de muis vinden en kijken of hij ingedrukt is
-                    mouse = pygame.mouse.get_pos()
                     mouseDown = False
                     for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             mouseDown = True
                     #pagina selecteren
                     if page < pages:
-                        if button.check(buttonNextPage, mouse, mouseDown, screen):
+                        if button.check(buttonNextPage, mouseDown, screen):
                             page += 1
                             draw_scene()
                     if page > 0:
-                        if button.check(buttonPrevPage, mouse, mouseDown, screen):
+                        if button.check(buttonPrevPage, mouseDown, screen):
                             page -= 1
                             draw_scene()
                     #tekent de moves die op een pagina worden weergeven en controleert of er een wordt geselecteerd
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
                             moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), int(width / 40), (0, 0, 0))
-                            if button.check(moveButton, mouse, mouseDown, screen):
+                            if button.check(moveButton, mouseDown, screen):
                                 move = player.moveset[i].name
                                 done = True
                     #checkt of de knop wordt ingedrukt om terug te gaan naar de andere opties
-                    if button.check(buttonBack, mouse, mouseDown, screen):
+                    if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
                 #als een move is geselecteerd wordt deze uitgevoerd
@@ -165,16 +163,16 @@ def fight(enemy, player, screen):
                     else:
                         state = "turnEnemy"
             #knop voor een item gebruiken
-            elif button.check(itemButton, mouse, mouseDown, screen):
+            elif button.check(itemButton, mouseDown, screen):
                 pass
             #knop om te healen, werkt alleen als de speler heals overheeft en niet op max health is
-            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints:
+            elif button.check(healButton, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints:
                 playerCurrentHealth += 20
                 if playerCurrentHealth > player.maxHitpoints:
                     playerCurrentHealth = player.maxHitpoints
                 state = "turnEnemy"
             #button of weg te rennen van het gevecht
-            elif button.check(fleeButton, mouse, mouseDown, screen):
+            elif button.check(fleeButton, mouseDown, screen):
                 #variabelen en knoppen aanmaken
                 confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
                 confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
@@ -187,16 +185,15 @@ def fight(enemy, player, screen):
                 cancelButton = button(int(width / 2), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), int(width / 30), (0, 0, 0))
                 #loop om te confirmen dat de speler het gevecht wil eindigen
                 while not confirmed:
-                    mouse = pygame.mouse.get_pos()
                     mouseDown = False
                     for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             mouseDown = True
-                    if button.check(confirmButton, mouse, mouseDown, screen):
+                    if button.check(confirmButton, mouseDown, screen):
                         fighting = False
                         result = "flee"
                         confirmed = True
-                    elif button.check(cancelButton, mouse, mouseDown, screen):
+                    elif button.check(cancelButton, mouseDown, screen):
                         confirmed = True
                         draw_scene()
         #beurt van de vijand
@@ -258,7 +255,6 @@ def chooseNewAttack(options):
     buttonChoice3 = button(900, 500, 200, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
     #loop waarin gekeken wordt welke knop wordt ingedrukt
     while True:
-        mouse = pygame.mouse.get_pos()
         mouseDown = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -277,9 +273,9 @@ def chooseNewAttack(options):
                     if event.type == pygame.QUIT:
                         return False
         #kijkt welke knopper worden ingedrukt en returnt de corresponderende move
-        if button.check(buttonChoice1, mouse, mouseDown, screen):
+        if button.check(buttonChoice1, mouseDown, screen):
             return options[0]
-        if button.check(buttonChoice2, mouse, mouseDown, screen):
+        if button.check(buttonChoice2, mouseDown, screen):
             return options[1]
-        if button.check(buttonChoice3, mouse, mouseDown, screen):
+        if button.check(buttonChoice3, mouseDown, screen):
             return options[2]
