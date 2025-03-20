@@ -171,7 +171,7 @@ def fight(enemy, player, screen):
                     playerCurrentHealth = player.maxHitpoints
                 else:
                     playerCurrentHealth += healed
-                scrollText(str(healed), (0, 255, 0), "player")
+                scrollText(str(healed), (0, 255, 0), "player", 80, 20)
                 if poisonTurnsLeftPlayer > 0:
                     poisonTurnsLeftPlayer = 0
                     scrollText("poison cleared", (0, 255, 0), "player")
