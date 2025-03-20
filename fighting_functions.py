@@ -3,8 +3,6 @@ import time
 import random
 from button_code import *
 from pauze import *
-pygame.mixer.init()
-pygame.mixer.music.load("resources/sound/battle_theme.mp3")
 class move:
     def __init__(self, name, description, image):
         self.name = name
@@ -79,6 +77,8 @@ def fight(enemy, player, screen):
     fighting = True
     state = "turnPlayer"
     draw_scene()
+    pygame.mixer.init()
+    pygame.mixer.music.load("resources/sound/battle_theme.mp3")
     pygame.mixer.music.play(loops = -1)
     while fighting:
         if state == "turnPlayer":
