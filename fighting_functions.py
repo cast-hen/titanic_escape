@@ -36,15 +36,6 @@ def fight(enemy, player, screen):
         screen.fill((40, 255, 255))
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
         pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
-        # healthFont = pygame.font.Font("freesansbold.ttf", 40)
-        #healthTextPlayer = healthFont.render(str(playerCurrentHealth) + "/" + str(player.maxHitpoints), True, (255, 255, 255))
-        #healthTextPlayerRect = healthTextPlayer.get_rect()
-        #healthTextPlayerRect.center = (250, 200)
-        #screen.blit(healthTextPlayer, healthTextPlayerRect)
-        #healthTextEnemy = healthFont.render(str(enemyCurrentHealth) + "/" + str(enemy.hitpoints), True, (255, 255, 255))
-        #healthTextEnemyRect = healthTextEnemy.get_rect()
-        #healthTextEnemyRect.center = (1050, 200)
-        #screen.blit(healthTextEnemy, healthTextEnemyRect)
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.hitpoints), 50))
@@ -248,27 +239,6 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     return [result, playerCurrentHealth]
-
-pygame.init()
-while running:
-    mouse = pygame.mouse.get_pos()
-    result = "pass"
-    mouseDown = False
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouseDown = True
-    if button.check(buttonEnemy1, mouseDown, screen):
-        result = fight(enemy1, player, screen)
-        screen.fill((0, 0, 0))
-    elif button.check(buttonEnemy2, mouseDown, screen):
-        result = fight(enemy2, player, screen)
-        screen.fill((0, 0, 0))
-    if result[0] == "win":
-        screen.fill((0, 255, 0))
-    elif result[0] == "quit":
-        running = False
 
 def chooseNewAttack(options):
     """
