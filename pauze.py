@@ -24,7 +24,6 @@ def Pause():
 
     while True:
         textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        mouse = pygame.mouse.get_pos()
         mouseDown = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:

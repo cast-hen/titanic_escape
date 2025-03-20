@@ -205,6 +205,10 @@ def parkour(player):
             cube13.draw(screen, CameraPosx)
             cube14.draw(screen, CameraPosx)
             cube15.draw(screen, CameraPosx)
+        if scene == 5:
+            if eind():
+                return "Menu"
+
 
 
 

@@ -24,7 +24,21 @@ WIDTH = 1366
 HEIGHT = 690
 
 def eind():
-    return None
+    screen.fill('green')
+    menuButton = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.5), 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
+                        'white')
+    while True:
+        textPrint("You won!!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+        textPrint("Berend Sulman, Branko Opdam", 40, 'white',
+                  (WIDTH / 2, HEIGHT / 2 - 20))
+        textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',
+                  (WIDTH / 2, HEIGHT / 2 + 50))
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+        if button.check(menuButton, mouseDown, screen):
+            return True
 
 def textPrint(text, textSize, textColour, center):
     """
