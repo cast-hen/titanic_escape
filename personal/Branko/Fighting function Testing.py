@@ -69,10 +69,10 @@ def fight(enemy, player, screen):
             x = 400
             y = 150
         elif location == "enemy":
-            x = 900
+            x = 900 - toScrollText.get_rect().width
             y = 150
         elif location == "center":
-            textRect = text.get_
+            x = screen.get_width() - (toScrollText.get_rect().width / 2)
             y = 200
         for i in range(0, 20):
             draw_scene()
@@ -90,11 +90,14 @@ def fight(enemy, player, screen):
     enemyHeals = enemy.heals
     damageMultiplierPlayer = 1
     damageMultiplierEnemy = 1
+    enrageTurnsLeftPlayer = 0
+    enrageTurnsLeftEnemy = 0
+    poisonTurnsLeftPlayer = 0
+    poisonTurnsLeftEnemy = 0
     fighting = True
     state = "turnPlayer"
     draw_scene()
     while fighting:
-        mouse = pygame.mouse.get_pos()
         if state == "turnPlayer":
             if playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
                 healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
@@ -107,7 +110,7 @@ def fight(enemy, player, screen):
                     result = "quit"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
-            if button.check(attackButton, mouse, mouseDown, screen):
+            if button.check(attackButton, mouseDown, screen):
                 draw_scene()
                 buttonNextPage = button(int(width / 2), int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), int(width / 30), (0, 0, 0))
                 buttonPrevPage = button(0, int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), int(width / 30), (0, 0, 0))
@@ -117,30 +120,28 @@ def fight(enemy, player, screen):
                 page = 0
                 move = "none"
                 while not done:
-                    mouse = pygame.mouse.get_pos()
                     mouseDown = False
                     for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             mouseDown = True
                     if page < pages:
-                        if button.check(buttonNextPage, mouse, mouseDown, screen):
+                        if button.check(buttonNextPage, mouseDown, screen):
                             page += 1
                             draw_scene()
                     if page > 0:
-                        if button.check(buttonPrevPage, mouse, mouseDown, screen):
+                        if button.check(buttonPrevPage, mouseDown, screen):
                             page -= 1
                             draw_scene()
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
                             moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), int(width / 40), (0, 0, 0))
-                            if button.check(moveButton, mouse, mouseDown, screen):
+                            if button.check(moveButton, mouseDown, screen):
                                 move = player.moveset[i].name
                                 done = True
-                    if button.check(buttonBack, mouse, mouseDown, screen):
+                    if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
                 if move != "none":
-                    damage = 0
                     if move == "punch":
                         damage = int(10 * damageMultiplierPlayer)
                         enemyCurrentHealth -= damage
@@ -167,9 +168,9 @@ def fight(enemy, player, screen):
                         result = "win"
                     else:
                         state = "turnEnemy"
-            elif button.check(itemButton, mouse, mouseDown, screen):
+            elif button.check(itemButton, mouseDown, screen):
                 pass
-            elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
+            elif button.check(healButton, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
                 playerHeals -= 1
                 healed = 20
                 if playerCurrentHealth + healed > player.maxHitpoints:
@@ -178,8 +179,11 @@ def fight(enemy, player, screen):
                 else:
                     playerCurrentHealth += healed
                 scrollText(str(healed), (0, 255, 0), "player")
+                if poisonTurnsLeftPlayer > 0:
+                    poisonTurnsLeftPlayer = 0
+                    scrollText("poison cleared", (0, 255, 0), "player")
                 state = "turnEnemy"
-            elif button.check(fleeButton, mouse, mouseDown, screen):
+            elif button.check(fleeButton, mouseDown, screen):
                 confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
                 confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
                 confirmRect = confirmText.get_rect()
@@ -190,16 +194,15 @@ def fight(enemy, player, screen):
                 confirmButton = button(int(width / 3), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), int(width / 30),  (0, 0, 0))
                 cancelButton = button(int(width / 2), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), int(width / 30), (0, 0, 0))
                 while not confirmed:
-                    mouse = pygame.mouse.get_pos()
                     mouseDown = False
                     for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             mouseDown = True
-                    if button.check(confirmButton, mouse, mouseDown, screen):
+                    if button.check(confirmButton, mouseDown, screen):
                         fighting = False
                         result = "flee"
                         confirmed = True
-                    elif button.check(cancelButton, mouse, mouseDown, screen):
+                    elif button.check(cancelButton, mouseDown, screen):
                         confirmed = True
                         draw_scene()
         elif state == "turnEnemy":
@@ -243,6 +246,9 @@ def fight(enemy, player, screen):
                 else:
                     enemyCurrentHealth += healed
                 scrollText(str(healed), (0, 255, 0), "enemy")
+                if poisonTurnsLeftEnemy > 0:
+                    poisonTurnsLeftEnemy = 0
+                    scrollText("poison cleared", (0, 255, 0), "enemy")
             if playerCurrentHealth <= 0:
                 playerCurrentHealth = 0
                 fighting = False
@@ -253,7 +259,7 @@ def fight(enemy, player, screen):
             state = "turnPlayer"
         time.sleep(0.01)
         pygame.display.update()
-    return [result, playerCurrentHealth, playerHeals]
+    return [result, playerCurrentHealth]
 
 pygame.init()
 while running:
@@ -265,10 +271,10 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouseDown = True
-    if button.check(buttonEnemy1, mouse, mouseDown, screen):
+    if button.check(buttonEnemy1, mouseDown, screen):
         result = fight(enemy1, player, screen)
         screen.fill((0, 0, 0))
-    elif button.check(buttonEnemy2, mouse, mouseDown, screen):
+    elif button.check(buttonEnemy2, mouseDown, screen):
         result = fight(enemy2, player, screen)
         screen.fill((0, 0, 0))
     if result[0] == "win":

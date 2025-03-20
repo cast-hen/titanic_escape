@@ -4,7 +4,7 @@ import pygame
 import time
 
 class character:
-    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items):
+    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
         self.name = name
         self.lives = lives
         self.colour = colour
@@ -12,12 +12,14 @@ class character:
         self.maxHitpoints = maxHitpoints
         self.moveset = moveset
         self.items = items
+        self.heals = heals
 class enemy:
-    def __init__(self, name, colour, hitpoints, moveset):
+    def __init__(self, name, colour, hitpoints, moveset, heals):
         self.name = name
         self.colour = colour
         self.hitpoints = hitpoints
         self.moveset = moveset
+        self.heals = heals
 WIDTH = 1366
 HEIGHT = 690
 

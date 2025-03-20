@@ -32,58 +32,65 @@ class move:
 
 
 def fight(enemy, player, screen):
-    """
-    Starts a fight between the player and a given enemy
-    :param enemy: the enemy the player will fight
-    :param player: the players stats
-    :param screen: the screen where the fight should be displayed
-    :return: a list with: the result of the fight as "win", "lose", "flee" or "quit"
-                          the ammount of hitpoints the player has left
-    """
     def draw_scene():
-        """
-        Draws the fighting scene with the characters and their health displayed
-        :return: none
-        """
-        #tekent de achtergrond
         screen.fill((40, 255, 255))
-        #maakt het font aan voor de hitpoints
-        healthFont = pygame.font.Font("freesansbold.ttf", 40)
-        #tekent de speler en de enemy
-        pygame.draw.rect(screen, player.colour, pygame.Rect(200, 250, 100, 200))
+        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
         pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
-        healthTextPlayer = healthFont.render(str(playerCurrentHealth) + "/" + str(player.maxHitpoints), True, (255, 255, 255))
-        healthTextPlayerRect = healthTextPlayer.get_rect()
-        healthTextPlayerRect.center = (250, 200)
-        screen.blit(healthTextPlayer, healthTextPlayerRect)
-        healthTextEnemy = healthFont.render(str(enemyCurrentHealth) + "/" + str(enemy.hitpoints), True, (255, 255, 255))
-        healthTextEnemyRect = healthTextEnemy.get_rect()
-        healthTextEnemyRect.center = (1050, 200)
-        screen.blit(healthTextEnemy, healthTextEnemyRect)
+        # healthFont = pygame.font.Font("freesansbold.ttf", 40)
+        #healthTextPlayer = healthFont.render(str(playerCurrentHealth) + "/" + str(player.maxHitpoints), True, (255, 255, 255))
+        #healthTextPlayerRect = healthTextPlayer.get_rect()
+        #healthTextPlayerRect.center = (250, 200)
+        #screen.blit(healthTextPlayer, healthTextPlayerRect)
+        #healthTextEnemy = healthFont.render(str(enemyCurrentHealth) + "/" + str(enemy.hitpoints), True, (255, 255, 255))
+        #healthTextEnemyRect = healthTextEnemy.get_rect()
+        #healthTextEnemyRect.center = (1050, 200)
+        #screen.blit(healthTextEnemy, healthTextEnemyRect)
+        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
+        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.hitpoints), 50))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
         pygame.display.update()
-    #variabelen en knoppen aanmaken
+    def scrollText(text, colour, location):
+        font = pygame.font.Font("freesansbold.ttf", 80)
+        toScrollText = font.render(text, True, colour)
+        if location == "player":
+            x = 400
+            y = 150
+        elif location == "enemy":
+            x = 900 - toScrollText.get_rect().width
+            y = 150
+        elif location == "center":
+            x = screen.get_width() - (toScrollText.get_rect().width / 2)
+            y = 200
+        for i in range(0, 20):
+            draw_scene()
+            screen.blit(toScrollText, (x, y - i))
+            pygame.display.update()
+            time.sleep(0.01)
     width = screen.get_width()
     height = screen.get_height()
-    attackButton = button(0, height * 3 // 5, width // 2, height // 5, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
-    itemButton = button(0, height * 4 // 5, width // 2, height // 5, (255, 180, 0), (255, 255, 255), "Use item", (0, 0, 0), width // 12,  (0, 0, 0))
-    fleeButton = button(width // 2, height * 4 // 5, width // 2, height // 5, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
+    attackButton = button(0, int((height / 5) * 3), int(width / 2), int(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), int(width / 12), (0, 0, 0))
+    itemButton = button(0, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255), "Use item", (0, 0, 0), int(width / 12),  (0, 0, 0))
+    fleeButton = button(width / 2, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), int(width / 12),  (0, 0, 0))
     playerCurrentHealth = player.hitpoints
     enemyCurrentHealth = enemy.hitpoints
+    playerHeals = player.heals
+    enemyHeals = enemy.heals
     damageMultiplierPlayer = 1
     damageMultiplierEnemy = 1
+    enrageTurnsLeftPlayer = 0
+    enrageTurnsLeftEnemy = 0
+    poisonTurnsLeftPlayer = 0
+    poisonTurnsLeftEnemy = 0
     fighting = True
     state = "turnPlayer"
     draw_scene()
-    #main loop
     while fighting:
-        #beurt van de speler
         if state == "turnPlayer":
-            #kijkt of healen een optie is en geeft de correcte texture
-            if playerCurrentHealth < player.maxHitpoints:
-                healButton = button(width // 2, height * 3 // 5, width // 2, height // 5, (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
+            if playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
+                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
             else:
-                healButton = button(width // 2, height * 3 // 5, width // 2, height // 5, (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
-            #checkt de events en past variabelen aan
+                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
             mouseDown = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -91,31 +98,20 @@ def fight(enemy, player, screen):
                     result = "quit"
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouseDown = True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        if Pause() == "Menu":
-                            return ["Menu", playerCurrentHealth]
-                        else:
-                            draw_scene()
-            #aanvalsknop checken
             if button.check(attackButton, mouseDown, screen):
-                #maakt nieuwe variabelen voor weergave van de moveopties
                 draw_scene()
-                buttonNextPage = button(width // 2, height * 6 // 7, width // 2, height // 7, (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
-                buttonPrevPage = button(0, height * 6 // 7, width // 2, height // 7, (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), width // 30, (0, 0, 0))
-                buttonBack = button(0, 0, width // 5, height // 7, (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), width // 25, (0, 0, 0))
+                buttonNextPage = button(int(width / 2), int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), int(width / 30), (0, 0, 0))
+                buttonPrevPage = button(0, int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), int(width / 30), (0, 0, 0))
+                buttonBack = button(0, 0, int(width / 5), int(height / 7), (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), int(width / 25), (0, 0, 0))
                 done = False
-                pages = int((len(player.moveset) - 1) / 4)
+                pages = int(len(player.moveset) / 4)
                 page = 0
                 move = "none"
-                #nieuwe loop waarin move wordt geselecteerd
                 while not done:
-                    #positie van de muis vinden en kijken of hij ingedrukt is
                     mouseDown = False
                     for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             mouseDown = True
-                    #pagina selecteren
                     if page < pages:
                         if button.check(buttonNextPage, mouseDown, screen):
                             page += 1
@@ -124,24 +120,28 @@ def fight(enemy, player, screen):
                         if button.check(buttonPrevPage, mouseDown, screen):
                             page -= 1
                             draw_scene()
-                    #tekent de moves die op een pagina worden weergeven en controleert of er een wordt geselecteerd
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
-                            moveButton = button(width * i // 4, height * 4 // 7, width // 4, height * 2 // 7, (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), int(width / 40), (0, 0, 0))
                             if button.check(moveButton, mouseDown, screen):
                                 move = player.moveset[i].name
                                 done = True
-                    #checkt of de knop wordt ingedrukt om terug te gaan naar de andere opties
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
-                #als een move is geselecteerd wordt deze uitgevoerd
                 if move != "none":
-                    damage = 0
                     if move == "punch":
-                        damage = 10 * damageMultiplierPlayer
+                        damage = int(10 * damageMultiplierPlayer)
+                        enemyCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "enemy")
                     elif move == "combo punch":
-                        damage = 30
+                        done = False
+                        while not done:
+                            damage = int(3 * damageMultiplierPlayer)
+                            enemyCurrentHealth -= damage
+                            scrollText(str(damage), (255, 0, 0), "enemy")
+                            if random.randint(0, 1) == 0:
+                                done = True
                     elif move == "enrage":
                         pass
                     elif move == "poison":
@@ -150,40 +150,37 @@ def fight(enemy, player, screen):
                         pass
                     elif move == "block":
                         pass
-                    elif move == "heal":
-                        enemyCurrentHealth += 20
-                        if enemyCurrentHealth > enemy.hitpoints:
-                            enemyCurrentHealth = enemy.hitpoints
-                    enemyCurrentHealth -= damage
-                    #controleert of de enemy dood is
                     if enemyCurrentHealth <= 0:
                         enemyCurrentHealth = 0
                         fighting = False
                         result = "win"
                     else:
                         state = "turnEnemy"
-            #knop voor een item gebruiken
             elif button.check(itemButton, mouseDown, screen):
                 pass
-            #knop om te healen, werkt alleen als de speler heals overheeft en niet op max health is
-            elif button.check(healButton, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints:
-                playerCurrentHealth += 20
-                if playerCurrentHealth > player.maxHitpoints:
+            elif button.check(healButton, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
+                playerHeals -= 1
+                healed = 20
+                if playerCurrentHealth + healed > player.maxHitpoints:
+                    healed = int(player.maxHitpoints - playerCurrentHealth)
                     playerCurrentHealth = player.maxHitpoints
+                else:
+                    playerCurrentHealth += healed
+                scrollText(str(healed), (0, 255, 0), "player")
+                if poisonTurnsLeftPlayer > 0:
+                    poisonTurnsLeftPlayer = 0
+                    scrollText("poison cleared", (0, 255, 0), "player")
                 state = "turnEnemy"
-            #button of weg te rennen van het gevecht
             elif button.check(fleeButton, mouseDown, screen):
-                #variabelen en knoppen aanmaken
-                confirmFont = pygame.font.Font("freesansbold.ttf", width // 50)
+                confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
                 confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
                 confirmRect = confirmText.get_rect()
-                confirmRect.center = (width // 2, height * 5 // 12)
-                pygame.draw.rect(screen, (255, 180, 0), [width // 3, height // 3, width // 3, height // 3])
+                confirmRect.center = (int(width / 2), int((height / 12) * 5))
+                pygame.draw.rect(screen, (255, 180, 0), [int(width / 3), int(height / 3), int(width / 3), int(height / 3)])
                 screen.blit(confirmText, confirmRect)
                 confirmed = False
-                confirmButton = button(width // 3, height // 2, width // 6, height // 6, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
-                cancelButton = button(width // 2, height // 2, width // 6, height // 6, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
-                #loop om te confirmen dat de speler het gevecht wil eindigen
+                confirmButton = button(int(width / 3), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), int(width / 30),  (0, 0, 0))
+                cancelButton = button(int(width / 2), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), int(width / 30), (0, 0, 0))
                 while not confirmed:
                     mouseDown = False
                     for event in pygame.event.get():
@@ -196,22 +193,30 @@ def fight(enemy, player, screen):
                     elif button.check(cancelButton, mouseDown, screen):
                         confirmed = True
                         draw_scene()
-        #beurt van de vijand
         elif state == "turnEnemy":
             draw_scene()
-            #selecteert een move (op dit moment volledig random)
             selected = False
             while not selected:
-                roll = random.randint(0, len(enemy.moveset) - 1)
-                move = enemy.moveset[roll]
-                if move != "heal" or enemyCurrentHealth < enemy.hitpoints:
+                roll = random.randint(0, len(enemy.moveset))
+                if roll == len(enemy.moveset):
+                    move = "heal"
+                else:
+                    move = enemy.moveset[roll]
+                if move != "heal" or enemyCurrentHealth < enemy.hitpoints and enemyHeals > 0:
                     selected = True
-            #voert de move uit
             damage = 0
             if move == "punch":
                 damage = 10 * damageMultiplierEnemy
+                playerCurrentHealth -= damage
+                scrollText(str(damage), (255, 0, 0), "player")
             elif move == "combo punch":
-                pass
+                done = False
+                while not done:
+                    damage = int(3 * damageMultiplierEnemy)
+                    playerCurrentHealth -= damage
+                    scrollText(str(damage), (255, 0, 0), "player")
+                    if random.randint(0, 1) == 0:
+                        done = True
             elif move == "enrage":
                 pass
             elif move == "poison":
@@ -221,11 +226,17 @@ def fight(enemy, player, screen):
             elif move == "block":
                 pass
             elif move == "heal":
-                enemyCurrentHealth += 20
-                if enemyCurrentHealth > enemy.hitpoints:
+                enemyHeals -= 1
+                healed = 20
+                if enemyCurrentHealth + healed > enemy.hitpoints:
+                    healed = int(enemy.hitpoints - enemyCurrentHealth)
                     enemyCurrentHealth = enemy.hitpoints
-            playerCurrentHealth -= damage
-            #controleert of de vijand heeft gewonnn
+                else:
+                    enemyCurrentHealth += healed
+                scrollText(str(healed), (0, 255, 0), "enemy")
+                if poisonTurnsLeftEnemy > 0:
+                    poisonTurnsLeftEnemy = 0
+                    scrollText("poison cleared", (0, 255, 0), "enemy")
             if playerCurrentHealth <= 0:
                 playerCurrentHealth = 0
                 fighting = False
@@ -237,6 +248,27 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     return [result, playerCurrentHealth]
+
+pygame.init()
+while running:
+    mouse = pygame.mouse.get_pos()
+    result = "pass"
+    mouseDown = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouseDown = True
+    if button.check(buttonEnemy1, mouseDown, screen):
+        result = fight(enemy1, player, screen)
+        screen.fill((0, 0, 0))
+    elif button.check(buttonEnemy2, mouseDown, screen):
+        result = fight(enemy2, player, screen)
+        screen.fill((0, 0, 0))
+    if result[0] == "win":
+        screen.fill((0, 255, 0))
+    elif result[0] == "quit":
+        running = False
 
 def chooseNewAttack(options):
     """
