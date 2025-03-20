@@ -50,10 +50,19 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.hitpoints), 50))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
-    def scrollText(text, colour, location):
-        font = pygame.font.Font("freesansbold.ttf", 80)
+        healthFont = pygame.font.Font("freesansbold.ttf", 40)
+        healthTextPlayer = healthFont.render(str(playerCurrentHealth), True, (0, 0, 0))
+        healthTextEnemy = healthFont.render(str(enemyCurrentHealth), True, (0, 0, 0))
+        healthTextPlayerRect = healthTextPlayer.get_rect()
+        healthTextEnemyRect = healthTextEnemy.get_rect()
+        healthTextPlayerRect.center = (250, 205)
+        healthTextEnemyRect.center = (1050, 205)
+        screen.blit(healthTextPlayer, healthTextPlayerRect)
+        screen.blit(healthTextEnemy, healthTextEnemyRect)
+    def scrollText(text, colour, location, size, scrollTime):
+        font = pygame.font.Font("freesansbold.ttf", size)
         toScrollText = font.render(text, True, colour)
         if location == "player":
             x = 400
@@ -64,7 +73,7 @@ def fight(enemy, player, screen):
         elif location == "center":
             x = screen.get_width() - (toScrollText.get_rect().width / 2)
             y = 200
-        for i in range(0, 20):
+        for i in range(0, scrollTime):
             draw_scene()
             screen.blit(toScrollText, (x, y - i))
             pygame.display.update()
@@ -89,6 +98,9 @@ def fight(enemy, player, screen):
     fighting = True
     state = "turnPlayer"
     draw_scene()
+    pygame.mixer.init()
+    pygame.mixer.music.load("resources/sound/battle_theme.mp3")
+    pygame.mixer.music.play(loops=-1)
     while fighting:
         if state == "turnPlayer":
             if playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
@@ -137,19 +149,20 @@ def fight(enemy, player, screen):
                     if move == "punch":
                         damage = int(10 * damageMultiplierPlayer)
                         enemyCurrentHealth -= damage
-                        scrollText(str(damage), (255, 0, 0), "enemy")
+                        scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                     elif move == "combo punch":
                         done = False
                         while not done:
                             damage = int(3 * damageMultiplierPlayer)
                             enemyCurrentHealth -= damage
-                            scrollText(str(damage), (255, 0, 0), "enemy")
+                            scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                             if random.randint(0, 1) == 0:
                                 done = True
                     elif move == "enrage":
                         pass
                     elif move == "poison":
-                        pass
+                        poisonTurnsLeftEnemy = random.randint(2, 5)
+                        scrollText("poisoned for " + str(poisonTurnsLeftEnemy) + " turns", (255, 0, 255), "enemy", 20, 50)
                     elif move == "life steal":
                         pass
                     elif move == "block":
@@ -212,13 +225,13 @@ def fight(enemy, player, screen):
             if move == "punch":
                 damage = 10 * damageMultiplierEnemy
                 playerCurrentHealth -= damage
-                scrollText(str(damage), (255, 0, 0), "player")
+                scrollText(str(damage), (255, 0, 0), "player", 80, 20)
             elif move == "combo punch":
                 done = False
                 while not done:
                     damage = int(3 * damageMultiplierEnemy)
                     playerCurrentHealth -= damage
-                    scrollText(str(damage), (255, 0, 0), "player")
+                    scrollText(str(damage), (255, 0, 0), "player", 80, 20)
                     if random.randint(0, 1) == 0:
                         done = True
             elif move == "enrage":
@@ -237,10 +250,10 @@ def fight(enemy, player, screen):
                     enemyCurrentHealth = enemy.hitpoints
                 else:
                     enemyCurrentHealth += healed
-                scrollText(str(healed), (0, 255, 0), "enemy")
+                scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
                 if poisonTurnsLeftEnemy > 0:
                     poisonTurnsLeftEnemy = 0
-                    scrollText("poison cleared", (0, 255, 0), "enemy")
+                    scrollText("poison cleared", (0, 255, 0), "enemy", 40, 40)
             if playerCurrentHealth <= 0:
                 playerCurrentHealth = 0
                 fighting = False
@@ -252,6 +265,7 @@ def fight(enemy, player, screen):
             state = "turnPlayer"
         time.sleep(0.01)
         pygame.display.update()
+    pygame.mixer.quit()
     return [result, playerCurrentHealth]
 
 pygame.init()
