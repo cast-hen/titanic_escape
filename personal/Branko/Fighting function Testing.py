@@ -52,7 +52,6 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.hitpoints), 50))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
-        pygame.display.update()
     def scrollText(text, colour, location):
         font = pygame.font.Font("freesansbold.ttf", 80)
         toScrollText = font.render(text, True, colour)
@@ -70,6 +69,8 @@ def fight(enemy, player, screen):
             screen.blit(toScrollText, (x, y - i))
             pygame.display.update()
             time.sleep(0.01)
+        draw_scene()
+        pygame.display.update()
     width = screen.get_width()
     height = screen.get_height()
     attackButton = button(0, int((height / 5) * 3), int(width / 2), int(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), int(width / 12), (0, 0, 0))
@@ -246,6 +247,7 @@ def fight(enemy, player, screen):
                 result = "loss"
             time.sleep(0.5)
             draw_scene()
+            pygame.display.update()
             time.sleep(1)
             state = "turnPlayer"
         time.sleep(0.01)

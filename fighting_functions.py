@@ -57,6 +57,8 @@ def fight(enemy, player, screen):
             screen.blit(toScrollText, (x, y - i))
             pygame.display.update()
             time.sleep(0.01)
+        draw_scene()
+        pygame.display.update()
     width = screen.get_width()
     height = screen.get_height()
     attackButton = button(0, int((height / 5) * 3), int(width / 2), int(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), int(width / 12), (0, 0, 0))
