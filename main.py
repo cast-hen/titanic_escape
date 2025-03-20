@@ -48,6 +48,7 @@ while running:
                 state = "Menu"
             elif result[0] == "loss":
                 game_over(player.lives)
+                player.hitpoints = 100
             elif result[0] == "win":
                 NieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
                 player.moveset.append(NieuweAanval)
