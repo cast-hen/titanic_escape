@@ -57,9 +57,28 @@ def fight(enemy, player, screen):
         #healthTextEnemyRect = healthTextEnemy.get_rect()
         #healthTextEnemyRect.center = (1050, 200)
         #screen.blit(healthTextEnemy, healthTextEnemyRect)
-        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(150, 180, 200, 50))
-        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(950, 180, 200, 50))
+        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
+        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.hitpoints), 50))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
         pygame.display.update()
+    def scrollText(text, colour, location):
+        font = pygame.font.Font("freesansbold.ttf", 80)
+        toScrollText = font.render(text, True, colour)
+        if location == "player":
+            x = 400
+            y = 150
+        elif location == "enemy":
+            x = 900
+            y = 150
+        elif location == "center":
+            textRect = text.get_
+            y = 200
+        for i in range(0, 20):
+            draw_scene()
+            screen.blit(toScrollText, (x, y - i))
+            pygame.display.update()
+            time.sleep(0.01)
     width = screen.get_width()
     height = screen.get_height()
     attackButton = button(0, int((height / 5) * 3), int(width / 2), int(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), int(width / 12), (0, 0, 0))
@@ -71,8 +90,6 @@ def fight(enemy, player, screen):
     enemyHeals = enemy.heals
     damageMultiplierPlayer = 1
     damageMultiplierEnemy = 1
-    enrageTurnsLeftPlayer = 0
-    enrageTurnsLeftEnemy = 0
     fighting = True
     state = "turnPlayer"
     draw_scene()
@@ -125,32 +142,25 @@ def fight(enemy, player, screen):
                 if move != "none":
                     damage = 0
                     if move == "punch":
-                        damage = 10 * damageMultiplierPlayer
+                        damage = int(10 * damageMultiplierPlayer)
+                        enemyCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "enemy")
                     elif move == "combo punch":
                         done = False
                         while not done:
-                            damage += 3
+                            damage = int(3 * damageMultiplierPlayer)
+                            enemyCurrentHealth -= damage
+                            scrollText(str(damage), (255, 0, 0), "enemy")
                             if random.randint(0, 1) == 0:
                                 done = True
-                        damage *= damageMultiplierPlayer
                     elif move == "enrage":
-                        damageMultiplierPlayer = 1.3
-                        enrageTurnsLeftPlayer = 4
+                        pass
                     elif move == "poison":
                         pass
                     elif move == "life steal":
                         pass
                     elif move == "block":
                         pass
-                    elif move == "heal":
-                        enemyCurrentHealth += 20
-                        if enemyCurrentHealth > enemy.hitpoints:
-                            enemyCurrentHealth = enemy.hitpoints
-                    if enrageTurnsLeftPlayer > 0:
-                        enrageTurnsLeftPlayer -= 1
-                        if enrageTurnsLeftPlayer == 0:
-                            damageMultiplierPlayer = 1
-                    enemyCurrentHealth -= damage
                     if enemyCurrentHealth <= 0:
                         enemyCurrentHealth = 0
                         fighting = False
@@ -161,9 +171,13 @@ def fight(enemy, player, screen):
                 pass
             elif button.check(healButton, mouse, mouseDown, screen) and playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
                 playerHeals -= 1
-                playerCurrentHealth += 20
-                if playerCurrentHealth > player.maxHitpoints:
+                healed = 20
+                if playerCurrentHealth + healed > player.maxHitpoints:
+                    healed = int(player.maxHitpoints - playerCurrentHealth)
                     playerCurrentHealth = player.maxHitpoints
+                else:
+                    playerCurrentHealth += healed
+                scrollText(str(healed), (0, 255, 0), "player")
                 state = "turnEnemy"
             elif button.check(fleeButton, mouse, mouseDown, screen):
                 confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
@@ -202,16 +216,18 @@ def fight(enemy, player, screen):
             damage = 0
             if move == "punch":
                 damage = 10 * damageMultiplierEnemy
+                playerCurrentHealth -= damage
+                scrollText(str(damage), (255, 0, 0), "player")
             elif move == "combo punch":
                 done = False
                 while not done:
-                    damage += 3
+                    damage = int(3 * damageMultiplierEnemy)
+                    playerCurrentHealth -= damage
+                    scrollText(str(damage), (255, 0, 0), "player")
                     if random.randint(0, 1) == 0:
                         done = True
-                damage *= damageMultiplierEnemy
             elif move == "enrage":
-                damageMultiplierEnemy = 1.3
-                enrageTurnsLeftEnemy = 4
+                pass
             elif move == "poison":
                 pass
             elif move == "life steal":
@@ -220,14 +236,13 @@ def fight(enemy, player, screen):
                 pass
             elif move == "heal":
                 enemyHeals -= 1
-                enemyCurrentHealth += 20
-                if enemyCurrentHealth > enemy.hitpoints:
+                healed = 20
+                if enemyCurrentHealth + healed > enemy.hitpoints:
+                    healed = int(enemy.hitpoints - enemyCurrentHealth)
                     enemyCurrentHealth = enemy.hitpoints
-            if enrageTurnsLeftEnemy > 0:
-                enrageTurnsLeftEnemy -= 1
-                if enrageTurnsLeftEnemy == 0:
-                    damageMultiplierEnemy = 1
-            playerCurrentHealth -= damage
+                else:
+                    enemyCurrentHealth += healed
+                scrollText(str(healed), (0, 255, 0), "enemy")
             if playerCurrentHealth <= 0:
                 playerCurrentHealth = 0
                 fighting = False

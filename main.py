@@ -24,6 +24,7 @@ state = "Menu"
 
 while running:
     if state == "Menu":
+        player.lives, player.hitpoints, items = (5, 100, [])
         screen.fill('black')
         state = menu()
     for event in pygame.event.get():
@@ -32,7 +33,6 @@ while running:
 
     # Hoofd code:
     if state == "begin":
-        player.lives, player.hitpoints, items = (5, 100, [])
         encounter = parkour(player)
         if encounter == "Menu":
             state = "Menu"
