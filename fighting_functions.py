@@ -24,7 +24,7 @@ class move:
             screen.blit(self.image, (x, y))
         #tekent de beschrijving
         text = font.render(self.description, True, (255, 255, 255))
-        screen.blit(text, (x + 80 - int(len(self.description) * 1.3), y + 200))
+        screen.blit(text, (x + 80 - round(len(self.description) * 1.3), y + 200))
         #tekent de naam van de move
         font = pygame.font.Font("freesansbold.ttf", 30)
         text = font.render(self.name, True, (255, 255, 255))
@@ -70,9 +70,9 @@ def fight(enemy, player, screen):
         pygame.display.update()
     width = screen.get_width()
     height = screen.get_height()
-    attackButton = button(0, int((height / 5) * 3), int(width / 2), int(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), int(width / 12), (0, 0, 0))
-    itemButton = button(0, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255), "Use item", (0, 0, 0), int(width / 12),  (0, 0, 0))
-    fleeButton = button(width / 2, int((height / 5) * 4), int(width / 2), int(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), int(width / 12),  (0, 0, 0))
+    attackButton = button(0, round((height / 5) * 3), round(width / 2), round(height/5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), round(width / 12), (0, 0, 0))
+    itemButton = button(0, round((height / 5) * 4), round(width / 2), round(height / 5), (255, 180, 0), (255, 255, 255), "Use item", (0, 0, 0), round(width / 12),  (0, 0, 0))
+    fleeButton = button(width / 2, round((height / 5) * 4), round(width / 2), round(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), round(width / 12),  (0, 0, 0))
     playerCurrentHealth = player.hitpoints
     enemyCurrentHealth = enemy.hitpoints
     playerHeals = player.heals
@@ -92,9 +92,9 @@ def fight(enemy, player, screen):
     while fighting:
         if state == "turnPlayer":
             if playerCurrentHealth < player.maxHitpoints and playerHeals > 0:
-                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
+                healButton = button(width / 2, round((height / 5) * 3), round(width / 2), round(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), round(width / 12), (0, 0, 0))
             else:
-                healButton = button(width / 2, int((height / 5) * 3), int(width / 2), int(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), int(width / 12), (0, 0, 0))
+                healButton = button(width / 2, round((height / 5) * 3), round(width / 2), round(height / 5), (50, 20, 0), (50, 20, 0),"Heal", (0, 0, 0), round(width / 12), (0, 0, 0))
             mouseDown = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -104,11 +104,11 @@ def fight(enemy, player, screen):
                     mouseDown = True
             if button.check(attackButton, mouseDown, screen):
                 draw_scene()
-                buttonNextPage = button(int(width / 2), int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), int(width / 30), (0, 0, 0))
-                buttonPrevPage = button(0, int((height / 7) * 6), int(width / 2), int(height / 7), (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), int(width / 30), (0, 0, 0))
-                buttonBack = button(0, 0, int(width / 5), int(height / 7), (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), int(width / 25), (0, 0, 0))
+                buttonNextPage = button(round(width / 2), round((height / 7) * 6), round(width / 2), round(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), round(width / 30), (0, 0, 0))
+                buttonPrevPage = button(0, round((height / 7) * 6), round(width / 2), round(height / 7), (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), round(width / 30), (0, 0, 0))
+                buttonBack = button(0, 0, round(width / 5), round(height / 7), (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), round(width / 25), (0, 0, 0))
                 done = False
-                pages = int(len(player.moveset) / 4)
+                pages = round(len(player.moveset) / 4)
                 page = 0
                 move = "none"
                 while not done:
@@ -126,7 +126,7 @@ def fight(enemy, player, screen):
                             draw_scene()
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
-                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), int(width / 40), (0, 0, 0))
+                            moveButton = button(round((width / 4) * i), round((height / 7) * 4), round(width / 4), round((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), round(width / 40), (0, 0, 0))
                             if button.check(moveButton, mouseDown, screen):
                                 move = player.moveset[i].name
                                 done = True
@@ -135,13 +135,13 @@ def fight(enemy, player, screen):
                 draw_scene()
                 if move != "none":
                     if move == "punch":
-                        damage = int(10 * damageMultiplierPlayer)
+                        damage = round(10 * damageMultiplierPlayer)
                         enemyCurrentHealth -= damage
                         scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                     elif move == "combo punch":
                         done = False
                         while not done:
-                            damage = int(3 * damageMultiplierPlayer)
+                            damage = round(3 * damageMultiplierPlayer)
                             enemyCurrentHealth -= damage
                             scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                             if random.randint(0, 1) == 0:
@@ -167,7 +167,7 @@ def fight(enemy, player, screen):
                 playerHeals -= 1
                 healed = 20
                 if playerCurrentHealth + healed > player.maxHitpoints:
-                    healed = int(player.maxHitpoints - playerCurrentHealth)
+                    healed = round(player.maxHitpoints - playerCurrentHealth)
                     playerCurrentHealth = player.maxHitpoints
                 else:
                     playerCurrentHealth += healed
@@ -177,15 +177,15 @@ def fight(enemy, player, screen):
                     scrollText("poison cleared", (0, 255, 0), "player")
                 state = "turnEnemy"
             elif button.check(fleeButton, mouseDown, screen):
-                confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
+                confirmFont = pygame.font.Font("freesansbold.ttf", round(width * 0.02))
                 confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
                 confirmRect = confirmText.get_rect()
-                confirmRect.center = (int(width / 2), int((height / 12) * 5))
-                pygame.draw.rect(screen, (255, 180, 0), [int(width / 3), int(height / 3), int(width / 3), int(height / 3)])
+                confirmRect.center = (round(width / 2), round((height / 12) * 5))
+                pygame.draw.rect(screen, (255, 180, 0), [round(width / 3), round(height / 3), round(width / 3), round(height / 3)])
                 screen.blit(confirmText, confirmRect)
                 confirmed = False
-                confirmButton = button(int(width / 3), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), int(width / 30),  (0, 0, 0))
-                cancelButton = button(int(width / 2), int(height / 2), int(width / 6), int(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), int(width / 30), (0, 0, 0))
+                confirmButton = button(round(width / 3), round(height / 2), round(width / 6), round(height / 6), (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), round(width / 30),  (0, 0, 0))
+                cancelButton = button(round(width / 2), round(height / 2), round(width / 6), round(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), round(width / 30), (0, 0, 0))
                 while not confirmed:
                     mouseDown = False
                     for event in pygame.event.get():
@@ -217,7 +217,7 @@ def fight(enemy, player, screen):
             elif move == "combo punch":
                 done = False
                 while not done:
-                    damage = int(3 * damageMultiplierEnemy)
+                    damage = round(3 * damageMultiplierEnemy)
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)
                     if random.randint(0, 1) == 0:
@@ -234,7 +234,7 @@ def fight(enemy, player, screen):
                 enemyHeals -= 1
                 healed = 20
                 if enemyCurrentHealth + healed > enemy.hitpoints:
-                    healed = int(enemy.hitpoints - enemyCurrentHealth)
+                    healed = round(enemy.hitpoints - enemyCurrentHealth)
                     enemyCurrentHealth = enemy.hitpoints
                 else:
                     enemyCurrentHealth += healed

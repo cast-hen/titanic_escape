@@ -2,6 +2,8 @@ from pauze import *
 from button_code import *
 import pygame
 import time
+WIDTH = 1366
+HEIGHT = 690
 
 class character:
     def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
@@ -20,25 +22,7 @@ class enemy:
         self.hitpoints = hitpoints
         self.moveset = moveset
         self.heals = heals
-WIDTH = 1366
-HEIGHT = 690
 
-def eind():
-    screen.fill('green')
-    menuButton = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.5), 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
-                        'white')
-    while True:
-        textPrint("You won!!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        textPrint("Berend Sulman, Branko Opdam", 40, 'white',
-                  (WIDTH / 2, HEIGHT / 2 - 20))
-        textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',
-                  (WIDTH / 2, HEIGHT / 2 + 50))
-        mouseDown = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouseDown = True
-        if button.check(menuButton, mouseDown, screen):
-            return True
 
 def textPrint(text, textSize, textColour, center):
     """
@@ -55,6 +39,7 @@ def textPrint(text, textSize, textColour, center):
     textRect.center = center
     screen.blit(text, textRect)
 
+
 def game_over(lives, state=None):
     """
     Shows the Game Over screen
@@ -65,11 +50,11 @@ def game_over(lives, state=None):
     lives -= 1
     screen.fill('red')
     if lives == 0:
-        textPrint("Game over", 100, 'white', (WIDTH/2, HEIGHT/2 - 100))
+        textPrint("Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
         state = "Menu"
         lives = 5
     else:
-        textPrint("You died", 100, 'white', (WIDTH/2, HEIGHT/2))
+        textPrint("You died", 100, 'white', (WIDTH / 2, HEIGHT / 2))
         if lives == 1:
             textPrint("You have " + str(lives) + " life left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
         else:
@@ -82,15 +67,13 @@ def game_over(lives, state=None):
 def menu():
     """
     Shows the menu screen
-    :return the pressed button (Start, Quit, Tuturial?):
+    :return the pressed button (Start, Quit, Tutorial?):
     """
     screen.fill('black')
-    mouseDown = False
-    buttonBegin = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
-    buttonQuit = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
+    buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
+    buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     while True:
-        textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT / 4))
-        mouse = pygame.mouse.get_pos()
+        textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
         mouseDown = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -101,19 +84,40 @@ def menu():
             return "begin"
         if button.check(buttonQuit, mouseDown, screen):
             return "quit"
+
+
 def LevelGehaald():
+    """
+    Shows the level complete screen and moves on to the next level
+    :return none:
+    """
+    screen.fill((0, 0, 0))
+    textPrint("Level gehaald", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+    textPrint("alle levens zijn hersteld", 100, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
+    pygame.display.update()
+    time.sleep(3)
 
-        """
-        Shows the level complete screen and moves on to the next level
-        :return none:
-        """
 
-        screen.fill((0, 0, 0))
-        textPrint("Level gehaald", 100, 'white', (WIDTH / 2, HEIGHT / 4))
-        textPrint("alle levens zijn hersteld", 100, 'white', (WIDTH / 2, HEIGHT / 4 + 300))
-        pygame.display.update()
-        time.sleep(3)
-
+def eind():
+    """
+    Shows the credit screen and waits until the menu button is pressed.
+    :return none:
+    """
+    screen.fill('green')
+    menuButton = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
+                        'white')
+    while True:
+        textPrint("You won!!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+        textPrint("Berend Sulman, Branko Opdam,", 40, 'white',
+                  (WIDTH / 2, HEIGHT / 2 - 20))
+        textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',
+                  (WIDTH / 2, HEIGHT / 2 + 50))
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+        if button.check(menuButton, mouseDown, screen):
+            break
 
 
 

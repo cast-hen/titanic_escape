@@ -7,7 +7,9 @@ import pygame
 import time
 import random
 
-screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
+WIDTH = 1366
+HEIGHT = 690
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 running = True
 pygame.init()
 punch = move("punch", "Hits the opponent for 10 damage", "")
@@ -18,8 +20,7 @@ lifeSteal = move("life steal", "Damages your opponent and gives \n you 30% back 
 block = move("block", "Blocks your opponents next attack", "")
 movesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
 player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
-WIDTH = 1366
-HEIGHT = 690
+
 state = "Menu"
 
 while running:

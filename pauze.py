@@ -5,18 +5,18 @@ from button_code import *
 from common import textPrint
 
 state = 32832757342657832458324658734265234687342657834265873658234682346598234652
-screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
+WIDTH = 1366
+HEIGHT = 690
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 
 def Pause():
     """
     Pauses the game until the player selects an option
     return: the state the player should now be in
     """
-    WIDTH = 1366
-    HEIGHT = 690
-    resumeButton = button((WIDTH / 2 - 100), (HEIGHT / 2), 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
+    resumeButton = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
                           'white')
-    menuButton = button((WIDTH / 2 - 100), (HEIGHT / 4 * 2.8), 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
+    menuButton = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
     pygame.Surface.set_alpha(dimSurface, 150)
