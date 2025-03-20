@@ -3,7 +3,6 @@ from common import *
 import pygame
 from pygame import RESIZABLE
 import time
-import time
 WIDTH = 1366
 HEIGHT = 690
 gravity = 0.6
@@ -193,7 +192,7 @@ def parkour(player):
             cube7.draw(screen, CameraPosx)
             cube8.draw(screen, CameraPosx)
         if scene == 3:
-            LevelGehaald(screen)
+            LevelGehaald()
             scene += 1
             player.lives = 5
         if scene == 4:
