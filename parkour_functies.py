@@ -135,26 +135,27 @@ def parkour(player):
     scene = 1
     mouseDown = False
     CameraPosx = 0
-    RespawnPos = (0, 0)
+    RespawnPos = (-900, 450)
     pos1 = (0, 0)
 
-    playerObject = Objects(300, 200, 50, 50, 'green', 2, 0, 0, 1, "Player")
-    cube1 = Objects(580, 400, 60, 60, 'Red', 1, 0, 0, 1, MoveObject((580, 400), (580, 0), 1, 0))
-    cube2 = Objects(690, 546, 600, 40, 'black', 1, 0, 0, 1, "Collider")
-    cube3 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 1, "Collider")
-    cube4 = Objects(800, 300, 80, 80, 'orange', 1, 0, 0, 1, enemy("greg", (255, 0, 0), 50, ["punch"], 0))
-    cube10 = Objects(-200, 300, 80, 80, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 500, ["punch"], 0))
-    cube5 = Objects(630, 374, 80, 80, 'black', 1, 0, 0, 2, "Collider")
-    cube7 = Objects(970, 320, 80, 80, 'black', 1, 0, 0, 2, "Collider")
-    cube8 = Objects(1200, 180, 80, 80, 'black', 1, 0, 0, 2, "Collider")
-    cube6 = Objects(-800, 546, 1200, 60, 'black', 1, 0, 0, 2, "Collider")
-    cube9 = Objects(-300, 550, 5000, 100, 'black', 1, 0, 0, 4, "Collider")
+    playerObject = Objects(-90 , 450, 50, 50, 'green', 2, 0, 0, 1, "Player")
+    cube1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, 1, "Collider")
+    cube2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, 1, "Collider")
+    cube3 = Objects(833, 428, 527, 2430, 'black', 1, 0, 0, 1, "Collider")
+    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 500, ["punch"], 0))
 
-    cube11 = Objects(-500, 275, 200, 400, 'black', 1, 0, 0, 4, "Collider")
-    cube12 = Objects(330, 415, 230, 10, 'black', 1, 0, 0, 4, "Collider")
-    cube13 = Objects(750, 0, 230, 450, 'black', 1, 0, 0, 4, "Collider")
-    cube14 = Objects(1240, 400, 120, 250, 'black', 1, 0, 0, 4, "Collider")
-    cube15 = Objects(-285, 450, 60, 120, 'Red', 1, 0, 0, 4, MoveObject((-285, 500), (1220, 500), 1.5, 0))
+    cube5 = Objects(461, 581, 412, 92, 'black', 1, 0, 0, 2, "Collider")
+    cube7 = Objects(-700, 428, 887, 245, 'black', 1, 0, 0, 2, "Collider")
+    cube8 = Objects(1109, 481, 250, 193, 'black', 1, 0, 0, 2, "Collider")
+    cube6 = Objects(700, 300, 131, 58, 'black', 1, 0, 0, 2, "Collider")
+    cube4 = Objects(344, 100, 213, 15, 'black', 1, 0, 0, 2, "Collider")
+
+    cube9 = Objects(564, 116, 3500, 612, 'black', 1, 0, 0, 4, "Collider")
+    cube11 = Objects(-500, 530, 576, 200, 'black', 1, 0, 0, 4, "Collider")
+    cube12 = Objects(365, 420, 313, 294, 'black', 1, 0, 0, 4, "Collider")
+    cube13 = Objects(365, 430, 313, 54, 'black', 1, 0, 0, 4, "Collider")
+    cube14 = Objects(22, 200, 150, 54, 'black', 1, 0, 0, 4, "Collider")
+    cube15 = Objects(-417, 93, 150, 20, 'black', 1, 0, 0, 4, "Collider")
 
     cube16 = Objects(-494, 29, 202, 571, 'black', 1, 0, 0, 1, "Collider")
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
@@ -173,20 +174,20 @@ def parkour(player):
         screen.fill((135, 206, 250))
         Collider = playerObject.update_pos(platforms, CameraPosx, scene)
 
-
+#spawnt alle dingen
         if scene == 1:
-            RespawnPos = (200, 300)
+            RespawnPos = (-270, 450)
             playerObject.draw(screen, CameraPosx)
             cube1.draw(screen, CameraPosx)
             cube10.draw(screen, CameraPosx)
             cube2.draw(screen, CameraPosx)
             cube3.draw(screen, CameraPosx)
-            cube4.draw(screen, CameraPosx)
 
             cube16.draw(screen, CameraPosx)
         if scene == 2:
-            RespawnPos = (665, 320)
+            RespawnPos = (-50, 380)
             playerObject.draw(screen, CameraPosx)
+            cube4.draw(screen, CameraPosx)
             cube6.draw(screen, CameraPosx)
             cube5.draw(screen, CameraPosx)
             cube7.draw(screen, CameraPosx)
@@ -196,7 +197,7 @@ def parkour(player):
             scene += 1
             player.lives = 5
         if scene == 4:
-            RespawnPos = (-360, 100)
+            RespawnPos = (-300, 450)
             playerObject.draw(screen, CameraPosx)
             cube9.draw(screen, CameraPosx)
             cube11.draw(screen, CameraPosx)
@@ -211,22 +212,23 @@ def parkour(player):
         draw_floor()
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
-
+# maakt de speler dood
         if playerObject.ypos >= 630 or Collider == "Death" or type(Collider) == MoveObject:
             playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives)
             (playerObject.xpos, playerObject.ypos) = RespawnPos
             if state == "Menu":
                 return "Menu"
 
+#returns enemy waarmee je collide
         if type(Collider) == enemy:
             return Collider
 
 
-        (cube1.xpos, cube1.ypos) = cube1.Type.Move((cube1.xpos, cube1.ypos))
-        (cube15.xpos, cube15.ypos) = cube15.Type.Move((int(cube15.xpos), int(cube15.ypos)))
+
+        #(cube15.xpos, cube15.ypos) = cube15.Type.Move((int(cube15.xpos), int(cube15.ypos)))
 
 
-
+# veranderd camera position
         if L_border <= playerObject.xpos <= R_border:
             CameraPosx = playerObject.xpos - 500
         elif L_border >= playerObject.xpos:
@@ -234,12 +236,12 @@ def parkour(player):
         elif playerObject.xpos >= R_border:
             CameraPosx = R_border - 500
 
-
+# linker scene transition
         if L_border - 500 > playerObject.xpos and not scene  in [1, 4]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             scene -= 1
-
+#rechter scene transition
         elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
             CameraPosx = L_border - 500
