@@ -7,18 +7,17 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 class button:
     def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize, borderColour):
         """
-        Maak een nieuwe knop aan
-        x: de x-positie van de linkerzijde van de knop
-        y: de y-positie van de top van de knop
-        width: hoe wijd de knop is
-        height: hoe hoog de knop is
-        colourNormal: de kleur van de knop
-        colourHover: de kleur van de knop als de muis eroverheen gaat
-        text: een string tekst die op de knop moet staan
-        textColour: de kleur van de tekst
-        textSize: de grootte van de tekst
-        borderColour: de kleur van de rand om de knop heen
-        return: De knop in het juiste format voor de functies
+        Maakt een nieuwe knop aan
+        :param x: de x-positie van de linkerzijde van de knop
+        :param y: de y-positie van de top van de knop
+        :param width: hoe wijd de knop is
+        :param height: hoe hoog de knop is
+        :param colourNormal: de kleur van de knop
+        :param colourHover: de kleur van de knop als de muis eroverheen gaat
+        :param text: een string tekst die op de knop moet staan
+        :param textColour: de kleur van de tekst
+        :param textSize: de grootte van de tekst
+        :param borderColour: de kleur van de rand om de knop heen
         """
         self.x = x
         self.y = y

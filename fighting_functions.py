@@ -33,6 +33,10 @@ class move:
 
 def fight(enemy, player, screen):
     def draw_scene():
+        """
+        Draws the scene of the battle
+        :return: nothing
+        """
         screen.fill((40, 255, 255))
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
         pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
@@ -45,6 +49,15 @@ def fight(enemy, player, screen):
         textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
 
     def scrollText(text, colour, location, size, scrollTime):
+        """
+        Shows text on screen that quickly scrolls down and then stops
+        :param text: the text that will be scrolled
+        :param colour: the colour of the text that is being scrolled
+        :param location: type of place which decides the place of the text on the screen
+        :param size: the size of the letters
+        :param scrollTime: the time the scrolling goes on
+        :return: nothing
+        """
         font = pygame.font.Font("freesansbold.ttf", size)
         toScrollText = font.render(text, True, colour)
         if location == "player":

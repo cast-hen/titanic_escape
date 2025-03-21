@@ -115,7 +115,7 @@ def parkour(player):
     """
     The entire code of the platforming part of the game
     :param player: The active player
-    :return:
+    :return: the new state or the enemy that is encountered
     """
     clock = pygame.time.Clock()
     fps = 60
