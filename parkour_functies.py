@@ -209,8 +209,8 @@ def parkour(player):
         if playerObject.ypos >= 630 or Collider == "Death" or type(Collider) == MoveObject:
             playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives)
             (playerObject.xpos, playerObject.ypos) = RespawnPos
-            if state == "Menu":
-                return "Menu"
+            if state is not None:
+                return state
 
 #returns enemy waarmee je collide
         if type(Collider) == enemy:
