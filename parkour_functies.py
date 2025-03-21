@@ -111,15 +111,6 @@ class MoveObject:
         return TargetPos
 
 
-
-# maakt vloer
-def draw_floor():
-    """
-    Draws the floor
-    :return:
-    """
-    pygame.draw.line(screen, (255, 255, 255), (0, HEIGHT), (WIDTH, HEIGHT), 25)
-
 def parkour(player):
     """
     The entire code of the platforming part of the game
@@ -212,8 +203,6 @@ def parkour(player):
 
 
 
-
-        draw_floor()
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
 # maakt de speler dood

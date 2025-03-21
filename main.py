@@ -5,11 +5,10 @@ from button_code import *
 from common import *
 import pygame
 import time
-import random
 
 WIDTH = 1366
 HEIGHT = 690
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 running = True
 pygame.init()
 punch = move("punch", "Hits the opponent for 10 damage", "")
@@ -48,7 +47,9 @@ while running:
             elif result[0] == "Menu":
                 state = "Menu"
             elif result[0] == "loss":
-                game_over(player.lives)
+                gameOverList = game_over(player.lives)
+                player.lives = gameOverList[2]
+                state = gameOverList[3]
                 player.hitpoints = 100
             elif result[0] == "win":
                 NieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
