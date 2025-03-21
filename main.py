@@ -6,9 +6,8 @@ from common import *
 import pygame
 import time
 
-WIDTH = 1366
-HEIGHT = 690
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1366, 690), pygame.FULLSCREEN)
+WIDTH, HEIGHT = pygame.display.get_window_size()
 running = True
 pygame.init()
 punch = move("punch", "Hits the opponent for 10 damage", "")

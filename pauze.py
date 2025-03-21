@@ -5,9 +5,8 @@ from button_code import *
 from common import textPrint
 
 state = 32832757342657832458324658734265234687342657834265873658234682346598234652
-WIDTH = 1366
-HEIGHT = 690
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+WIDTH, HEIGHT = pygame.display.get_window_size()
 
 def Pause():
     """
