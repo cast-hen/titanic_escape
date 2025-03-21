@@ -2,8 +2,8 @@ from pauze import *
 from button_code import *
 import pygame
 import time
-WIDTH = 1366
-HEIGHT = 690
+screen = pygame.display.set_mode((1366, 690), pygame.FULLSCREEN)
+WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class character:
     def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
@@ -40,6 +40,28 @@ def textPrint(text, textSize, textColour, center):
     screen.blit(text, textRect)
 
 
+def waitForInput(buttonList, keyEscape=None):
+    """
+    Waits for input of the player in the form of pressing a button.
+    :param buttonList: The buttons that are checked
+    :param keyEscape: True if using the escape button is possible
+    :return the index of the pressed button
+    """
+    while True:
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+            if event.type == pygame.QUIT:
+                return "quit"
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE and keyEscape is not None:
+                    return -1
+        for i in range(len(buttonList)):
+            if button.check(buttonList[i], mouseDown, screen):
+                return i
+
+
 def menu():
     """
     Shows the menu screen
@@ -48,18 +70,10 @@ def menu():
     screen.fill('black')
     buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
-    while True:
-        textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-        mouseDown = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouseDown = True
-            if event.type == pygame.QUIT:
-                return "quit"
-        if button.check(buttonBegin, mouseDown, screen):
-            return "begin"
-        if button.check(buttonQuit, mouseDown, screen):
-            return "quit"
+    textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+    index = waitForInput([buttonBegin, buttonQuit])
+    possibleStates = ["begin", "quit"]
+    return possibleStates[index]
 
 
 def Pause():
@@ -67,27 +81,18 @@ def Pause():
     Pauses the game until the player selects an option
     return: the state the player should now be in
     """
-    resumeButton = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
+    buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
                           'white')
-    menuButton = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
+    buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
     pygame.Surface.set_alpha(dimSurface, 150)
     pygame.Surface.blit(screen, dimSurface)
+    textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
 
-    while True:
-        textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        mouseDown = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouseDown = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return None
-        if button.check(resumeButton, mouseDown, screen):
-            return None
-        if button.check(menuButton, mouseDown, screen):
-            return "Menu"
+    index = waitForInput([buttonResume, buttonMenu], True)
+    possibleStates = [None, "Menu", None]
+    return possibleStates[index]
 
 
 def game_over(lives, state=None):
@@ -101,16 +106,21 @@ def game_over(lives, state=None):
     screen.fill('red')
     if lives == 0:
         textPrint("Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        state = "Menu"
+        textPrint("Play again", 50, 'white', (WIDTH / 2, HEIGHT / 2))
+        buttonYes = button(WIDTH / 2 - 125, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
+        buttonNo = button(WIDTH / 2 + 25, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "NO", 'white', 40, 'white')
+        index = waitForInput([buttonYes, buttonNo])
+        possibleStates = ["begin", "Menu"]
+        state = possibleStates[index]
         lives = 5
     else:
         textPrint("You died", 100, 'white', (WIDTH / 2, HEIGHT / 2))
+        message = "You have " + str(lives) + " lives left"
         if lives == 1:
-            textPrint("You have " + str(lives) + " life left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
-        else:
-            textPrint("You have " + str(lives) + " lives left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
-    pygame.display.flip()
-    time.sleep(2)
+            message = message[:-8] + "fe left"
+        textPrint(message, 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
+        pygame.display.flip()
+        time.sleep(2)
     return 200, 200, lives, state
 
 
@@ -132,17 +142,14 @@ def eind():
     :return none:
     """
     screen.fill('green')
-    menuButton = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
+    buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
-    while True:
-        textPrint("You won!!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        textPrint("Berend Sulman, Branko Opdam,", 40, 'white',
-                  (WIDTH / 2, HEIGHT / 2 - 20))
-        textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',
-                  (WIDTH / 2, HEIGHT / 2 + 50))
-        mouseDown = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouseDown = True
-        if button.check(menuButton, mouseDown, screen):
-            break
+    textPrint("You won!!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+    textPrint("Berend Sulman, Branko Opdam,", 40, 'white',
+              (WIDTH / 2, HEIGHT / 2 - 20))
+    textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',
+              (WIDTH / 2, HEIGHT / 2 + 50))
+
+    index = waitForInput([buttonMenu])
+    possibleStates = ["Menu"]
+    return possibleStates[index]

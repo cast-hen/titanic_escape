@@ -17,13 +17,13 @@ poison = move("poison", "poisons your opponent to \n take damage over time", "")
 lifeSteal = move("life steal", "Damages your opponent and gives \n you 30% back as health", "")
 block = move("block", "Blocks your opponents next attack", "")
 movesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
-player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
+player = character("bob", 3, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
 
 state = "Menu"
 
 while running:
     if state == "Menu":
-        player.lives, player.hitpoints, items = (5, 100, [])
+        player.lives, player.hitpoints, items = (3, 100, [])
         screen.fill('black')
         state = menu()
     for event in pygame.event.get():
