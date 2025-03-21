@@ -3,10 +3,10 @@ from common import *
 import pygame
 from pygame import RESIZABLE
 import time
-WIDTH = 1366
-HEIGHT = 690
 gravity = 0.6
-screen = pygame.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
+screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
+WIDTH, HEIGHT = pygame.display.get_window_size()
+
 
 
 
@@ -134,7 +134,7 @@ def parkour(player):
     cube1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, 1, "Collider")
     cube2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, 1, "Collider")
     cube3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, 1, "Collider")
-    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 50, ["punch"], 0))
+    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 5, ["punch"], 0))
 
     cube5 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, 2, "Collider")
     cube7 = Objects(-700, 428, 887, 500, 'black', 1, 0, 0, 2, "Collider")
@@ -261,7 +261,7 @@ def parkour(player):
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
         # maakt de speler dood
         for Collider in Colliders:
-            if playerObject.ypos >= 630 or Collider == "Death" or type(Collider) == MoveObject:
+            if playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject:
                 player.lives, state = game_over(player.lives)
                 playerObject.xpos -= RespawnPos[0]
                 playerObject.ypos -= RespawnPos[1]

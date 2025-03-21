@@ -6,7 +6,7 @@ from common import *
 import pygame
 import time
 
-screen = pygame.display.set_mode((1366, 690), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 running = True
 pygame.init()
@@ -14,12 +14,13 @@ punch = move("punch", "Hits the opponent for 10 damage", "")
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times", "")
 enrage = move("enrage", "Increases your damage on \n the next 3 turns", "")
 poison = move("poison", "poisons your opponent to \n take damage over time", "")
-lifeSteal = move("life steal", "Damages your opponent and gives \n you 30% back as health", "")
-block = move("block", "Blocks your opponents next attack", "")
+lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% back \n as health", "")
+block = move("block", "Blocks your opponents \n next attack", "")
 movesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
 player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
 
 state = "Menu"
+
 
 while running:
     if state == "Menu":

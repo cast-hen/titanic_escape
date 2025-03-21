@@ -1,7 +1,8 @@
 import pygame
 import time
-
-screen = pygame.display.set_mode((1366, 690), pygame.RESIZABLE)
+# from common import textPrint
+screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
+WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class button:
     def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize, borderColour):
@@ -37,15 +38,12 @@ class button:
         :param screen: Het scherm waar de button op moet komen
         :return: True of False
         """
-        mouse = pygame.mouse.get_pos()
-
-        font = pygame.font.Font("freesansbold.ttf", self.textSize)
-        text = font.render(self.text, True, self.textColour)
         pygame.draw.rect(screen, self.borderColour, [self.x, self.y, self.width, self.height])
         if self.width < self.height:
             borderSize = self.width / 20
         else:
             borderSize = self.height / 20
+        mouse = pygame.mouse.get_pos()
         if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[1] <= self.y + self.height:
             pygame.draw.rect(screen, self.colourHover, [round(self.x + borderSize), round(self.y + borderSize),
                                                           round(self.width - (2 * borderSize)),
@@ -54,12 +52,26 @@ class button:
             pygame.draw.rect(screen, self.colourNormal, [round(self.x + borderSize), round(self.y + borderSize),
                                                            round(self.width - (2 * borderSize)),
                                                            round(self.height - (2 * borderSize))])
-        textRect = text.get_rect()
-        textRect.center = (self.x + (self.width / 2), self.y + (self.height / 2))
-        screen.blit(text, textRect)
+        textPrint(self.text, self.textSize, self.textColour, (self.x + (self.width / 2), self.y + (self.height / 2)))
         pygame.display.update()
         if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[
             1] <= self.y + self.height and mouseDown == True:
             return True
         else:
             return False
+
+
+def textPrint(text, textSize, textColour, center):
+    """
+    Prints the text on the screen. center is tuple.
+    :param text: What text will print
+    :param textSize: How big is the text
+    :param textColour: What color is the text
+    :param center: location of center text
+    :return: None
+    """
+    font = pygame.font.Font("freesansbold.ttf", textSize)
+    text = font.render(text, True, textColour)
+    textRect = text.get_rect()
+    textRect.center = center
+    screen.blit(text, textRect)

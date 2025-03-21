@@ -2,7 +2,7 @@ from pauze import *
 from button_code import *
 import pygame
 import time
-screen = pygame.display.set_mode((1366, 690), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class character:
@@ -22,22 +22,6 @@ class enemy:
         self.hitpoints = hitpoints
         self.moveset = moveset
         self.heals = heals
-
-
-def textPrint(text, textSize, textColour, center):
-    """
-    Prints the text on the screen. center is tuple.
-    :param text: What text will print
-    :param textSize: How big is the text
-    :param textColour: What color is the text
-    :param center: location of center text
-    :return: None
-    """
-    font = pygame.font.Font("freesansbold.ttf", textSize)
-    text = font.render(text, True, textColour)
-    textRect = text.get_rect()
-    textRect.center = center
-    screen.blit(text, textRect)
 
 
 def waitForInput(buttonList, keyEscape=None):
@@ -82,10 +66,8 @@ def Pause():
     Pauses the game until the player selects an option
     :return the state the player should now be in
     """
-    buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
-                          'white')
-    buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
-                        'white')
+    buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,'white')
+    buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,'white')
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
     pygame.Surface.set_alpha(dimSurface, 150)
     pygame.Surface.blit(screen, dimSurface)
@@ -107,8 +89,8 @@ def game_over(lives, state=None):
     screen.fill('red')
     if lives == 0:
         textPrint("Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        textPrint("Play again", 50, 'white', (WIDTH / 2, HEIGHT / 2))
-        buttonYes = button(WIDTH / 2 - 125, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
+        textPrint("Play again?", 50, 'white', (WIDTH / 2, HEIGHT / 2))
+        buttonYes = button(WIDTH / 2 - 150, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
         buttonNo = button(WIDTH / 2 + 25, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "NO", 'white', 40, 'white')
 
         index = waitForInput([buttonYes, buttonNo])
