@@ -47,13 +47,13 @@ class button:
         else:
             borderSize = self.height / 20
         if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[1] <= self.y + self.height:
-            pygame.draw.rect(screen, self.colourHover, [int(self.x + borderSize), int(self.y + borderSize),
-                                                          int(self.width - (2 * borderSize)),
-                                                          int(self.height - (2 * borderSize))])
+            pygame.draw.rect(screen, self.colourHover, [round(self.x + borderSize), round(self.y + borderSize),
+                                                          round(self.width - (2 * borderSize)),
+                                                          round(self.height - (2 * borderSize))])
         else:
-            pygame.draw.rect(screen, self.colourNormal, [int(self.x + borderSize), int(self.y + borderSize),
-                                                           int(self.width - (2 * borderSize)),
-                                                           int(self.height - (2 * borderSize))])
+            pygame.draw.rect(screen, self.colourNormal, [round(self.x + borderSize), round(self.y + borderSize),
+                                                           round(self.width - (2 * borderSize)),
+                                                           round(self.height - (2 * borderSize))])
         textRect = text.get_rect()
         textRect.center = (self.x + (self.width / 2), self.y + (self.height / 2))
         screen.blit(text, textRect)

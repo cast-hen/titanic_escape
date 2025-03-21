@@ -65,12 +65,13 @@ def waitForInput(buttonList, keyEscape=None):
 def menu():
     """
     Shows the menu screen
-    :return the pressed button (Start, Quit, Tutorial?):
+    :return the pressed button (Start, Quit)
     """
     screen.fill('black')
     buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+
     index = waitForInput([buttonBegin, buttonQuit])
     possibleStates = ["begin", "quit"]
     return possibleStates[index]
@@ -79,7 +80,7 @@ def menu():
 def Pause():
     """
     Pauses the game until the player selects an option
-    return: the state the player should now be in
+    :return the state the player should now be in
     """
     buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
                           'white')
@@ -100,7 +101,7 @@ def game_over(lives, state=None):
     Shows the Game Over screen
     :param lives: the amount of lives left of the player
     :param state : The state of the game
-    :return: None
+    :return: lives, state
     """
     lives -= 1
     screen.fill('red')
@@ -109,6 +110,7 @@ def game_over(lives, state=None):
         textPrint("Play again", 50, 'white', (WIDTH / 2, HEIGHT / 2))
         buttonYes = button(WIDTH / 2 - 125, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
         buttonNo = button(WIDTH / 2 + 25, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "NO", 'white', 40, 'white')
+
         index = waitForInput([buttonYes, buttonNo])
         possibleStates = ["begin", "Menu"]
         state = possibleStates[index]
@@ -121,7 +123,7 @@ def game_over(lives, state=None):
         textPrint(message, 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
         pygame.display.flip()
         time.sleep(2)
-    return 200, 200, lives, state
+    return lives, state
 
 
 def LevelGehaald():

@@ -134,7 +134,7 @@ def parkour(player):
     cube1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, 1, "Collider")
     cube2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, 1, "Collider")
     cube3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, 1, "Collider")
-    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 500, ["punch"], 0))
+    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 50, ["punch"], 0))
 
     cube5 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, 2, "Collider")
     cube7 = Objects(-700, 428, 887, 500, 'black', 1, 0, 0, 2, "Collider")
@@ -199,9 +199,9 @@ def parkour(player):
             CollisionGlitch = True
 
 
-#spawnt alle dingen
+        #spawnt alle objects
         if scene == 1:
-            RespawnPos = (-270, 450)
+            RespawnPos = (270, 450)
             playerObject.draw(screen, CameraPosx)
             cube1.draw(screen, CameraPosx)
             cube10.draw(screen, CameraPosx)
@@ -210,7 +210,7 @@ def parkour(player):
 
             cube16.draw(screen, CameraPosx)
         if scene == 2:
-            RespawnPos = (-50, 380)
+            RespawnPos = (350, 380)
             playerObject.draw(screen, CameraPosx)
             cube4.draw(screen, CameraPosx)
             cube6.draw(screen, CameraPosx)
@@ -222,7 +222,7 @@ def parkour(player):
             scene += 1
             player.lives = 5
         if scene == 4:
-            RespawnPos = (-300, 450)
+            RespawnPos = (300, 450)
             playerObject.draw(screen, CameraPosx)
             cube9.draw(screen, CameraPosx)
             cube11.draw(screen, CameraPosx)
@@ -231,7 +231,7 @@ def parkour(player):
             cube14.draw(screen, CameraPosx)
             cube15.draw(screen, CameraPosx)
         if scene == 5:
-            RespawnPos = (-200, 335)
+            RespawnPos = (200, 335)
             playerObject.draw(screen, CameraPosx)
             cube17.draw(screen, CameraPosx)
             cube18.draw(screen, CameraPosx)
@@ -241,7 +241,7 @@ def parkour(player):
             cube22.draw(screen, CameraPosx)
             cube23.draw(screen, CameraPosx)
         if scene == 6:
-            RespawnPos = (-200, 335)
+            RespawnPos = (200, 335)
             playerObject.draw(screen, CameraPosx)
             cube24.draw(screen, CameraPosx)
             cube25.draw(screen, CameraPosx)
@@ -258,17 +258,17 @@ def parkour(player):
 
 
 
-
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
-# maakt de speler dood
+        # maakt de speler dood
         for Collider in Colliders:
             if playerObject.ypos >= 630 or Collider == "Death" or type(Collider) == MoveObject:
-                playerObject.xpos, playerObject.ypos, player.lives, state = game_over(player.lives)
-                (playerObject.xpos, playerObject.ypos) = RespawnPos
+                player.lives, state = game_over(player.lives)
+                playerObject.xpos -= RespawnPos[0]
+                playerObject.ypos -= RespawnPos[1]
                 if state is not None:
                     return state
 
-#returns enemy waarmee je collide
+            #returns enemy waarmee je collide
             if type(Collider) == enemy:
                 return Collider
 
@@ -277,7 +277,7 @@ def parkour(player):
         #(cube15.xpos, cube15.ypos) = cube15.Type.Move((int(cube15.xpos), int(cube15.ypos)))
 
 
-# veranderd camera position
+        # veranderd camera position
         if L_border <= playerObject.xpos <= R_border:
             CameraPosx = playerObject.xpos - 500
         elif L_border >= playerObject.xpos:
@@ -285,13 +285,13 @@ def parkour(player):
         elif playerObject.xpos >= R_border:
             CameraPosx = R_border - 500
 
-# linker scene transition
+        # linker scene transition
         if L_border - 500 > playerObject.xpos and not scene  in [1, 4]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             scene -= 1
             CollisionGlitch = False
-#rechter scene transition
+        #rechter scene transition
         elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
             CameraPosx = L_border - 500

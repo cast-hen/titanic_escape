@@ -3,6 +3,7 @@ import time
 import random
 from button_code import *
 from pauze import *
+from common import *
 class move:
     def __init__(self, name, description, image):
         self.name = name
@@ -40,15 +41,9 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
-        healthFont = pygame.font.Font("freesansbold.ttf", 40)
-        healthTextPlayer = healthFont.render(str(playerCurrentHealth), True, (255, 255, 255))
-        healthTextEnemy = healthFont.render(str(enemyCurrentHealth), True, (255, 255, 255))
-        healthTextPlayerRect = healthTextPlayer.get_rect()
-        healthTextEnemyRect = healthTextEnemy.get_rect()
-        healthTextPlayerRect.center = (250, 205)
-        healthTextEnemyRect.center = (1050, 205)
-        screen.blit(healthTextPlayer, healthTextPlayerRect)
-        screen.blit(healthTextEnemy, healthTextEnemyRect)
+
+        textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
+        textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
     def scrollText(text, colour, location, size, scrollTime):
         font = pygame.font.Font("freesansbold.ttf", size)
         toScrollText = font.render(text, True, colour)
@@ -193,7 +188,7 @@ def fight(enemy, player, screen):
                             mouseDown = True
                     if button.check(confirmButton, mouseDown, screen):
                         fighting = False
-                        result = "flee"
+                        result = "begin"
                         confirmed = True
                     elif button.check(cancelButton, mouseDown, screen):
                         confirmed = True
@@ -254,13 +249,13 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     pygame.mixer.quit()
-    return [result, playerCurrentHealth]
+    return result, playerCurrentHealth
 
 def chooseNewAttack(options):
     """
     Displays 3 moves the player can choose from to add to their deck
     :param options: list of 3 moves the player can choose from
-    :return: the chosen move
+    :return: the chosen move or the new state
     """
     #tekent de 3 opties als kaarten
     screen.fill((100, 100, 100))
@@ -289,7 +284,7 @@ def chooseNewAttack(options):
                         options[1].displayMove(330, 110)
                         options[2].displayMove(630, 110)
                     if event.type == pygame.QUIT:
-                        return False
+                        return "quit"
         #kijkt welke knopper worden ingedrukt en returnt de corresponderende move
         if button.check(buttonChoice1, mouseDown, screen):
             return options[0]

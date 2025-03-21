@@ -17,13 +17,12 @@ poison = move("poison", "poisons your opponent to \n take damage over time", "")
 lifeSteal = move("life steal", "Damages your opponent and gives \n you 30% back as health", "")
 block = move("block", "Blocks your opponents next attack", "")
 movesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
-player = character("bob", 3, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
+player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
 
 state = "Menu"
 
 while running:
     if state == "Menu":
-        player.lives, player.hitpoints, items = (3, 100, [])
         screen.fill('black')
         state = menu()
     for event in pygame.event.get():
@@ -32,33 +31,25 @@ while running:
 
     # Hoofd code:
     if state == "begin":
-        encounter = parkour(player)
-        if encounter == "Menu":
-            state = "Menu"
-        elif encounter == "quit":
-            running = False
-
-        else:
-            result = fight(encounter, player, screen)
-            player.hitpoints = result[1]
-            if result[0] == "quit":
-                running = False
-            elif result[0] == "Menu":
-                state = "Menu"
-            elif result[0] == "loss":
+        player.lives, player.hitpoints, items = (5, 100, [])
+        state = parkour(player)
+        if type(state) == enemy:
+            encounter = state
+            result, player.hitpoints = fight(encounter, player, screen)
+            if result == "loss":
                 gameOverList = game_over(player.lives)
                 player.lives = gameOverList[2]
                 state = gameOverList[3]
                 player.hitpoints = 100
-            elif result[0] == "win":
-                NieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
-                player.moveset.append(NieuweAanval)
-                if NieuweAanval == "quit":
-                    running = False
-                elif NieuweAanval == "Menu":
-                    state = "Menu"
-                else:
+            elif result == "win":
+                nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
+                if type(nieuweAanval) == move:
+                    player.moveset.append(nieuweAanval)
                     state = "begin"
+                else:
+                    state = nieuweAanval
+            else:
+                state = result
     if state == "quit":
         running = False
 
