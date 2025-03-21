@@ -150,7 +150,7 @@ def parkour(player):
 
     cube16 = Objects(-494, 29, 202, 571, 'black', 1, 0, 0, 1, "Collider")
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
-    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10, cube11, cube12, cube13, cube14, cube15, cube16]
+    platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube11, cube12, cube13, cube14, cube15, cube16]
 
     # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
     keys = {"left": False, "right": False, "up": False}

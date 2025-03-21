@@ -40,6 +40,56 @@ def textPrint(text, textSize, textColour, center):
     screen.blit(text, textRect)
 
 
+def menu():
+    """
+    Shows the menu screen
+    :return the pressed button (Start, Quit, Tutorial?):
+    """
+    screen.fill('black')
+    buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
+    buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
+    while True:
+        textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+            if event.type == pygame.QUIT:
+                return "quit"
+        if button.check(buttonBegin, mouseDown, screen):
+            return "begin"
+        if button.check(buttonQuit, mouseDown, screen):
+            return "quit"
+
+
+def Pause():
+    """
+    Pauses the game until the player selects an option
+    return: the state the player should now be in
+    """
+    resumeButton = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,
+                          'white')
+    menuButton = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
+                        'white')
+    dimSurface = pygame.Surface((WIDTH, HEIGHT))
+    pygame.Surface.set_alpha(dimSurface, 150)
+    pygame.Surface.blit(screen, dimSurface)
+
+    while True:
+        textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return None
+        if button.check(resumeButton, mouseDown, screen):
+            return None
+        if button.check(menuButton, mouseDown, screen):
+            return "Menu"
+
+
 def game_over(lives, state=None):
     """
     Shows the Game Over screen
@@ -62,28 +112,6 @@ def game_over(lives, state=None):
     pygame.display.flip()
     time.sleep(2)
     return 200, 200, lives, state
-
-
-def menu():
-    """
-    Shows the menu screen
-    :return the pressed button (Start, Quit, Tutorial?):
-    """
-    screen.fill('black')
-    buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
-    buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
-    while True:
-        textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-        mouseDown = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouseDown = True
-            if event.type == pygame.QUIT:
-                return "quit"
-        if button.check(buttonBegin, mouseDown, screen):
-            return "begin"
-        if button.check(buttonQuit, mouseDown, screen):
-            return "quit"
 
 
 def LevelGehaald():
@@ -118,6 +146,3 @@ def eind():
                 mouseDown = True
         if button.check(menuButton, mouseDown, screen):
             break
-
-
-
