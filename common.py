@@ -153,3 +153,14 @@ def eind():
     index = waitForInput([buttonMenu])
     possibleStates = ["Menu"]
     return possibleStates[index]
+
+
+def Afstand(pos1, pos2):
+    x_afstand = pos2[0] - pos1[0]
+    y_afstand = pos2[1] - pos1[1]
+    if x_afstand < 0:
+        x_afstand *= -1
+    if y_afstand < 0:
+        y_afstand *= -1
+
+    return (x_afstand ** 2 + y_afstand ** 2) **0.5
