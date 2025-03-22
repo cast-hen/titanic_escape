@@ -17,10 +17,18 @@ class character:
         self.heals = heals
 
     def displayInfo(self):
-        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(20, 65, 210, 60))
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
+        pygame.draw.rect(screen, (0, 0, 0, 50), pygame.Rect(20, 65, 210, 60))
+        pygame.draw.rect(screen, (255, 0, 0, 50), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
         textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        textPrint(self.name, 40, 'white', (125, 45))
+        textPrint(self.name, 40, 'black', (125, 45))
+
+        lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
+        nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/nolife.png"), (38, 38))
+        for i in range(5):
+            if self.lives >= i + 1:
+                screen.blit(lifeImage, (20 + 43 * i, 140))
+            else:
+                screen.blit(nolifeImage, (20 + 43 * i, 140))
 
 
 class enemy:
