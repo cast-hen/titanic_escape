@@ -255,8 +255,7 @@ def parkour(player):
             eind()
             return "Menu"
 
-
-
+        player.displayInfo()
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
         # maakt de speler dood

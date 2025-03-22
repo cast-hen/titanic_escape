@@ -47,6 +47,8 @@ def fight(enemy, player, screen):
 
         textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
         textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
+        textPrint(player.name, 40, 'black', (250, 155))
+        textPrint(enemy.name, 40, 'black', (1050, 155))
 
     def scrollText(text, colour, location, size, scrollTime):
         """

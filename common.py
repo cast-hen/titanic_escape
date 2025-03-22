@@ -15,6 +15,14 @@ class character:
         self.moveset = moveset
         self.items = items
         self.heals = heals
+
+    def displayInfo(self):
+        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(20, 65, 210, 60))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
+        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
+        textPrint(self.name, 40, 'white', (125, 45))
+
+
 class enemy:
     def __init__(self, name, colour, hitpoints, moveset, heals):
         self.name = name
