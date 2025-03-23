@@ -40,13 +40,18 @@ class enemy:
         self.heals = heals
 
 
-def waitForInput(buttonList, keyEscape=None):
+def waitForInput(buttonList, keyEscape=None, buttonInfo=None):
     """
     Waits for input of the player in the form of pressing a button.
     :param buttonList: The buttons that are checked
     :param keyEscape: True if using the escape button is possible
+    :param buttonInfo: If possible to type, tuple with (buttonToType, startText, textCenter, textSize)
     :return the index of the pressed button
     """
+    typing = False
+    if buttonInfo is not None:
+        buttonToType, text, textCenter, textSize = buttonInfo
+        font = pygame.font.Font("freesansbold.ttf", textSize)
     while True:
         mouseDown = False
         for event in pygame.event.get():
@@ -56,13 +61,43 @@ def waitForInput(buttonList, keyEscape=None):
                 return "quit"
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE and keyEscape is not None:
-                    return -1
+                    if buttonInfo is None:
+                        return -1
+                    else:
+                        return -1, text
+
+                if event.key == pygame.K_BACKSPACE and typing:
+                    textRender = font.render(text, True, 'white')
+                    textRect = textRender.get_rect()
+                    textRect.center = textCenter
+                    pygame.draw.rect(screen, 'black', textRect)
+                    text = text[:-1]
+                    textPrint(text, textSize, 'white', textCenter)
+                elif event.key == pygame.K_RETURN and typing:
+                    typing = False
+            elif event.type == pygame.TEXTINPUT and typing:
+                textRender = font.render(text, True, 'white')
+                textRect = textRender.get_rect()
+                textRect.center = textCenter
+                pygame.draw.rect(screen, 'black', textRect)
+                text += event.text
+                textPrint(text, textSize, 'white', textCenter)
+                pygame.display.flip()
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
-                return i
+                if buttonInfo is None:
+                    return i
+                else:
+                    return i, text
+
+        if buttonInfo is not None:
+            if button.check(buttonToType, mouseDown, screen):
+                typing = True
 
 
-def menu():
+
+
+def menu(name):
     """
     Shows the menu screen
     :return the pressed button (Start, Quit)
@@ -70,11 +105,14 @@ def menu():
     screen.fill('black')
     buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
+    buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
     textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+    textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2))
 
-    index = waitForInput([buttonBegin, buttonQuit])
+    index, name = waitForInput([buttonBegin, buttonQuit], buttonInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
     possibleStates = ["begin", "quit"]
-    return possibleStates[index]
+    return possibleStates[index], name
+
 
 
 def Pause():

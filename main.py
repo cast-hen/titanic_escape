@@ -26,7 +26,7 @@ while running:
     if state == "Menu":
         screen.fill('black')
         player.lives, player.hitpoints, items = (5, 100, [])
-        state = menu()
+        state, player.name = menu(player.name)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
