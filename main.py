@@ -38,9 +38,9 @@ while running:
             encounter = state
             result, player.hitpoints = fight(encounter, player, screen)
             if result == "loss":
-                gameOverList = game_over(player.lives)
-                player.lives = gameOverList[2]
-                state = gameOverList[3]
+                player.lives, state = game_over(player.lives)
+                if state is None:
+                    state = "begin"
                 player.hitpoints = 100
             elif result == "win":
                 nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])

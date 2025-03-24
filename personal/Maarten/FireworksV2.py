@@ -63,6 +63,7 @@ class Fireworks:
 
 
     def draw(self):
+        screen.fill('black')
         if self.currentPhase + len(colourGradients) >= maxFireworkPhase:
             phase = maxFireworkPhase - len(colourGradients) - 1
         else:
@@ -93,7 +94,7 @@ class Fireworks:
                     xB = int(distanceBCenter * math.cos(anglePCenter)) + self.center[0]
                     yB = int(distanceBCenter * math.sin(anglePCenter)) + self.center[1]
 
-                    colourIndex = self.currentPhase // len(colourGradients)
+                    colourIndex = - 1 - (p * len(colourGradients) // maxFireworkPhase)
 
                     if self.explosionType == 0:
                         pygame.draw.line(screen, colourGradients[colourIndex], self.center,(xB, yB), (6 - colourIndex) // 2)

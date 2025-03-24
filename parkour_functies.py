@@ -139,7 +139,7 @@ def parkour(player):
     cube1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, 1, "Collider")
     cube2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, 1, "Collider")
     cube3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, 1, "Collider")
-    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 500, ["punch"], 0))
+    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 100, ["punch"], 0))
 
     cube5 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, 2, "Collider")
     cube7 = Objects(-700, 428, 887, 500, 'black', 1, 0, 0, 2, "Collider")
