@@ -247,6 +247,7 @@ def parkour(player):
             cube5.draw(screen, CameraPosx)
             cube7.draw(screen, CameraPosx)
             cube8.draw(screen, CameraPosx)
+            print(CameraPosx)
         if scene == 3:
             scene += 1
         if scene == 4:
