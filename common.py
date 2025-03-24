@@ -67,22 +67,23 @@ def waitForInput(buttonList, keyEscape=None, buttonInfo=None):
                         return -1, text
 
                 if event.key == pygame.K_BACKSPACE and typing:
-                    textRender = font.render(text, True, 'white')
-                    textRect = textRender.get_rect()
-                    textRect.center = textCenter
-                    pygame.draw.rect(screen, 'black', textRect)
+                    textPrint(text, textSize, 'black', textCenter, True)
                     text = text[:-1]
                     textPrint(text, textSize, 'white', textCenter)
                 elif event.key == pygame.K_RETURN and typing:
                     typing = False
             elif event.type == pygame.TEXTINPUT and typing:
-                textRender = font.render(text, True, 'white')
-                textRect = textRender.get_rect()
-                textRect.center = textCenter
-                pygame.draw.rect(screen, 'black', textRect)
-                text += event.text
-                textPrint(text, textSize, 'white', textCenter)
-                pygame.display.flip()
+                textPrint(text, textSize, 'black', textCenter, True)
+                if len(text) <= 10:
+                    text += event.text
+                    textPrint(text, textSize, 'white', textCenter)
+                else:
+                    textPrint("Too long!", textSize, 'red', textCenter)
+                    pygame.display.flip()
+                    time.sleep(1)
+                    textPrint("Too long!", textSize, 'black', textCenter, True)
+                    textPrint(text, textSize, 'white', textCenter)
+                    break
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
                 if buttonInfo is None:
@@ -93,6 +94,7 @@ def waitForInput(buttonList, keyEscape=None, buttonInfo=None):
         if buttonInfo is not None:
             if button.check(buttonToType, mouseDown, screen):
                 typing = True
+        pygame.display.flip()
 
 
 

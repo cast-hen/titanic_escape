@@ -60,17 +60,21 @@ class button:
             return False
 
 
-def textPrint(text, textSize, textColour, center):
+def textPrint(text, textSize, textColour, center, delete=None):
     """
-    Prints the text on the screen. center is tuple.
+    Prints the text on the screen. Can also delete the text by drawing the Rect of the text given.
     :param text: What text will print
     :param textSize: How big is the text
-    :param textColour: What color is the text
-    :param center: location of center text
+    :param textColour: What color is the text. If delete is not None, the colour of the drawn Rect
+    :param center: location of center text in tuple
+    :param delete: True if job is to delete the text, fill to black
     :return: None
     """
     font = pygame.font.Font("freesansbold.ttf", textSize)
     text = font.render(text, True, textColour)
     textRect = text.get_rect()
     textRect.center = center
-    screen.blit(text, textRect)
+    if delete is None:
+        screen.blit(text, textRect)
+    else:
+        pygame.draw.rect(screen, textColour, textRect)
