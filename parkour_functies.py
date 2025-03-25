@@ -275,62 +275,58 @@ def parkour(player):
             playerObject.draw(screen, CameraPosx)
 
             cube16.draw(screen, CameraPosx)
-        if scene == 2:
+        elif scene == 2:
             RespawnPos = (-35, 400)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 3:
+        elif scene == 3:
             scene += 1
-        if scene == 4:
+        elif scene == 4:
             RespawnPos = (-170, 500)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 5:
+        elif scene == 5:
             RespawnPos = (-175, 370)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 6:
+        elif scene == 6:
             RespawnPos = (-380, 385)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 7:
+        elif scene == 7:
             RespawnPos = (-340, 350)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 8:
+        elif scene == 8:
             RespawnPos = (-340, 350)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 9:
+        elif scene == 9:
             LevelGehaald()
             scene += 1
             player.lives = 5
-        if scene == 10:
+
+        elif scene == 10:
             RespawnPos = (-340, 350)
             playerObject.draw(screen, CameraPosx)
 
-        if scene == 11:
+        elif scene == 11:
             RespawnPos = (-340, 150)
-
             playerObject.draw(screen, CameraPosx)
-        if scene == 12:
+
+        elif scene == 12:
             RespawnPos = (-340, 400)
-
             playerObject.draw(screen, CameraPosx)
 
-
-
-
-
-        if scene == 13:
+        elif scene == 13:
             eind()
             return "Menu"
 
         player.displayInfo()
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
-        # maakt de speler dood
 
+        # maakt de speler dood
         for Collider in Colliders:
             if playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject:
                 player.lives, state = game_over(player.lives)
@@ -345,7 +341,7 @@ def parkour(player):
                 return Collider
 
 
-        # veranderd camera position
+        # verandert camera position
         if L_border <= playerObject.xpos <= R_border:
             CameraPosx = playerObject.xpos - 500
         elif L_border >= playerObject.xpos:

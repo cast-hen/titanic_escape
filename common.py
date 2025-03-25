@@ -1,5 +1,6 @@
 from pauze import *
 from button_code import *
+from firework_function import *
 import pygame
 import time
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
@@ -181,6 +182,7 @@ def eind():
     Shows the credit screen and waits until the menu button is pressed.
     :return none:
     """
+    fireworkWord("Thanks for playing", 120)
     screen.fill('green')
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')

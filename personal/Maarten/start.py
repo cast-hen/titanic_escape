@@ -1,6 +1,7 @@
 import pygame
 import math
 from button_code import *
+from firework_function import *
 
 screen = pygame.display.set_mode((1366, 668), pygame.RESIZABLE)
 WIDTH, HEIGHT = pygame.display.get_window_size()
@@ -24,4 +25,6 @@ while True:
     alpha += 6 * math.pi / 180
     pygame.display.flip()
     time.sleep(0.1)
-    pass
+    break
+screen.fill('black')
+fireworkWord("Thanks for playing", 100)

@@ -183,7 +183,7 @@ def fight(enemy, player, screen):
                         if button.check(buttonPrevPage, mouseDown, screen):
                             page -= 1
                             draw_scene()
-                    #for loop drawing the buttons and checking if theyre pressed
+                    #for loop drawing the buttons and checking if they're pressed
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
                             if  player.moveset[page * 4 + i].name == "block" and playerBlocks == 0:
@@ -277,29 +277,23 @@ def fight(enemy, player, screen):
                 state = "turnEnemy"
             #the code for when the flee button is pressed
             elif button.check(fleeButton, mouseDown, screen):
-                #defining the variables
-                confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
-                confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
-                confirmRect = confirmText.get_rect()
-                confirmRect.center = (width / 2, (height / 12) * 5)
+                # dimmed surface
+                dimSurface = pygame.Surface((WIDTH, HEIGHT))
+                pygame.Surface.set_alpha(dimSurface, 150)
+                pygame.Surface.blit(screen, dimSurface)
+
                 pygame.draw.rect(screen, (255, 180, 0), [int(width / 3), int(height / 3), int(width / 3), int(height / 3)])
-                screen.blit(confirmText, confirmRect)
-                confirmed = False
+                textPrint("Are you sure you want to leave?", width // 50, 'black', (width / 2, (height / 12) * 5))
                 confirmButton = button(width / 3, height / 2, width / 6, height / 6, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
                 cancelButton = button(width / 2, height / 2, width / 6, height / 6, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
                 #while loop checking if they confirm they want to flee
-                while not confirmed:
-                    mouseDown = False
-                    for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                            mouseDown = True
-                    if button.check(confirmButton, mouseDown, screen):
-                        fighting = False
-                        result = "flee"
-                        confirmed = True
-                    elif button.check(cancelButton, mouseDown, screen):
-                        confirmed = True
-                        draw_scene()
+                index = waitForInput([confirmButton, cancelButton])
+                if index == 0:
+                    fighting = False
+                    result = "begin"
+                else:
+                    draw_scene()
+
             #various checks when the players turn is over
             if state == "turnEnemy":
                 #removes a turn if the player is enraged, resets if they are no longer enraged
