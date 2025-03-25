@@ -137,7 +137,7 @@ def parkour(player):
     jump_height = -25
     speed = 10
     running = True
-    scene = 12
+    scene = 1
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
