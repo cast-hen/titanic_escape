@@ -33,7 +33,7 @@ class Objects:
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
 
         for platform in platforms:
-            if platform.ObjectScene == scene:
+            if scene in platform.ObjectScene:
                 if self.Rect.colliderect(platform.Rect):
                     if self.xspeed > 0:
                         self.xpos = platform.xpos - self.width
@@ -51,7 +51,7 @@ class Objects:
 
         # platformcollision
         for platform in platforms:
-            if platform.ObjectScene == scene:
+            if scene in platform.ObjectScene:
                 if self.Rect.colliderect(platform.Rect):
                     if self.yspeed > 0:  # Falling
                         self.ypos = platform.ypos - self.height
@@ -135,92 +135,118 @@ def parkour(player):
     fps = 60
     gravity = 0.6
     jump_height = -25
-    speed = 10
+    speed = 11
     running = True
-    scene = 1
+    scene = 15
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
     pos1 = (0, 0)
     CollisionGlitch = True
+    InvisibilityFrames = 0
 
-    playerObject = Objects(-90 , 450, 50, 50, 'green', 2, 0, 0, 1, "Player")
-    cube1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, 1, "Collider")
-    cube2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, 1, "Collider")
-    cube3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, 1, "Collider")
-    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, 1, enemy("BOB", (255, 255, 0), 100, ["punch"], 0))
+    playerObject = Objects(-90 , 450, 50, 50, 'green', 2, 0, 0, [1], "Player")
+    cube1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
+    cube2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
+    cube3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, [1], "Collider")
+    cube10 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, [1], enemy("BOB", (255, 255, 0), 100, ["punch"], 0))
 
-    cube5 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, 2, "Collider")
-    cube7 = Objects(-700, 428, 887, 500, 'black', 1, 0, 0, 2, "Collider")
-    cube8 = Objects(1109, 481, 350, 500, 'black', 1, 0, 0, 2, "Collider")
-    cube6 = Objects(700, 300, 131, 58, 'black', 1, 0, 0, 2, "Collider")
-    cube4 = Objects(344, 100, 213, 15, 'black', 1, 0, 0, 2, "Collider")
+    cube5 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, [2], "Collider")
+    cube7 = Objects(-700, 428, 887, 500, 'black', 1, 0, 0, [2], "Collider")
+    cube8 = Objects(1109, 481, 350, 500, 'black', 1, 0, 0, [2], "Collider")
+    cube6 = Objects(700, 300, 131, 58, 'black', 1, 0, 0, [2], "Collider")
+    cube4 = Objects(344, 100, 213, 15, 'black', 1, 0, 0, [2], "Collider")
 
-    cube9 = Objects(564, 116, 3500, 2000, 'black', 1, 0, 0, 4, "Collider")
-    cube11 = Objects(-500, 530, 576, 500, 'black', 1, 0, 0, 4, "Collider")
-    cube12 = Objects(365, 420, 313, 500, 'black', 1, 0, 0, 4, "Collider")
-    cube13 = Objects(365, 430, 313, 54, 'black', 1, 0, 0, 4, "Collider")
-    cube14 = Objects(22, 200, 150, 54, 'black', 1, 0, 0, 4, "Collider")
-    cube15 = Objects(-417, 93, 150, 20, 'black', 1, 0, 0, 4, "Collider")
+    cube9 = Objects(564, 116, 3500, 2000, 'black', 1, 0, 0, [4], "Collider")
+    cube11 = Objects(-500, 530, 576, 500, 'black', 1, 0, 0, [4], "Collider")
+    cube12 = Objects(365, 420, 313, 500, 'black', 1, 0, 0, [4], "Collider")
+    cube13 = Objects(365, 430, 313, 54, 'black', 1, 0, 0, [4], "Collider")
+    cube14 = Objects(22, 200, 150, 54, 'black', 1, 0, 0, [4], "Collider")
+    cube15 = Objects(-417, 93, 150, 20, 'black', 1, 0, 0, [4], "Collider")
 
-    cube16 = Objects(-550, 29, 250, 571, 'black', 1, 0, 0, 1, "Collider")
+    cube16 = Objects(-550, 29, 250, 571, 'black', 1, 0, 0, [1], "Collider")
 
-    cube17  = Objects(-500, 130, 218, 1000, 'black', 1, 0, 0, 5, "Collider")
-    cube18 =  Objects(-326, 400, 284, 500, 'black', 1, 0, 0, 5, "Collider")
-    cube19 =  Objects(69, 200, 1000, 30, 'black', 1, 0, 0, 5, "Collider")
-    cube20 =  Objects(430, 467, 70, 500, 'black', 1, 0, 0, 5, "Collider")
-    cube21 =  Objects(70, 630, 70, 500, 'black', 1, 0, 0, 5, "Collider")
-    cube22 = Objects(850, 620, 110, 500, 'black', 1, 0, 0, 5, "Collider")
-    cube23 = Objects(1223, 400, 200, 500, 'black', 1, 0, 0, 5, "Collider")
+    cube17  = Objects(-500, 130, 218, 1000, 'black', 1, 0, 0, [5], "Collider")
+    cube18 =  Objects(-326, 400, 284, 500, 'black', 1, 0, 0, [5], "Collider")
+    cube19 =  Objects(69, 200, 1000, 30, 'black', 1, 0, 0, [5], "Collider")
+    cube20 =  Objects(430, 467, 70, 500, 'black', 1, 0, 0, [5], "Collider")
+    cube21 =  Objects(70, 630, 70, 500, 'black', 1, 0, 0, [5], "Collider")
+    cube22 = Objects(850, 620, 110, 500, 'black', 1, 0, 0, [5], "Collider")
+    cube23 = Objects(1223, 400, 200, 500, 'black', 1, 0, 0, [5], "Collider")
 
-    cube24 = Objects(-500, 410, 200, 700, 'black', 1, 0, 0, 6, "Collider")
-    cube25 = Objects(-27, 544, 150, 300, 'black', 1, 0, 0, 6, "Collider")
-    cube26 = Objects(425, 431, 150, 400, 'black', 1, 0, 0, 6, "Collider")
-    cube27 = Objects(828, 250, 150, 800, 'black', 1, 0, 0, 6, "Collider")
-    cube28 = Objects(1200, 380, 200, 500, 'black', 1, 0, 0, 6, "Collider")
+    cube24 = Objects(-500, 410, 200, 700, 'black', 1, 0, 0, [6], "Collider")
+    cube25 = Objects(-27, 544, 150, 300, 'black', 1, 0, 0, [6], "Collider")
+    cube26 = Objects(425, 431, 150, 400, 'black', 1, 0, 0, [6], "Collider")
+    cube27 = Objects(828, 250, 150, 800, 'black', 1, 0, 0, [6], "Collider")
+    cube28 = Objects(1200, 380, 200, 500, 'black', 1, 0, 0, [6], "Collider")
 
-    cube29 = Objects(-500, 415, 300, 500, 'black', 1, 0, 0, 7, "Collider")
-    cube30 = Objects(35, 650, 830, 300, 'black', 1, 0, 0, 7, "Collider")
-    cube31 = Objects(1100, 430, 300, 500, 'black', 1, 0, 0, 7, "Collider")
+    cube29 = Objects(-500, 415, 300, 500, 'black', 1, 0, 0, [7], "Collider")
+    cube30 = Objects(35, 650, 830, 300, 'black', 1, 0, 0, [7], "Collider")
+    cube31 = Objects(1100, 430, 300, 500, 'black', 1, 0, 0, [7], "Collider")
 
-    cube32 = Objects(-500, 420, 300, 500, 'black', 1, 0, 0, 8, "Collider")
-    cube33 = Objects(-206, 525, 540, 400, 'black', 1, 0, 0, 8, "Collider")
-    cube34 = Objects(250, 630, 1500, 300, 'black', 1, 0, 0, 8, "Collider")
-    cube35 = Objects(1150, 0, 400, 440, 'black', 1, 0, 0, 8, "Collider")
+    cube32 = Objects(-500, 435, 300, 500, 'black', 1, 0, 0, [8], "Collider")
+    cube33 = Objects(-206, 525, 540, 400, 'black', 1, 0, 0, [8], "Collider")
+    cube34 = Objects(250, 630, 1500, 300, 'black', 1, 0, 0, [8], "Collider")
+    cube35 = Objects(1150, 0, 400, 440, 'black', 1, 0, 0, [8], "Collider")
 
-    cube36 = Objects(-500, 635, 2500, 445, 'black', 1, 0, 0, 10, "Collider")
-    cube37 = Objects(-200, 530, 470, 180, 'black', 1, 0, 0, 10, "Collider")
-    cube38 = Objects(125, 365, 525, 325, 'black', 1, 0, 0, 10, "Collider")
-    cube39 = Objects(625, 500, 430, 250, 'black', 1, 0, 0, 10, "Collider")
-    cube40 = Objects(1025, 280, 400, 475, 'black', 1, 0, 0, 10, "Collider")
+    cube36 = Objects(-500, 635, 2500, 445, 'black', 1, 0, 0, [10], "Collider")
+    cube37 = Objects(-200, 530, 470, 180, 'black', 1, 0, 0, [10], "Collider")
+    cube38 = Objects(125, 365, 525, 325, 'black', 1, 0, 0, [10], "Collider")
+    cube39 = Objects(625, 500, 430, 250, 'black', 1, 0, 0, [10], "Collider")
+    cube40 = Objects(1025, 280, 400, 475, 'black', 1, 0, 0, [10], "Collider")
 
-    cube41 = Objects(460, 0, 60, 60, 'red', 1, 0, 0, 10, MoveObject((460, -100), (460, 2000), 0.5, 10, False, 0))
-    cube42 = Objects(1050, 600, 60, 60, 'red', 1, 0, 0, 10, MoveObject((1050, -100), (1050, 2000), 0.4, 10, False, 0))
-    cube43 = Objects(150, 300, 60, 60, 'red', 1, 0, 0, 10, MoveObject((150, -100), (150, 2000), 0.6, 10, False, 0))
+    cube41 = Objects(460, 0, 60, 60, 'red', 1, 0, 0, [10], MoveObject((460, -100), (460, 2000), 0.5, 10, False, 100))
+    cube42 = Objects(1050, 600, 60, 60, 'red', 1, 0, 0, [10], MoveObject((1050, -100), (1050, 2000), 0.4, 10, False, 100))
+    cube43 = Objects(150, 300, 60, 60, 'red', 1, 0, 0, [10], MoveObject((150, -100), (150, 2000), 0.6, 10, False, 100))
 
-    cube44 = Objects(-500, 285, 400, 600, 'black', 1, 0, 0, 11, "Collider")
-    cube45 = Objects(216, 400, 475, 370, 'black', 1, 0, 0, 11, "Collider")
-    cube48 = Objects(1050, 500, 350, 300, 'black', 1, 0, 0, 11, "Collider")
+    cube44 = Objects(-500, 285, 400, 600, 'black', 1, 0, 0, [11], "Collider")
+    cube45 = Objects(216, 400, 475, 370, 'black', 1, 0, 0, [11], "Collider")
+    cube48 = Objects(1050, 500, 350, 300, 'black', 1, 0, 0, [11], "Collider")
 
-    cube46 = Objects(0, -100, 60, 60, 'red', 1, 0, 0, 11, MoveObject((0, -100), (0, 2000), 1, 10, False, 0))
-    cube47 = Objects(50, -250, 60, 60, 'red', 1, 0, 0, 11, MoveObject((50, -100), (50, 2000), 1, 10, False, 0))
-    cube49 = Objects(790, -100, 150, 150, 'red', 1, 0, 0, 11, MoveObject((790, -100), (790, 2000), 0.8, 10, False, 0))
-    cube50 = Objects(800, 1000, 150, 150, 'red', 1, 0, 0, 11, MoveObject((790, -100), (790, 2000), 0.8, 10, False, 0))
+    cube46 = Objects(0, -100, 60, 60, 'red', 1, 0, 0, [11], MoveObject((0, -100), (0, 2000), 1, 10, False, 0))
+    cube47 = Objects(50, -250, 60, 60, 'red', 1, 0, 0, [11], MoveObject((50, -100), (50, 2000), 1, 10, False, 0))
+    cube49 = Objects(790, -100, 150, 150, 'red', 1, 0, 0, [11], MoveObject((790, -100), (790, 2000), 0.8, 10, False, 0))
+    cube50 = Objects(800, 1000, 150, 150, 'red', 1, 0, 0, [11], MoveObject((790, -100), (790, 2000), 0.8, 10, False, 0))
 
-    cube51 = Objects(-500, 505, 350, 300, 'black', 1, 0, 0, 12, "Collider")
-    cube52 = Objects(-160, 575, 600, 250, 'black', 1, 0, 0, 12, "Collider")
-    cube53 = Objects(285, 480, 540, 290, 'black', 1, 0, 0, 12, "Collider")
-    cube54 = Objects(335, 0, 150, 350, 'black', 1, 0, 0, 12, "Collider")
-    cube55 = Objects(810, 520, 560, 250, 'black', 1, 0, 0, 12, "Collider")
+    cube51 = Objects(-500, 505, 350, 300, 'black', 1, 0, 0, [12], "Collider")
+    cube52 = Objects(-160, 575, 600, 250, 'black', 1, 0, 0, [12], "Collider")
+    cube53 = Objects(285, 480, 540, 290, 'black', 1, 0, 0, [12], "Collider")
+    cube54 = Objects(335, 0, 150, 350, 'black', 1, 0, 0, [12, 13], "Collider")
+    cube55 = Objects(810, 520, 560, 250, 'black', 1, 0, 0, [12], "Collider")
 
-    cube56 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.63, 10, False, 900))
-    cube57 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.73, 10, False, 900))
-    cube58 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.5, 10, False, 900))
-    cube59 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.8, 10, False, 900))
-    cube60 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.75, 10, False, 900))
-    cube61 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.7, 10, False, 900))
-    cube62 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.55, 10, False, 900))
-    cube63 = Objects(-500, 1000, 50, 50, 'red', 1, 0, 0, 12, MoveObject((400, -100), (400, 2000), 0.65, 10, False, 900))
+    cube56 = Objects(-100, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((-100, -100), (-100, 2000), 0.63, 10, False, 200))
+    cube57 = Objects(-100, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((-100, -100), (-100, 2000), 0.73, 10, False, 200))
+    cube58 = Objects(-100, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((-100, -100), (-100, 2000), 0.5, 10, False, 200))
+    cube59 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.8, 10, False, 400))
+    cube60 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.75, 10, False, 400))
+    cube61 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.7, 10, False, 400))
+    cube62 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.55, 10, False, 400))
+    cube63 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.65, 10, False, 400))
+
+    cube64 = Objects(-500, 525, 250, 300, 'black', 1, 0, 0, [13], "Collider")
+    cube65 = Objects(285, 480, 320, 380, 'black', 1, 0, 0, [13], "Collider")
+    cube66 = Objects(-50, 360, 150, 500, 'black', 1, 0, 0, [13], "Collider")
+    cube67 = Objects(910, 380, 500, 400, 'black', 1, 0, 0, [13], "Collider")
+
+    cube68 = Objects(-500, 385, 500, 400, 'black', 1, 0, 0, [14], "Collider")
+    cube69 = Objects(222, 450, 130, 30, 'black', 1, 0, 0, [14], "Collider")
+    cube70 = Objects(555, 360, 130, 30, 'black', 1, 0, 0, [14], "Collider")
+    cube71 = Objects(1165, 650,250 , 500, 'black', 1, 0, 0, [14], "Collider")
+    cube72 = Objects(888, 540, 130, 30, 'black', 1, 0, 0, [14], "Collider")
+    cube73 = Objects(1165, 0, 250, 350, 'black', 1, 0, 0, [14], "Collider")
+
+    cube74 = Objects(227, 1000, 120, 120, 'red', 1, 0, 0, [14], MoveObject((227, -100), (227, 2500), 0.7, 10, False, 0))
+    cube75 = Objects(888, 0, 120, 120, 'red', 1, 0, 0, [14], MoveObject((888, -100), (888, 2500), 0.7, 10, False, 0))
+    cube76 = Objects(555, 500, 120, 120, 'red', 1, 0, 0, [14], MoveObject((555, -100), (555, 2500), 0.7, 10, False, 0))
+
+    cube77 = Objects(-500, 650, 2000, 500, 'black', 1, 0, 0, [15], "Collider")
+    cube78 = Objects(-500, 190, 2000, 250, 'black', 1, 0, 0, [15], "Collider")
+    cube79 = Objects(-500, 0, 300, 350, 'black', 1, 0, 0, [15], "Collider")
+    cube80 = Objects(1100, 0, 300, 350, 'black', 1, 0, 0, [15], "Collider")
+
+    cube81 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 4, 10, False, 500))
+    cube82 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 4.5, 10, False, 500))
+    cube83 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 5.5, 10, False, 500))
 
     # voeg hier nieuwe platformen to zodat ze collision krijgen.
     platforms = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9, cube10,
@@ -229,7 +255,9 @@ def parkour(player):
                  cube31, cube32, cube33, cube34, cube35, cube36, cube37, cube38, cube39, cube40,
                  cube41, cube42, cube43, cube44, cube45, cube46, cube47, cube48, cube49, cube50,
                  cube51, cube52, cube53, cube54, cube55, cube56, cube57, cube58, cube59, cube60,
-                 cube61, cube62, cube63]
+                 cube61, cube62, cube63, cube64, cube65, cube66, cube67, cube68, cube69, cube70,
+                 cube71, cube72, cube73, cube74, cube75, cube76, cube77, cube78, cube79, cube80,
+                 cube81, cube82, cube83]
 
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
@@ -266,7 +294,7 @@ def parkour(player):
         #spawnt alle objects
 
         for platform in platforms:
-            if platform.ObjectScene == scene:
+            if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
             if type(platform.Type) == MoveObject:
                 (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
@@ -315,10 +343,21 @@ def parkour(player):
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 12:
+            RespawnPos = (-320, 400)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 13:
+            RespawnPos = (-340, 400)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 14:
+            RespawnPos = (-340, 300)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 15:
             RespawnPos = (-340, 400)
             playerObject.draw(screen, CameraPosx)
 
-        elif scene == 13:
+
+
+        elif scene == 16:
             eind()
             return "Menu"
 
@@ -328,11 +367,12 @@ def parkour(player):
 
         # maakt de speler dood
         for Collider in Colliders:
-            if playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject:
+            if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvisibilityFrames == 0:
                 player.lives, state = game_over(player.lives)
                 playerObject.xpos = RespawnPos[0]
                 playerObject.ypos = RespawnPos[1]
                 CollisionGlitch = False
+                InvisibilityFrames += 50
                 if state is not None:
                     return state
 
@@ -353,11 +393,13 @@ def parkour(player):
         if L_border - 500 > playerObject.xpos and not scene  in [1, 10]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
+            playerObject.ypos -= 20
             scene -= 1
             CollisionGlitch = False
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
+            playerObject.ypos -= 20
             CameraPosx = L_border - 500
             scene += 1
             CollisionGlitch = False
@@ -394,10 +436,17 @@ def parkour(player):
                 if event.key == pygame.K_d:
                     keys["right"] = False
                 elif event.key == pygame.K_a:
+
                     keys["left"] = False
                 elif event.key == pygame.K_w:
                     keys["up"] = False
 
+
             if keys["up"] == True and playerObject.on_ground:
                 playerObject.yspeed = jump_height
+
         pygame.display.flip()
+
+        if InvisibilityFrames > 0:
+            InvisibilityFrames -= 1
+
