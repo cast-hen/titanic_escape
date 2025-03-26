@@ -31,6 +31,15 @@ class move:
         textPrint(self.name, 35, 'white', (x, y - 200))
 
 
+punch = move("punch", "Hits the opponent for 10 damage", "")
+comboPunch = move("combo punch", "Hits the opponent a \n random number of times", "")
+enrage = move("enrage", "Increases your damage on \n the next 3 turns", "")
+poison = move("poison", "poisons your opponent to \n take damage over time", "")
+lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% back \n as health", "")
+block = move("block", "Blocks your opponents \n next attack", "")
+movesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
+
+
 def fight(enemy, player, screen):
     """
     Starts a fight with a given enemy and returns the result
@@ -44,25 +53,24 @@ def fight(enemy, player, screen):
         Draws the fighting scene
         return: none
         """
-        #draws the background
         screen.fill((40, 255, 255))
-        #draws the player and the enemy
+        #Draws the player and the enemy
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
         pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
-        #draws the healthbars
+        #Draws the healthbars
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
-        healthFont = pygame.font.Font("freesansbold.ttf", 40)
-        healthTextPlayer = healthFont.render(str(playerCurrentHealth), True, (255, 255, 255))
-        healthTextEnemy = healthFont.render(str(enemyCurrentHealth), True, (255, 255, 255))
-        healthTextPlayerRect = healthTextPlayer.get_rect()
-        healthTextEnemyRect = healthTextEnemy.get_rect()
-        healthTextPlayerRect.center = (250, 205)
-        healthTextEnemyRect.center = (1050, 205)
-        screen.blit(healthTextPlayer, healthTextPlayerRect)
-        screen.blit(healthTextEnemy, healthTextEnemyRect)
+        #The health numbers and names
+        textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
+        textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
+        textPrint(player.name, 40, 'black', (250, 155))
+        textPrint(enemy.name, 40, 'black', (1050, 155))
+
+        pygame.display.update()
+
+
     def scrollText(text, colour, location, size, scrollTime):
         """
         Scrolls a given text across the screen for a given time
@@ -70,7 +78,7 @@ def fight(enemy, player, screen):
         colour: the colour of the text as 3 integers
         location: the location of the text as a string with 2 options: "player" or "enemy"
         size: "the size of the text as an integer"
-        scrollTime: the ammount of time the text will scroll for as an integer
+        scrollTime: the amount of time the text will scroll for as an integer
         return: none
         """
         #sets the text to be scrolled
@@ -89,7 +97,8 @@ def fight(enemy, player, screen):
             time.sleep(0.01)
         #resets the screen
         draw_scene()
-        pygame.display.update()
+
+
     def blocked(location):
         """
         Function to show an attack has been blocked
@@ -187,9 +196,9 @@ def fight(enemy, player, screen):
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
                             if  player.moveset[page * 4 + i].name == "block" and playerBlocks == 0:
-                                moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40,(0, 0, 0))
+                                moveButton = button(width / 4 * i, height / 7 * 4, width / 4, height / 7 * 2, (100, 40, 0), (100, 40, 0), player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40,(0, 0, 0))
                             else:
-                                moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                                moveButton = button(width / 4 * i, height / 7 * 4, width / 4, height / 7 * 2, (255, 180, 0), (255, 255, 255), player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
                             if button.check(moveButton, mouseDown, screen) and not(player.moveset[page * 4 + i].name == "block" and playerBlocks == 0):
                                 move = player.moveset[page * 4 + i].name
                                 done = True
@@ -282,7 +291,7 @@ def fight(enemy, player, screen):
                 pygame.Surface.set_alpha(dimSurface, 150)
                 pygame.Surface.blit(screen, dimSurface)
 
-                pygame.draw.rect(screen, (255, 180, 0), [int(width / 3), int(height / 3), int(width / 3), int(height / 3)])
+                pygame.draw.rect(screen, (255, 180, 0), [width / 3, height / 3, width / 3, height / 3])
                 textPrint("Are you sure you want to leave?", width // 50, 'black', (width / 2, (height / 12) * 5))
                 confirmButton = button(width / 3, height / 2, width / 6, height / 6, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
                 cancelButton = button(width / 2, height / 2, width / 6, height / 6, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
@@ -414,7 +423,7 @@ def fight(enemy, player, screen):
                 enrageTurnsLeftEnemy -= 1
                 if enrageTurnsLeftEnemy == 0:
                     damageMultiplierEnemy /= 1.5
-            #damages the player and removes a turn if theyre poisoned
+            #damages the player and removes a turn if they're poisoned
             if poisonTurnsLeftPlayer > 0 and playerCurrentHealth > 0:
                 time.sleep(0.5)
                 damage = int(1 / enemyCurrentHealth / enemy.hitpoints + 4)
