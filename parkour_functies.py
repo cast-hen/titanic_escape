@@ -137,7 +137,7 @@ def parkour(player):
     jump_height = -25
     speed = 11
     running = True
-    scene = 15
+    scene = 1
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
@@ -359,6 +359,10 @@ def parkour(player):
 
         elif scene == 16:
             eind()
+
+        elif scene == 13:
+            eind(player.name)
+
             return "Menu"
 
         player.displayInfo()
