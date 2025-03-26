@@ -177,16 +177,17 @@ def LevelGehaald():
     time.sleep(3)
 
 
-def eind():
+def eind(name):
     """
     Shows the credit screen and waits until the menu button is pressed.
     :return none:
     """
+    screen.fill('black')
     fireworkWord("Thanks for playing", 120)
-    screen.fill('green')
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
-    textPrint("You won!!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+    textPrint(name, 100, 'white', (WIDTH / 2, HEIGHT / 2 - 220))
+    textPrint("escaped the Titanic!", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
     textPrint("Berend Sulman, Branko Opdam,", 40, 'white',
               (WIDTH / 2, HEIGHT / 2 - 20))
     textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',

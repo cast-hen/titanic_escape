@@ -319,7 +319,7 @@ def parkour(player):
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 13:
-            eind()
+            eind(player.name)
             return "Menu"
 
         player.displayInfo()
