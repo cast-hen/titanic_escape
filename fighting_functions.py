@@ -223,7 +223,7 @@ def fight(enemy, player, screen):
                     damage = 3 * damageMultiplierEnemy
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)
-                    if random.randint(0, 1) == 0:
+                    if random.randint(0, 2) == 0:
                         break
             elif move == "enrage":
                 pass
