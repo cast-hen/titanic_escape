@@ -28,7 +28,7 @@ while running:
         state, player.name = menu(player.name)
 
     # Hoofd code:
-    elif state == "begin":
+    elif state == "Playing":
         state = parkour(player)
         if type(state) == enemy:
             encounter = state
@@ -36,14 +36,14 @@ while running:
             if result == "loss":
                 player.lives, state = game_over(player.lives)
                 if state is None:
-                    state = "begin"
+                    state = "Playing"
                     playerObject.xpos += 120
                 player.hitpoints = 100
             elif result == "win":
                 nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
                 if type(nieuweAanval) == move:
                     player.moveset.append(nieuweAanval)
-                    state = "begin"
+                    state = "Playing"
                     playerObject.xpos += 120
                 else:
                     state = nieuweAanval

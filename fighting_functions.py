@@ -323,7 +323,7 @@ def fight(enemy, player, screen):
                 index = waitForInput([confirmButton, cancelButton])
                 if index == 0:
                     fighting = False
-                    result = "begin"
+                    result = "Playing"
                 else:
                     draw_scene()
 

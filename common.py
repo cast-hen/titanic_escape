@@ -47,14 +47,14 @@ def menu(name):
     :return the pressed button (Start, Quit)
     """
     screen.fill('black')
-    buttonBegin = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
+    buttonPlaying = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
     textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
     textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2))
 
-    index, name = waitForInput([buttonBegin, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
-    possibleStates = ["begin", "quit"]
+    index, name = waitForInput([buttonPlaying, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
+    possibleStates = ["Playing", "quit"]
     return possibleStates[index], name
 
 
@@ -92,7 +92,7 @@ def game_over(lives, state=None):
         buttonNo = button(WIDTH / 2 + 25, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "NO", 'white', 40, 'white')
 
         index = waitForInput([buttonYes, buttonNo])
-        possibleStates = ["begin", "Menu"]
+        possibleStates = ["Playing", "Menu"]
         state = possibleStates[index]
         lives = 5
     else:
