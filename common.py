@@ -179,7 +179,7 @@ def LevelGehaald():
 def eind():
     """
     Shows the credit screen and waits until the menu button is pressed.
-    :return none:
+    :return possibleStates[index]:
     """
     screen.fill('black')
     fireworkWord("Thanks for playing", 120)

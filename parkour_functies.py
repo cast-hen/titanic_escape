@@ -303,7 +303,7 @@ def parkour(player):
             RespawnPos = (270, 450)
             playerObject.draw(screen, CameraPosx)
 
-            cube16.draw(screen, CameraPosx)
+            cube1_1.draw(screen, CameraPosx)
         elif scene == 2:
             RespawnPos = (-35, 400)
             playerObject.draw(screen, CameraPosx)
