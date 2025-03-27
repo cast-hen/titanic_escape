@@ -356,15 +356,10 @@ def parkour(player):
             RespawnPos = (-340, 400)
             playerObject.draw(screen, CameraPosx)
 
-
-
         elif scene == 16:
-            eind()
-
-        elif scene == 13:
             eind(player.name)
-
             return "Menu"
+
 
         player.displayInfo()
 
