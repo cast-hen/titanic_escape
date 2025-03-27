@@ -26,6 +26,10 @@ class move:
     def __init__(self, name, description):
         self.name = name
         self.description = description
+class item:
+    def __init__(self, name, ammount):
+        self.name = name
+        self.ammount = ammount
 
 punch = move("punch", "Hits the opponent for 10 damage")
 comboPunch = move("combo punch", "Hits the opponent a random number of times")
@@ -36,7 +40,7 @@ block = move("block", "Blocks your opponents next attack")
 
 player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [
     item("Full Restore", 2),
-    item("bomb", 5)
+    item("Bomb", 5)
 ], 5)
 
 running = True
@@ -280,38 +284,41 @@ def fight(enemy, player, screen):
                     state = "turnEnemy"
             #the code for when the item button is pressed
             elif button.check(itemButton, mouseDown, screen) and len(player.items) > 0:
-                mouseDown = False
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        mouseDown = True
-                # checks the buttons to change pages
-                if page < pages:
-                    if button.check(buttonNextPage, mouseDown, screen):
-                        page += 1
-                        draw_scene()
-                if page > 0:
-                    if button.check(buttonPrevPage, mouseDown, screen):
-                        page -= 1
-                        draw_scene()
-                # for loop drawing the buttons and checking if theyre pressed
-                for i in range(0, 4):
-                    if (page * 4) + i < len(player.moveset):
-                        if player.moveset[page * 4 + i].name == "block" and playerBlocks == 0:
-                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4),
-                                                int((height / 7) * 2), (100, 40, 0), (100, 40, 0),
-                                                player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                        else:
-                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4),
-                                                int((height / 7) * 2), (255, 180, 0), (255, 255, 255),
-                                                player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                        if button.check(moveButton, mouseDown, screen) and not (
-                                player.moveset[page * 4 + i].name == "block" and playerBlocks == 0):
-                            move = player.moveset[page * 4 + i].name
-                            done = True
-                # checks whether the button to return to the main options is pressed
-                if button.check(buttonBack, mouseDown, screen):
-                    done = True
-            draw_scene()
+                draw_scene()
+                done = False
+                pages = len(player.items) // 4
+                page = 0
+                move = "none"
+                # loop where an item can be selected
+                while not done:
+                    # checks if the mousebutton is down
+                    mouseDown = False
+                    for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            mouseDown = True
+                    # checks the buttons to change pages
+                    if page < pages:
+                        if button.check(buttonNextPage, mouseDown, screen):
+                            page += 1
+                            draw_scene()
+                    if page > 0:
+                        if button.check(buttonPrevPage, mouseDown, screen):
+                            page -= 1
+                            draw_scene()
+                    # for loop drawing the buttons and checking if they're pressed
+                    for i in range(0, 4):
+                        if (page * 4) + i < len(player.items):
+                            if player.items[page * 4 + i].ammount <= 0:
+                                itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                            else:
+                                itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                            if button.check(itemButton, mouseDown, screen) and player.items[page * 4 + i].ammount > 0:
+                                usedItem = player.items[page * 4 + i].name
+                                done = True
+                    # checks whether the button to return to the main options is pressed
+                    if button.check(buttonBack, mouseDown, screen):
+                        done = True
+                draw_scene()
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
