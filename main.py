@@ -37,19 +37,19 @@ while running:
                 player.lives, state = game_over(player.lives)
                 if state is None:
                     state = "begin"
-                    playerObject.xpos += 25
+                    playerObject.xpos += 120
                 player.hitpoints = 100
             elif result == "win":
                 nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
                 if type(nieuweAanval) == move:
                     player.moveset.append(nieuweAanval)
                     state = "begin"
-                    playerObject.xpos += 25
+                    playerObject.xpos += 120
                 else:
                     state = nieuweAanval
             else:
                 state = result
-                playerObject.xpos += 25
+                playerObject.xpos += 120
 
     elif state == "quit":
         running = False
