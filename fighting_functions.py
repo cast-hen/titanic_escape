@@ -300,6 +300,7 @@ def fight(enemy, player, screen):
                 if index == 0:
                     fighting = False
                     result = "begin"
+                    return result, playerCurrentHealth
                 else:
                     draw_scene()
 
@@ -449,7 +450,7 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    return [result, playerCurrentHealth]
+    return result, playerCurrentHealth
 
 def chooseNewAttack(options):
     """

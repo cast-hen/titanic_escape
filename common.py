@@ -41,18 +41,17 @@ class enemy:
         self.heals = heals
 
 
-def waitForInput(buttonList, keyEscape=None, buttonInfo=None):
+def waitForInput(buttonList, keyEscape=None, typeInfo=None):
     """
     Waits for input of the player in the form of pressing a button.
     :param buttonList: The buttons that are checked
     :param keyEscape: True if using the escape button is possible
-    :param buttonInfo: If possible to type, tuple with (buttonToType, startText, textCenter, textSize)
+    :param typeInfo: If possible to type, tuple with (buttonToType, startText, textCenter, textSize)
     :return the index of the pressed button
     """
     typing = False
-    if buttonInfo is not None:
-        buttonToType, text, textCenter, textSize = buttonInfo
-        font = pygame.font.Font("freesansbold.ttf", textSize)
+    if typeInfo is not None:
+        buttonToType, text, textCenter, textSize = typeInfo
     while True:
         mouseDown = False
         for event in pygame.event.get():
@@ -62,7 +61,7 @@ def waitForInput(buttonList, keyEscape=None, buttonInfo=None):
                 return "quit"
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE and keyEscape is not None:
-                    if buttonInfo is None:
+                    if typeInfo is None:
                         return -1
                     else:
                         return -1, text
@@ -87,12 +86,12 @@ def waitForInput(buttonList, keyEscape=None, buttonInfo=None):
                     break
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
-                if buttonInfo is None:
+                if typeInfo is None:
                     return i
                 else:
                     return i, text
 
-        if buttonInfo is not None:
+        if typeInfo is not None:
             if button.check(buttonToType, mouseDown, screen):
                 typing = True
         pygame.display.flip()
@@ -112,7 +111,7 @@ def menu(name):
     textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
     textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2))
 
-    index, name = waitForInput([buttonBegin, buttonQuit], buttonInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
+    index, name = waitForInput([buttonBegin, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
     possibleStates = ["begin", "quit"]
     return possibleStates[index], name
 
