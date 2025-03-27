@@ -78,3 +78,59 @@ def textPrint(text, textSize, textColour, center, delete=None):
         screen.blit(text, textRect)
     else:
         pygame.draw.rect(screen, textColour, textRect)
+
+
+def waitForInput(buttonList, keyEscape=None, typeInfo=None):
+    """
+    Waits for input of the player in the form of pressing a button.
+    :param buttonList: The buttons that are checked
+    :param keyEscape: True if using the escape button is possible
+    :param typeInfo: If possible to type, tuple with (buttonToType, startText, textCenter, textSize)
+    :return the index of the pressed button
+    """
+    typing = False
+    if typeInfo is not None:
+        buttonToType, text, textCenter, textSize = typeInfo
+    while True:
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+            if event.type == pygame.QUIT:
+                return "quit"
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE and keyEscape is not None:
+                    if typeInfo is None:
+                        return -1
+                    else:
+                        return -1, text
+
+                if event.key == pygame.K_BACKSPACE and typing:
+                    textPrint(text, textSize, 'black', textCenter, True)
+                    text = text[:-1]
+                    textPrint(text, textSize, 'white', textCenter)
+                elif event.key == pygame.K_RETURN and typing:
+                    typing = False
+            elif event.type == pygame.TEXTINPUT and typing:
+                textPrint(text, textSize, 'black', textCenter, True)
+                if len(text) <= 10:
+                    text += event.text
+                    textPrint(text, textSize, 'white', textCenter)
+                else:
+                    textPrint("Too long!", textSize, 'red', textCenter)
+                    pygame.display.flip()
+                    time.sleep(1)
+                    textPrint("Too long!", textSize, 'black', textCenter, True)
+                    textPrint(text, textSize, 'white', textCenter)
+                    break
+        for i in range(len(buttonList)):
+            if button.check(buttonList[i], mouseDown, screen):
+                if typeInfo is None:
+                    return i
+                else:
+                    return i, text
+
+        if typeInfo is not None:
+            if button.check(buttonToType, mouseDown, screen):
+                typing = True
+        pygame.display.flip()
