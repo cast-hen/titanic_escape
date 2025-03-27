@@ -15,11 +15,12 @@ class character:
         self.items = items
         self.heals = heals
 class enemy:
-    def __init__(self, name, colour, hitpoints, moveset, heals):
+    def __init__(self, name, colour, hitpoints, moveset, items, heals):
         self.name = name
         self.colour = colour
         self.hitpoints = hitpoints
         self.moveset = moveset
+        self.items = items
         self.heals = heals
 class move:
     def __init__(self, name, description):
@@ -33,14 +34,17 @@ poison = move("poison", "poisons your opponent to take damage over time")
 lifeSteal = move("life steal", "Damages your opponent and gives you 30% back as health")
 block = move("block", "Blocks your opponents next attack")
 
-player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [], 5)
+player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [
+    item("Full Restore", 2),
+    item("bomb", 5)
+], 5)
 
 running = True
 screen = pygame.display.set_mode((1300, 600), pygame.FULLSCREEN)
 mouseDown = False
 health = 100
-enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch"], 5)
-enemy2 = enemy("ASHRddgteGEtek, destroyer of lightbulbs", (255, 0, 255), 20, ["punch", "combo punch", "enrage"], 0)
+enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch"], [], 5)
+enemy2 = enemy("ASHRddgteGEtek, destroyer of lightbulbs", (255, 0, 255), 20, ["punch", "combo punch", "enrage"], [], 0)
 buttonEnemy1 = button(100, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy1", (255, 255, 255), 80,  (255, 0, 0))
 buttonEnemy2 = button(800, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy2", (255, 255, 255), 80, (255, 0, 0))
 
@@ -134,6 +138,9 @@ def fight(enemy, player, screen):
     height = screen.get_height()
     attackButton = button(0, (height / 5) * 3, width / 2, height/5, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
     fleeButton = button(width / 2, (height / 5) * 4, width / 2, height / 5, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
+    buttonNextPage = button(width / 2, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
+    buttonPrevPage = button(0, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Previous page",(0, 0, 0), width // 30, (0, 0, 0))
+    buttonBack = button(0, 0, width / 5, height / 7, (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), width // 25,(0, 0, 0))
     playerCurrentHealth = player.hitpoints
     enemyCurrentHealth = enemy.hitpoints
     playerHeals = player.heals
@@ -173,9 +180,6 @@ def fight(enemy, player, screen):
             if button.check(attackButton, mouseDown, screen):
                 #defining new variables
                 draw_scene()
-                buttonNextPage = button(width / 2, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
-                buttonPrevPage = button(0, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Previous page", (0, 0, 0), width // 30, (0, 0, 0))
-                buttonBack = button(0, 0, width / 5, height / 7, (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), width // 25, (0, 0, 0))
                 done = False
                 pages = len(player.moveset) // 4
                 page = 0
@@ -276,7 +280,38 @@ def fight(enemy, player, screen):
                     state = "turnEnemy"
             #the code for when the item button is pressed
             elif button.check(itemButton, mouseDown, screen) and len(player.items) > 0:
-                pass
+                mouseDown = False
+                for event in pygame.event.get():
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        mouseDown = True
+                # checks the buttons to change pages
+                if page < pages:
+                    if button.check(buttonNextPage, mouseDown, screen):
+                        page += 1
+                        draw_scene()
+                if page > 0:
+                    if button.check(buttonPrevPage, mouseDown, screen):
+                        page -= 1
+                        draw_scene()
+                # for loop drawing the buttons and checking if theyre pressed
+                for i in range(0, 4):
+                    if (page * 4) + i < len(player.moveset):
+                        if player.moveset[page * 4 + i].name == "block" and playerBlocks == 0:
+                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4),
+                                                int((height / 7) * 2), (100, 40, 0), (100, 40, 0),
+                                                player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                        else:
+                            moveButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4),
+                                                int((height / 7) * 2), (255, 180, 0), (255, 255, 255),
+                                                player.moveset[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                        if button.check(moveButton, mouseDown, screen) and not (
+                                player.moveset[page * 4 + i].name == "block" and playerBlocks == 0):
+                            move = player.moveset[page * 4 + i].name
+                            done = True
+                # checks whether the button to return to the main options is pressed
+                if button.check(buttonBack, mouseDown, screen):
+                    done = True
+            draw_scene()
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
