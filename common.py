@@ -181,6 +181,7 @@ def eind():
     Shows the credit screen and waits until the menu button is pressed.
     :return none:
     """
+    screen.fill('black')
     fireworkWord("Thanks for playing", 120)
     screen.fill('green')
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
