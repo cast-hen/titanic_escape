@@ -119,11 +119,11 @@ def fight(enemy, player, screen):
     #defining the variables before the fight starts
     width = screen.get_width()
     height = screen.get_height()
-    attackButton = button(0, (height / 5) * 3, width / 2, height/5, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
-    fleeButton = button(width / 2, (height / 5) * 4, width / 2, height / 5, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
-    buttonNextPage = button(width / 2, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
-    buttonPrevPage = button(0, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Previous page",(0, 0, 0), width // 30, (0, 0, 0))
-    buttonBack = button(0, 0, width / 5, height / 7, (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), width // 25,(0, 0, 0))
+    attackButton = button(0, round(height * 3 / 5), round(width / 2), round(height / 5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
+    fleeButton = button(width / 2, round(height * 4 / 5), round(width / 2), round(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
+    buttonNextPage = button(width / 2, round(height * 6 / 7), round(width / 2), round(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
+    buttonPrevPage = button(0, round(height * 6 / 7), round(width / 2), round(height / 7), (255, 180, 0), (255, 255, 255), "Previous page",(0, 0, 0), width // 30, (0, 0, 0))
+    buttonBack = button(0, 0, round(width / 5), round(height / 7), (255, 180, 0), (255, 255, 255), "Back", (0, 0, 0), width // 25,(0, 0, 0))
     playerCurrentHealth = player.hitpoints
     enemyCurrentHealth = enemy.hitpoints
     playerHeals = player.heals
@@ -147,13 +147,13 @@ def fight(enemy, player, screen):
         if state == "turnPlayer":
             #sets the texture of the buttons depending on whether its an available option or not
             if (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
-                healButton = button(width / 2, (height / 5) * 3, width / 2, height / 5, (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
+                healButton = button(width / 2, round(height * 3 / 5), width / 2, round(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
             else:
-                healButton = button(width / 2, (height / 5) * 3, width / 2, height / 5, (100, 40, 0), (100, 40, 0),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
+                healButton = button(width / 2, round(height * 3 / 5), width / 2, round(height / 5), (100, 40, 0), (100, 40, 0),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
             if len(player.items) > 0:
-                itemButton = button(0, (height / 5) * 4, width / 2, height / 5, (255, 180, 0),(255, 255, 255), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
+                itemButton = button(0, round(height * 4 / 5), width / 2, round(height / 5), (255, 180, 0),(255, 255, 255), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
             else:
-                itemButton = button(0, (height / 5) * 4, width / 2, height / 5, (100, 40, 0),(100, 40, 0), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
+                itemButton = button(0, round(height * 4 / 5), width / 2, round(height / 5), (100, 40, 0),(100, 40, 0), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
             #checks whether the mousebutton is down
             mouseDown = False
             for event in pygame.event.get():
@@ -317,8 +317,8 @@ def fight(enemy, player, screen):
                 pygame.Surface.blit(screen, dimSurface)
                 pygame.draw.rect(screen, (255, 180, 0), [width / 3, height / 3, width / 3, height / 3])
                 textPrint("Are you sure you want to leave?", int(width * 0.02), 'black', (width / 2, height / 12 * 5))
-                confirmButton = button(width / 3, height / 2, width / 6, height / 6, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
-                cancelButton = button(width / 2, height / 2, width / 6, height / 6, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
+                confirmButton = button(width / 3, height / 2, round(width / 6), round(height / 6), (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
+                cancelButton = button(width / 2, height / 2, round(width / 6), round(height / 6), (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
                 #while loop checking if they confirm they want to flee
                 index = waitForInput([confirmButton, cancelButton])
                 if index == 0:
