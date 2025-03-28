@@ -18,6 +18,7 @@ enrage = move("enrage", "Increases your damage on \n the next 3 turns",'')
 poison = move("poison", "poisons your opponent to \n take damage over time",'')
 lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health",'')
 block = move("block", "Blocks your opponents \n next attack",'')
+allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
 player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
 
 
@@ -40,22 +41,19 @@ while running:
                     state = "Playing"
                     playerObject.xpos += 120
             elif result == "win":
-                nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
-                if type(nieuweAanval) == move:
-                    player.moveset.append(nieuweAanval)
+                newMove = chooseNewAttack(allMovesList, player)
+                if newMove != "Menu":
+                    if newMove is not None:
+                        player.moveset.append(newMove)
                     state = "Playing"
                     playerObject.xpos += 120
                 else:
-                    state = nieuweAanval
+                    state = newMove
             else:
                 state = result
                 playerObject.xpos += 120
 
     elif state == "quit":
         running = False
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
 pygame.quit()
