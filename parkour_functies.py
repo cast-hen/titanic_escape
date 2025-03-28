@@ -278,7 +278,7 @@ def parkour(player):
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
-    playerObject.xpos = game_manager.Player_posx - 20
+    playerObject.xpos = game_manager.Player_posx + 20
     playerObject.ypos = game_manager.Player_posy
     pos1 = (0, 0)
     CollisionGlitch = True
@@ -326,7 +326,7 @@ def parkour(player):
             if type(platform.Type) == MoveObject:
                 (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
             elif type(platform.Type) == character:
-                if platform.Type.alive == False:
+                if not platform.Type.alive:
                     platforms.remove(platform)
         if scene == 1:
             RespawnPos = (270, 450)
