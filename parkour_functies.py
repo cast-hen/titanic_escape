@@ -7,6 +7,8 @@ import time
 gravity = 0.6
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
+# image1 = pygame.transform.scale(pygame.image.load('resources/textures/titanic 3rd class interior backdrop.png').convert(), (pygame.display.get_window_size()))
+
 
 
 class Objects:
@@ -258,6 +260,8 @@ def parkour(player):
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
+    playerObject.xpos = -90
+    playerObject.ypos = 450
     pos1 = (0, 0)
     CollisionGlitch = True
     InvisibilityFrames = 0
@@ -276,6 +280,7 @@ def parkour(player):
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         screen.fill((135, 206, 250))
+        # screen.blit(image1, (0 ,0))
         Colliders = playerObject.update_pos(platforms, CameraPosx, scene)
 
         #Collision glitch fix
@@ -396,14 +401,14 @@ def parkour(player):
         if L_border - 500 > playerObject.xpos and not scene  in [1, 10]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
-            playerObject.ypos -= 20
+            playerObject.ypos -= 30
             scene -= 1
             CollisionGlitch = False
             InvisibilityFrames += 25
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
-            playerObject.ypos -= 20
+            playerObject.ypos -= 30
             CameraPosx = L_border - 500
             scene += 1
             CollisionGlitch = False
