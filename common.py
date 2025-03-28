@@ -19,20 +19,34 @@ class character:
         self.alive = alive
 
 
-
     def displayInfo(self):
-        pygame.draw.rect(screen, (0, 0, 0, 50), pygame.Rect(20, 65, 210, 60))
-        pygame.draw.rect(screen, (255, 0, 0, 50), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
-        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        textPrint(self.name, 40, 'black', (125, 45))
+        """
+        Displays the info of the character on screen. Info consist of name, hitpoints and lives.
+        :return Nothing
+        """
+        infoSurface = pygame.Surface((230, 200), pygame.SRCALPHA)
+        infoSurface.set_alpha(200)
+        pygame.draw.rect(infoSurface, 'black', pygame.Rect(20, 65, 210, 60))
+        pygame.draw.rect(infoSurface, 'red', pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
 
         lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
         nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/nolife.png"), (38, 38))
         for i in range(5):
             if self.lives >= i + 1:
-                screen.blit(lifeImage, (20 + 43 * i, 140))
+                infoSurface.blit(lifeImage, (20 + 43 * i, 140))
             else:
-                screen.blit(nolifeImage, (20 + 43 * i, 140))
+                infoSurface.blit(nolifeImage, (20 + 43 * i, 140))
+        screen.blit(infoSurface)
+
+        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
+        #Gives the name a white outline
+        center = (125, 45)
+        textPrint(self.name, 40, 'white', (center[0] - 2, center[1] - 2))
+        textPrint(self.name, 40, 'white', (center[0] - 2, center[1] + 2))
+        textPrint(self.name, 40, 'white', (center[0] + 2, center[1] - 2))
+        textPrint(self.name, 40, 'white', (center[0] + 2, center[1] + 2))
+        textPrint(self.name, 40, 'black', center)
+
 
 class Game_Manager:
     def __init__(self, scene, Player_posx, Player_posy):
