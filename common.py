@@ -36,7 +36,7 @@ class character:
 
 class Game_Manager:
     def __init__(self, scene, Player_posx, Player_posy):
-        self.scene = 10
+        self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
 
