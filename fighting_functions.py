@@ -54,15 +54,11 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.maxHitpoints), 50))
-        healthFont = pygame.font.Font("freesansbold.ttf", 40)
-        healthTextPlayer = healthFont.render(str(playerCurrentHealth), True, (255, 255, 255))
-        healthTextEnemy = healthFont.render(str(enemyCurrentHealth), True, (255, 255, 255))
-        healthTextPlayerRect = healthTextPlayer.get_rect()
-        healthTextEnemyRect = healthTextEnemy.get_rect()
-        healthTextPlayerRect.center = (250, 205)
-        healthTextEnemyRect.center = (1050, 205)
-        screen.blit(healthTextPlayer, healthTextPlayerRect)
-        screen.blit(healthTextEnemy, healthTextEnemyRect)
+
+        textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
+        textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
+        textPrint(player.name, 40, 'black', (250, 155))
+        textPrint(enemy.name, 40, 'black', (1050, 155))
 
     def scrollText(text, colour, location, size, scrollTime):
         """
