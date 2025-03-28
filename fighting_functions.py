@@ -474,7 +474,7 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    return result, playerCurrentHealth, enemyCurrentHealth
+    return result, playerCurrentHealth
 
 def chooseNewAttack(allMovesList, player):
     """
