@@ -1,4 +1,3 @@
-from pauze import *
 from button_code import *
 from firework_function import *
 import pygame
