@@ -13,6 +13,20 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class Objects:
     def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
+        """
+        Initializes an object with position, size, color, physics properties, and scene information.
+
+        :param xpos: The initial x-coordinate of the object.
+        :param ypos: The initial y-coordinate of the object.
+        :param width: The width of the object.
+        :param height: The height of the object.
+        :param color: The color of the object.
+        :param mass: The mass of the object, affecting gravity.
+        :param xspeed: The initial horizontal speed of the object.
+        :param yspeed: The initial vertical speed of the object.
+        :param ObjectScene: The scene the object belongs to.
+        :param Type: The type of object.
+        """
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -27,7 +41,14 @@ class Objects:
         self.Type = Type
 
     def update_pos(self, platforms, CameraPosx, scene):
+        """
+        Updates the object's position based on movement, gravity, and collisions with platforms and boundaries.
 
+        :param platforms: A list of platform objects that the entity can collide with.
+        :param CameraPosx: The current horizontal position of the camera.
+        :param scene: The scene identifier used to filter relevant platforms.
+        :return: A list of platform types the entity has collided with.
+        """
         Collider = []
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
@@ -79,10 +100,26 @@ class Objects:
         return Collider
 
     def draw(self, surface, CameraPosx):
+        """
+        Draws the object as a rectangle.
+
+        :param surface: The Pygame surface to draw on.
+        :param CameraPosx: The current horizontal position of the camera, used for rendering offset.
+        """
         self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
+        """
+        Initializes a moving object.
+
+        :param StartPos: The starting position of the object as a tuple (x, y).
+        :param EndPos: The ending position of the object as a tuple (x, y).
+        :param Speed: The speed of movement (higher values mean slower movement).
+        :param WaitTime: The time to wait before moving again.
+        :param Teleport: Whether the object should teleport upon reaching the end position.
+        :param Randomness: The range of randomness applied to movement.
+        """
         self.StartPos = StartPos
         self.EndPos = EndPos
         self.Speed = 100 / Speed
@@ -97,6 +134,12 @@ class MoveObject:
         self.Direction = (self.xDirection / self.Speed, self.yDirection / self.Speed)
 
     def Move(self, pos):
+        """
+        Moves the object.
+
+        :param pos: The current position of the object as a tuple (x, y).
+        :return: The updated target position as a tuple (x, y).
+        """
         if self.randomNumber == 0:
             self.randomNumber = random.randint(-self.Randomness, self.Randomness)
         if pos == self.StartPos:

@@ -8,6 +8,18 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class character:
     def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
+        """
+        Initializes a character with attributes like name, lives, health, moves, and items.
+
+        :param name: The name of the character.
+        :param lives: The number of lives the character has.
+        :param colour: The color associated with the character.
+        :param hitpoints: The current health points of the character.
+        :param maxHitpoints: The maximum health points the character can have.
+        :param moveset: The set of moves the character can perform.
+        :param items: The list of items the character possesses.
+        :param heals: The number of healing items the character has.
+        """
         self.name = name
         self.lives = lives
         self.colour = colour
@@ -18,6 +30,9 @@ class character:
         self.heals = heals
 
     def displayInfo(self):
+        """
+        Displays information about the object.
+        """
         pygame.draw.rect(screen, (0, 0, 0, 50), pygame.Rect(20, 65, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0, 50), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
         textPrint(str(self.hitpoints), 40, 'white', (125, 95))
@@ -131,6 +146,13 @@ def eind(name):
 
 
 def Afstand(pos1, pos2):
+    """
+    Calculates the absolute distance between two positions.
+
+    :param pos1: The first position as a tuple (x, y).
+    :param pos2: The second position as a tuple (x, y).
+    :return: The absolute x and y distance as a tuple.
+    """
     x_afstand = pos2[0] - pos1[0]
     y_afstand = pos2[1] - pos1[1]
     if x_afstand < 0:

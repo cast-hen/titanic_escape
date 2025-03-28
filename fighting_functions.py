@@ -10,6 +10,13 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class move:
     def __init__(self, name, description, image):
+        """
+        Initializes an object with a name, description, and image.
+
+        :param name: The name of the object.
+        :param description: A brief description of the object.
+        :param image: The image representing the object.
+        """
         self.name = name
         self.description = description
         self.image = image
