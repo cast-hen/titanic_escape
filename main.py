@@ -18,7 +18,10 @@ enrage = move("enrage", "Increases your damage on \n the next 3 turns",'')
 poison = move("poison", "poisons your opponent to \n take damage over time",'')
 lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health",'')
 block = move("block", "Blocks your opponents \n next attack",'')
-player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
+player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5, True)
+
+
+
 
 
 while running:
@@ -40,6 +43,7 @@ while running:
                     state = "Playing"
                     playerObject.xpos += 120
             elif result == "win":
+                encounter.alive = False
                 nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
                 if type(nieuweAanval) == move:
                     player.moveset.append(nieuweAanval)

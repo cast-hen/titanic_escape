@@ -7,7 +7,7 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class character:
-    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
+    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals, alive):
         self.name = name
         self.lives = lives
         self.colour = colour
@@ -16,6 +16,9 @@ class character:
         self.moveset = moveset
         self.items = items
         self.heals = heals
+        self.alive = alive
+
+
 
     def displayInfo(self):
         pygame.draw.rect(screen, (0, 0, 0, 50), pygame.Rect(20, 65, 210, 60))
@@ -31,6 +34,13 @@ class character:
             else:
                 screen.blit(nolifeImage, (20 + 43 * i, 140))
 
+class Game_Manager:
+    def __init__(self, scene, Player_posx, Player_posy):
+        self.scene = 10
+        self.Player_posx = Player_posx
+        self.Player_posy = Player_posy
+
+game_manager = Game_Manager(1, -90, 450)
 
 def menu(name):
     """
