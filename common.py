@@ -32,18 +32,28 @@ class character:
         """
         Displays information about the object.
         """
-        pygame.draw.rect(screen, (0, 0, 0, 50), pygame.Rect(20, 65, 210, 60))
-        pygame.draw.rect(screen, (255, 0, 0, 50), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
-        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        textPrint(self.name, 40, 'black', (125, 45))
+        surface = pygame.surface.Surface((230, 200), pygame.SRCALPHA)
+        surface.set_alpha(200)
+        pygame.draw.rect(surface, (0, 0, 0, 255), pygame.Rect(20, 65, 210, 60))
+        pygame.draw.rect(surface, (255, 0, 0, 255), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
 
         lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
         nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/nolife.png"), (38, 38))
         for i in range(5):
             if self.lives >= i + 1:
-                screen.blit(lifeImage, (20 + 43 * i, 140))
+                surface.blit(lifeImage, (20 + 43 * i, 140))
             else:
-                screen.blit(nolifeImage, (20 + 43 * i, 140))
+                surface.blit(nolifeImage, (20 + 43 * i, 140))
+        screen.blit(surface, (0, 0))
+
+        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
+        center = (125, 45)
+        # Gives the name a white outline of 1 pixel.
+        textPrint(self.name, 40, 'white', (center[0] - 1, center[1] - 1))
+        textPrint(self.name, 40, 'white', (center[0] - 1, center[1] + 1))
+        textPrint(self.name, 40, 'white', (center[0] + 1, center[1] - 1))
+        textPrint(self.name, 40, 'white', (center[0] + 1, center[1] + 1))
+        textPrint(self.name, 40, 'black', center)
 
 
 def menu(name):

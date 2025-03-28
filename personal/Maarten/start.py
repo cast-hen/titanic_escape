@@ -7,7 +7,6 @@ screen = pygame.display.set_mode((1366, 668), pygame.RESIZABLE)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 pygame.font.init()
 
-
 def textOutline(text, textSize, textColour, outlineColour, outlineThickness, center):
     textPrint(text, textSize, outlineColour, (center[0] - outlineThickness, center[1] - outlineThickness))
     textPrint(text, textSize, outlineColour, (center[0] - outlineThickness, center[1] + outlineThickness))
@@ -25,7 +24,7 @@ while True:
     alpha += 6 * math.pi / 180
     pygame.display.flip()
     time.sleep(0.1)
-    break
+
 screen.fill('black')
 fireworkWord("Thanks for playing", 100)
 
