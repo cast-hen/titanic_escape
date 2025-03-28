@@ -305,17 +305,17 @@ def parkour(player):
 
             cube1_1.draw(screen, CameraPosx)
         elif scene == 2:
-            RespawnPos = (-35, 400)
+            RespawnPos = (-35, 300)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 3:
             scene += 1
         elif scene == 4:
-            RespawnPos = (-170, 500)
+            RespawnPos = (-170, 400)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 5:
-            RespawnPos = (-175, 370)
+            RespawnPos = (-175, 300)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 6:
@@ -396,6 +396,7 @@ def parkour(player):
             playerObject.ypos -= 20
             scene -= 1
             CollisionGlitch = False
+            InvisibilityFrames += 25
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
@@ -403,6 +404,7 @@ def parkour(player):
             CameraPosx = L_border - 500
             scene += 1
             CollisionGlitch = False
+            InvisibilityFrames += 25
 
         # event handler
         for event in pygame.event.get():
