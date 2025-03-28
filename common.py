@@ -32,15 +32,6 @@ class character:
                 screen.blit(nolifeImage, (20 + 43 * i, 140))
 
 
-class enemy:
-    def __init__(self, name, colour, hitpoints, moveset, heals):
-        self.name = name
-        self.colour = colour
-        self.hitpoints = hitpoints
-        self.moveset = moveset
-        self.heals = heals
-
-
 def menu(name):
     """
     Shows the menu screen

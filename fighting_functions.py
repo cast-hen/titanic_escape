@@ -53,7 +53,7 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.maxHitpoints), 50))
         healthFont = pygame.font.Font("freesansbold.ttf", 40)
         healthTextPlayer = healthFont.render(str(playerCurrentHealth), True, (255, 255, 255))
         healthTextEnemy = healthFont.render(str(enemyCurrentHealth), True, (255, 255, 255))
@@ -63,6 +63,7 @@ def fight(enemy, player, screen):
         healthTextEnemyRect.center = (1050, 205)
         screen.blit(healthTextPlayer, healthTextPlayerRect)
         screen.blit(healthTextEnemy, healthTextEnemyRect)
+
     def scrollText(text, colour, location, size, scrollTime):
         """
         Scrolls a given text across the screen for a given time
@@ -473,7 +474,7 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    return [result, playerCurrentHealth]
+    return result, playerCurrentHealth, enemyCurrentHealth
 
 def chooseNewAttack(options):
     """

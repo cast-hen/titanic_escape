@@ -119,13 +119,15 @@ class MoveObject:
         TargetPos = pos[0] + self.Direction[0], pos[1] + self.Direction[1]
         return TargetPos
 
+#Enemies
+enemyBOB_1 = character("BOB", 1, (255, 255, 0), 100, 100,["punch"], [], 0)
 
 #All objects
 playerObject = Objects(-90 , 450, 50, 50, 'green', 2, 0, 0, [1], "Player")
 cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
 cube1_3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, [1], "Collider")
-cube1_4 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, [1], enemy("BOB", (255, 255, 0), 100, ["punch"], 0))
+cube1_4 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, [1], enemyBOB_1)
 cube1_5 = Objects(-550, 29, 250, 571, 'black', 1, 0, 0, [1], "Collider")
 
 cube2_1 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, [2], "Collider")
@@ -369,6 +371,7 @@ def parkour(player):
         for Collider in Colliders:
             if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvisibilityFrames == 0:
                 player.lives, state = game_over(player.lives)
+                player.hitpoints = player.maxHitpoints
                 playerObject.xpos = RespawnPos[0]
                 playerObject.ypos = RespawnPos[1]
                 CollisionGlitch = False
@@ -377,7 +380,7 @@ def parkour(player):
                     return state
 
             #returns enemy waarmee je collide
-            if type(Collider) == enemy:
+            if type(Collider) == character:
                 return Collider
 
 

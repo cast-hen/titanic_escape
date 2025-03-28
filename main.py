@@ -30,15 +30,15 @@ while running:
     # Hoofd code:
     elif state == "Playing":
         state = parkour(player)
-        if type(state) == enemy:
+        if type(state) == character:
             encounter = state
-            result, player.hitpoints = fight(encounter, player, screen)
+            result, player.hitpoints, enemyBOB_1.hitpoints = fight(encounter, player, screen)
             if result == "loss":
                 player.lives, state = game_over(player.lives)
+                player.hitpoints = player.maxHitpoints
                 if state is None:
                     state = "Playing"
                     playerObject.xpos += 120
-                player.hitpoints = 100
             elif result == "win":
                 nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
                 if type(nieuweAanval) == move:
