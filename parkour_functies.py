@@ -1,3 +1,4 @@
+from pauze import *
 from common import *
 import pygame
 import random
@@ -12,20 +13,6 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class Objects:
     def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
-        """
-        Initializes an object with position, size, color, physics properties, and scene information.
-
-        :param xpos: The initial x-coordinate of the object.
-        :param ypos: The initial y-coordinate of the object.
-        :param width: The width of the object.
-        :param height: The height of the object.
-        :param color: The color of the object.
-        :param mass: The mass of the object, affecting gravity.
-        :param xspeed: The initial horizontal speed of the object.
-        :param yspeed: The initial vertical speed of the object.
-        :param ObjectScene: The scene the object belongs to.
-        :param Type: The type of object.
-        """
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -40,14 +27,7 @@ class Objects:
         self.Type = Type
 
     def update_pos(self, platforms, CameraPosx, scene):
-        """
-        Updates the object's position based on movement, gravity, and collisions with platforms and boundaries.
 
-        :param platforms: A list of platform objects that the entity can collide with.
-        :param CameraPosx: The current horizontal position of the camera.
-        :param scene: The scene identifier used to filter relevant platforms.
-        :return: A list of platform types the entity has collided with.
-        """
         Collider = []
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
@@ -99,26 +79,10 @@ class Objects:
         return Collider
 
     def draw(self, surface, CameraPosx):
-        """
-        Draws the object as a rectangle.
-
-        :param surface: The Pygame surface to draw on.
-        :param CameraPosx: The current horizontal position of the camera, used for rendering offset.
-        """
         self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
-        """
-        Initializes a moving object.
-
-        :param StartPos: The starting position of the object as a tuple (x, y).
-        :param EndPos: The ending position of the object as a tuple (x, y).
-        :param Speed: The speed of movement (higher values mean slower movement).
-        :param WaitTime: The time to wait before moving again.
-        :param Teleport: Whether the object should teleport upon reaching the end position.
-        :param Randomness: The range of randomness applied to movement.
-        """
         self.StartPos = StartPos
         self.EndPos = EndPos
         self.Speed = 100 / Speed
@@ -133,12 +97,6 @@ class MoveObject:
         self.Direction = (self.xDirection / self.Speed, self.yDirection / self.Speed)
 
     def Move(self, pos):
-        """
-        Moves the object.
-
-        :param pos: The current position of the object as a tuple (x, y).
-        :return: The updated target position as a tuple (x, y).
-        """
         if self.randomNumber == 0:
             self.randomNumber = random.randint(-self.Randomness, self.Randomness)
         if pos == self.StartPos:
@@ -164,14 +122,25 @@ class MoveObject:
         return TargetPos
 
 #Enemies
-enemyBOB_1 = character("BOB", 1, (255, 255, 0), 100, 100,["punch"], [], 0)
+enemyBOB_1 = character("BOB", 1, (255, 255, 0), 100, 100,["punch"], [], 0, True)
+enemyJAN_1 = character("JAN", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyJANBOB_2 = character("JANBOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBOBJAN_1 = character("BOBJAN", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBobbie_1 = character("Bobbie", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyWillem_1 = character("Willem", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyAlexander_1 = character("Alexander", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyWillem_Henk_1 = character("Willem-Henk", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBoze_Janje_1 = character("Boze Jantje", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 
 #All objects
-playerObject = Objects(-90 , 450, 50, 50, 'green', 2, 0, 0, [1], "Player")
+playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 50, 50, 'green', 2, 0, 0, [1], "Player")
+
 cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
 cube1_3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, [1], "Collider")
-cube1_4 = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, [1], enemyBOB_1)
+cube1_Enemy_test = Objects(-200, 320, 80, 180, 'orange', 1, 0, 0, [1], enemyBOB_1)
+cube1_Enemy1 = Objects(1050, 170, 130, 270, 'orange', 1, 0, 0, [1], enemyJAN_1)
 cube1_5 = Objects(-550, 29, 250, 571, 'black', 1, 0, 0, [1], "Collider")
 
 cube2_1 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, [2], "Collider")
@@ -186,6 +155,7 @@ cube4_3 = Objects(365, 420, 313, 500, 'black', 1, 0, 0, [4], "Collider")
 cube4_4 = Objects(365, 430, 313, 54, 'black', 1, 0, 0, [4], "Collider")
 cube4_5 = Objects(22, 200, 150, 54, 'black', 1, 0, 0, [4], "Collider")
 cube4_6 = Objects(-417, 93, 150, 20, 'black', 1, 0, 0, [4], "Collider")
+cube4_Enemy1 = Objects(1040, -190, 100, 300, 'orange', 1, 0, 0, [4], enemyBOBJAN_1)
 
 cube5_1  = Objects(-500, 130, 218, 1000, 'black', 1, 0, 0, [5], "Collider")
 cube5_2 =  Objects(-326, 400, 284, 500, 'black', 1, 0, 0, [5], "Collider")
@@ -194,6 +164,7 @@ cube5_4 =  Objects(430, 467, 70, 500, 'black', 1, 0, 0, [5], "Collider")
 cube5_5 =  Objects(70, 630, 70, 500, 'black', 1, 0, 0, [5], "Collider")
 cube5_6 = Objects(850, 620, 110, 500, 'black', 1, 0, 0, [5], "Collider")
 cube5_7 = Objects(1223, 400, 200, 500, 'black', 1, 0, 0, [5], "Collider")
+cube5_Enemy1 = Objects(640, -100, 100, 300, 'orange', 1, 0, 0, [5], enemyBOBBOBBOB_1)
 
 cube6_1 = Objects(-500, 410, 200, 700, 'black', 1, 0, 0, [6], "Collider")
 cube6_2 = Objects(-27, 544, 150, 300, 'black', 1, 0, 0, [6], "Collider")
@@ -204,6 +175,7 @@ cube6_5 = Objects(1200, 380, 200, 500, 'black', 1, 0, 0, [6], "Collider")
 cube7_1 = Objects(-500, 415, 300, 500, 'black', 1, 0, 0, [7], "Collider")
 cube7_2 = Objects(35, 650, 830, 300, 'black', 1, 0, 0, [7], "Collider")
 cube7_3 = Objects(1100, 430, 300, 500, 'black', 1, 0, 0, [7], "Collider")
+cube7_Enemy1 = Objects(590, 360, 100, 300, 'orange', 1, 0, 0, [7], enemyBobbie_1)
 
 cube8_1 = Objects(-500, 435, 300, 500, 'black', 1, 0, 0, [8], "Collider")
 cube8_2 = Objects(-206, 525, 540, 400, 'black', 1, 0, 0, [8], "Collider")
@@ -215,6 +187,7 @@ cube10_2 = Objects(-200, 530, 470, 180, 'black', 1, 0, 0, [10], "Collider")
 cube10_3 = Objects(125, 365, 525, 325, 'black', 1, 0, 0, [10], "Collider")
 cube10_4 = Objects(625, 500, 430, 250, 'black', 1, 0, 0, [10], "Collider")
 cube10_5 = Objects(1025, 280, 400, 475, 'black', 1, 0, 0, [10], "Collider")
+cube10_Enemy1 = Objects(825, 85, 100, 400, 'orange', 1, 0, 0, [10], enemyWillem_1)
 
 cube10_6 = Objects(460, 0, 60, 60, 'red', 1, 0, 0, [10], MoveObject((460, -100), (460, 2000), 0.5, 10, False, 100))
 cube10_7 = Objects(1050, 600, 60, 60, 'red', 1, 0, 0, [10], MoveObject((1050, -100), (1050, 2000), 0.4, 10, False, 100))
@@ -223,6 +196,7 @@ cube10_8 = Objects(150, 300, 60, 60, 'red', 1, 0, 0, [10], MoveObject((150, -100
 cube11_1 = Objects(-500, 285, 400, 600, 'black', 1, 0, 0, [11], "Collider")
 cube11_2 = Objects(216, 400, 475, 370, 'black', 1, 0, 0, [11], "Collider")
 cube11_3 = Objects(1050, 500, 350, 300, 'black', 1, 0, 0, [11], "Collider")
+cube11_Enemy1 = Objects(485, 93, 100, 300, 'orange', 1, 0, 0, [11], enemyAlexander_1)
 
 cube11_4 = Objects(0, -100, 60, 60, 'red', 1, 0, 0, [11], MoveObject((0, -100), (0, 2000), 1, 10, False, 0))
 cube11_5 = Objects(50, -250, 60, 60, 'red', 1, 0, 0, [11], MoveObject((50, -100), (50, 2000), 1, 10, False, 0))
@@ -244,7 +218,7 @@ cube12_13_7 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((9
 cube12_13_8 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.55, 10, False, 400))
 cube12_13_9 = Objects(900, 1000, 50, 50, 'red', 1, 0, 0, [12, 13], MoveObject((900, -100), (900, 2000), 0.65, 10, False, 400))
 
-cube13_1 = Objects(-500, 525, 250, 300, 'black', 1, 0, 0, [13], "Collider")
+cube13_1 = Objects(-500, 530, 250, 300, 'black', 1, 0, 0, [13], "Collider")
 cube13_2 = Objects(285, 480, 320, 380, 'black', 1, 0, 0, [13], "Collider")
 cube13_3 = Objects(-50, 360, 150, 500, 'black', 1, 0, 0, [13], "Collider")
 cube13_4 = Objects(910, 380, 500, 400, 'black', 1, 0, 0, [13], "Collider")
@@ -264,26 +238,28 @@ cube15_1 = Objects(-500, 650, 2000, 500, 'black', 1, 0, 0, [15], "Collider")
 cube15_2 = Objects(-500, 190, 2000, 250, 'black', 1, 0, 0, [15], "Collider")
 cube15_3 = Objects(-500, 0, 300, 350, 'black', 1, 0, 0, [15], "Collider")
 cube15_4 = Objects(1100, 0, 300, 350, 'black', 1, 0, 0, [15], "Collider")
+cube15_Enemy1 = Objects(69, 440, 100, 400, 'orange', 1, 0, 0, [15], enemyWillem_Henk_1)
+cube15_Enemy2 = Objects(880, 440, 100, 400, 'orange', 1, 0, 0, [15], enemyBoze_Janje_1)
 
 cube15_5 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 4, 10, False, 500))
 cube15_6 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 4.5, 10, False, 500))
 cube15_7 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 5.5, 10, False, 500))
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
-platforms = [cube1_1, cube1_2, cube1_3, cube1_4, cube1_5,
+platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
              cube2_1, cube2_1, cube2_2, cube2_3, cube2_4, cube2_5,
-             cube4_1, cube4_2, cube4_3, cube4_4, cube4_5, cube4_6,
-             cube5_1, cube5_2, cube5_3, cube5_4, cube5_5, cube5_6, cube5_7,
+             cube4_1, cube4_2, cube4_3, cube4_4, cube4_5, cube4_6, cube4_Enemy1,
+             cube5_1, cube5_2, cube5_3, cube5_4, cube5_5, cube5_6, cube5_7, cube5_Enemy1,
              cube6_1, cube6_2, cube6_3, cube6_4, cube6_5,
-             cube7_1, cube7_2, cube7_3,
+             cube7_1, cube7_2, cube7_3, cube7_Enemy1,
              cube8_1, cube8_2, cube8_3, cube8_4,
-             cube10_1, cube10_2, cube10_3, cube10_4, cube10_5, cube10_6, cube10_7, cube10_8,
-             cube11_1, cube11_2, cube11_3, cube11_4, cube11_5, cube11_6, cube11_7,
+             cube10_1, cube10_2, cube10_3, cube10_4, cube10_5, cube10_6, cube10_7, cube10_8, cube10_Enemy1,
+             cube11_1, cube11_2, cube11_3, cube11_4, cube11_5, cube11_6, cube11_7, cube11_Enemy1,
              cube12_1, cube12_2, cube12_3, cube12_4,
              cube12_13_1, cube12_13_2, cube12_13_3, cube12_13_4, cube12_13_5, cube12_13_6, cube12_13_7, cube12_13_8, cube12_13_9,
              cube13_1, cube13_2, cube13_3, cube13_4,
              cube14_1, cube14_2, cube14_3, cube14_4, cube14_5, cube14_6, cube14_7, cube14_8, cube14_9,
-             cube15_1, cube15_2, cube15_3,cube15_4, cube15_5, cube15_6, cube15_7]
+             cube15_1, cube15_2, cube15_3,cube15_4, cube15_5, cube15_6, cube15_7, cube15_Enemy1, cube15_Enemy2]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -298,15 +274,15 @@ def parkour(player):
     :return: the new state or the enemy that is encountered
     """
     running = True
-    scene = 1
+    scene = game_manager.scene
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
-    playerObject.xpos = -90
-    playerObject.ypos = 450
+    playerObject.xpos = game_manager.Player_posx - 20
+    playerObject.ypos = game_manager.Player_posy
     pos1 = (0, 0)
     CollisionGlitch = True
-    InvisibilityFrames = 0
+    InvisibilityFrames = 5
 
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
@@ -335,6 +311,7 @@ def parkour(player):
 
 
             PlayerPos2 = (playerObject.xpos, playerObject.ypos)
+
         else:
             PlayerPos2 = (playerObject.xpos, playerObject.ypos)
             PlayerPos1 = PlayerPos2
@@ -348,6 +325,9 @@ def parkour(player):
                 platform.draw(screen, CameraPosx)
             if type(platform.Type) == MoveObject:
                 (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
+            elif type(platform.Type) == character:
+                if platform.Type.alive == False:
+                    platforms.remove(platform)
         if scene == 1:
             RespawnPos = (270, 450)
             playerObject.draw(screen, CameraPosx)
@@ -396,6 +376,7 @@ def parkour(player):
             RespawnPos = (-320, 400)
             playerObject.draw(screen, CameraPosx)
         elif scene == 13:
+
             RespawnPos = (-340, 400)
             playerObject.draw(screen, CameraPosx)
         elif scene == 14:
@@ -428,7 +409,9 @@ def parkour(player):
 
             #returns enemy waarmee je collide
             if type(Collider) == character:
-                return Collider
+                if Collider.alive == True and InvisibilityFrames == 0:
+                    return Collider
+        print(InvisibilityFrames)
 
 
         # verandert camera position
@@ -501,4 +484,6 @@ def parkour(player):
 
         if InvisibilityFrames > 0:
             InvisibilityFrames -= 1
+        game_manager.scene = scene
+        (game_manager.Player_posx, game_manager.Player_posy) = (playerObject.xpos, playerObject.ypos)
 

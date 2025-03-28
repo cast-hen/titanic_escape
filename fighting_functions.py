@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 from button_code import *
+from pauze import *
 from common import *
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
@@ -9,13 +10,6 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class move:
     def __init__(self, name, description, image):
-        """
-        Initializes an object with a name, description, and image.
-
-        :param name: The name of the object.
-        :param description: A brief description of the object.
-        :param image: The image representing the object.
-        """
         self.name = name
         self.description = description
         self.image = image
@@ -480,44 +474,33 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    return result, playerCurrentHealth
+    return result, playerCurrentHealth, enemyCurrentHealth
 
-def chooseNewAttack(allMovesList, player):
+def chooseNewAttack(options):
     """
     Displays 3 moves the player can choose from to add to their deck
-    player: the player character
+    :param options: list of 3 moves the player can choose from
     :return: the chosen move or the new state
     """
-    allMoves = allMovesList
-    if len(allMoves) != len(player.moveset):
-        options = []
-        for i in range(3):
-            selected = False
-            while not selected:
-                selected = True
-                move = random.randint(0, len(allMoves) - 1)
-                for i in range(len(player.moveset)):
-                    if allMoves[move] == player.moveset[i]:
-                        selected = False
-                if selected:
-                    options.append(allMoves[move])
-                    allMoves.pop(move)
-                elif len(allMoves) == len(player.moveset):
-                    selected = True
-        screen.fill((100, 100, 100))
-        buttonList = []
-        width = screen.get_width()
-        height = screen.get_height()
-        for i in range(len(options)):
-            options[i].displayMove(width/2 + 328 * (i - 1), height/2 - 50)
-            buttonList.append(button(width/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
-        # Loop waarin gekeken wordt welke knop wordt ingedrukt
-        while True:
-            index = waitForInput(buttonList, True)
-            if index == -1:
-                if Pause() == "Menu":
-                    return "Menu"
+    # Tekent de 3 opties als kaarten
+    screen.fill((100, 100, 100))
+    options[0].displayMove(WIDTH/2 - 288 - 40, HEIGHT/2 - 50)
+    options[1].displayMove(WIDTH/2, HEIGHT/2 - 50)
+    options[2].displayMove(WIDTH/2 + 288 + 40, HEIGHT/2 - 50)
+    # Maakt drie knoppen aan om je keuze te maken
+    buttonChoice1 = button(WIDTH/2 - 288 - 40 - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice2 = button(WIDTH/2 - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    buttonChoice3 = button(WIDTH/2 + 288 + 40 - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
+    # Loop waarin gekeken wordt welke knop wordt ingedrukt
+    while True:
+        index = waitForInput([buttonChoice1, buttonChoice2, buttonChoice3], True)
+        if index == -1:
+            if Pause() == "Menu":
+                return "Menu"
             else:
-                return options[index]
-    else:
-        return None
+                screen.fill((100, 100, 100))
+                options[0].displayMove(WIDTH / 2 - 288 - 40, HEIGHT / 2 - 50)
+                options[1].displayMove(WIDTH / 2, HEIGHT / 2 - 50)
+                options[2].displayMove(WIDTH / 2 + 288 + 40, HEIGHT / 2 - 50)
+        else:
+            return options[index]

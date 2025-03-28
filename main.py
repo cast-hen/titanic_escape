@@ -1,3 +1,4 @@
+from pauze import *
 from fighting_functions import *
 from parkour_functies import *
 from button_code import *
@@ -17,8 +18,10 @@ enrage = move("enrage", "Increases your damage on \n the next 3 turns",'')
 poison = move("poison", "poisons your opponent to \n take damage over time",'')
 lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health",'')
 block = move("block", "Blocks your opponents \n next attack",'')
-allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
-player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
+player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5, True)
+
+
+
 
 
 while running:
@@ -32,7 +35,7 @@ while running:
         state = parkour(player)
         if type(state) == character:
             encounter = state
-            result, player.hitpoints = fight(encounter, player, screen)
+            result, player.hitpoints, enemyBOB_1.hitpoints = fight(encounter, player, screen)
             if result == "loss":
                 player.lives, state = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints
@@ -40,19 +43,23 @@ while running:
                     state = "Playing"
                     playerObject.xpos += 120
             elif result == "win":
-                newMove = chooseNewAttack(allMovesList, player)
-                if newMove != "Menu":
-                    if newMove is not None:
-                        player.moveset.append(newMove)
+                encounter.alive = False
+                nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
+                if type(nieuweAanval) == move:
+                    player.moveset.append(nieuweAanval)
                     state = "Playing"
                     playerObject.xpos += 120
                 else:
-                    state = newMove
+                    state = nieuweAanval
             else:
                 state = result
                 playerObject.xpos += 120
 
     elif state == "quit":
         running = False
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
 pygame.quit()

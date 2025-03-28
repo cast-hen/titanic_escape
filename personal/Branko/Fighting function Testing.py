@@ -141,7 +141,6 @@ def fight(enemy, player, screen):
     width = screen.get_width()
     height = screen.get_height()
     attackButton = button(0, (height / 5) * 3, width / 2, height/5, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
-    useItemButton = button(0, (height / 5) * 4, width / 2, height / 5, (255, 180, 0), (255, 255, 255), "Use item",(0, 0, 0), width // 12, (0, 0, 0))
     fleeButton = button(width / 2, (height / 5) * 4, width / 2, height / 5, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
     buttonNextPage = button(width / 2, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
     buttonPrevPage = button(0, (height / 7) * 6, width / 2, height / 7, (255, 180, 0), (255, 255, 255), "Previous page",(0, 0, 0), width // 30, (0, 0, 0))
@@ -160,12 +159,6 @@ def fight(enemy, player, screen):
     poisonTurnsLeftEnemy = 0
     immunityTurnsLeftPlayer = 0
     immunityTurnsLeftEnemy = 0
-    playerItemAmmounts = []
-    enemyItemAmmounts = []
-    for i in range(0, len(player.items)):
-        playerItemAmmounts.append(player.items[i].ammount)
-    for i in range(0, len(enemy.items)):
-        enemyItemAmmounts.append(enemy.items[i].ammount)
     fighting = True
     state = "turnPlayer"
     draw_scene()
@@ -178,6 +171,10 @@ def fight(enemy, player, screen):
                 healButton = button(width / 2, (height / 5) * 3, width / 2, height / 5, (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
             else:
                 healButton = button(width / 2, (height / 5) * 3, width / 2, height / 5, (100, 40, 0), (100, 40, 0),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
+            if len(player.items) > 0:
+                itemButton = button(0, (height / 5) * 4, width / 2, height / 5, (255, 180, 0),(255, 255, 255), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
+            else:
+                itemButton = button(0, (height / 5) * 4, width / 2, height / 5, (100, 40, 0),(100, 40, 0), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
             #checks whether the mousebutton is down
             mouseDown = False
             for event in pygame.event.get():
@@ -286,12 +283,12 @@ def fight(enemy, player, screen):
                             scrollText("Block Failed", (255, 0, 0), "player", 40, 20)
                     state = "turnEnemy"
             #the code for when the item button is pressed
-            elif button.check(useItemButton, mouseDown, screen):
+            elif button.check(itemButton, mouseDown, screen) and len(player.items) > 0:
                 draw_scene()
                 done = False
                 pages = len(player.items) // 4
                 page = 0
-                usedItem = "none"
+                move = "none"
                 # loop where an item can be selected
                 while not done:
                     # checks if the mousebutton is down
@@ -311,46 +308,18 @@ def fight(enemy, player, screen):
                     # for loop drawing the buttons and checking if they're pressed
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.items):
-                            if playerItemAmmounts[page * 4 + i] > 0 and (player.items[page * 4 + i].name != "Full Restore" or playerCurrentHealth < player.maxHitpoints):
-                                itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                            else:
+                            if player.items[page * 4 + i].ammount <= 0:
                                 itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                            if button.check(itemButton, mouseDown, screen) and playerItemAmmounts[page * 4 + i] > 0:
-                                usedItem = page * 4 + i
+                            else:
+                                itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                            if button.check(itemButton, mouseDown, screen) and player.items[page * 4 + i].ammount > 0:
+                                usedItem = player.items[page * 4 + i].name
                                 done = True
-
                     # checks whether the button to return to the main options is pressed
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
-                # checks whether an item has been selected or whether to return to the main options
-                if usedItem != "none":
-                    playerItemAmmounts[usedItem] -= 1
-                    # the "Full Restore" item
-                    if player.items[usedItem].name == "Full Restore":
-                        healed = player.maxHitpoints - playerCurrentHealth
-                        playerCurrentHealth = player.maxHitpoints
-                        scrollText(str(healed), (0, 255, 0), "player", 80, 20)
-                        if poisonTurnsLeftPlayer > 0:
-                            poisonTurnsLeftPlayer = 0
-                            scrollText("poison cleared", (255, 0, 255), "player", 40, 40)
-                    # the "Bom" item
-                    elif player.items[usedItem].name == "Bomb":
-                        if immunityTurnsLeftEnemy > 0:
-                            blocked("enemy")
-                        else:
-                            enemyCurrentHealth -= 20
-                            scrollText("20", (255, 0, 0), "enemy", 80, 20)
-                    # the "" item
-                    elif player.items[usedItem].name == "":
-                        pass
-                    # the "" item
-                    elif player.items[usedItem].name == "":
-                        pass
-                    # the "" item
-                    elif player.items[usedItem].name == "":
-                        pass
-            # the code for when the heal button is pressed
+            #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
                 healed = 20
@@ -361,9 +330,9 @@ def fight(enemy, player, screen):
                     playerCurrentHealth += healed
                 scrollText(str(healed), (0, 255, 0), "player", 80, 20)
                 state = "turnEnemy"
-            # the code for when the flee button is pressed
+            #the code for when the flee button is pressed
             elif button.check(fleeButton, mouseDown, screen):
-                # defining the variables
+                #defining the variables
                 confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
                 confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
                 confirmRect = confirmText.get_rect()
@@ -373,7 +342,7 @@ def fight(enemy, player, screen):
                 confirmed = False
                 confirmButton = button(width / 3, height / 2, width / 6, height / 6, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
                 cancelButton = button(width / 2, height / 2, width / 6, height / 6, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
-                # while loop checking if they confirm they want to flee
+                #while loop checking if they confirm they want to flee
                 while not confirmed:
                     mouseDown = False
                     for event in pygame.event.get():
@@ -381,19 +350,19 @@ def fight(enemy, player, screen):
                             mouseDown = True
                     if button.check(confirmButton, mouseDown, screen):
                         fighting = False
-                        result = "begin"
+                        result = "flee"
                         confirmed = True
                     elif button.check(cancelButton, mouseDown, screen):
                         confirmed = True
                         draw_scene()
-            # various checks when the players turn is over
+            #various checks when the players turn is over
             if state == "turnEnemy":
-                # removes a turn if the player is enraged, resets if they are no longer enraged
+                #removes a turn if the player is enraged, resets if they are no longer enraged
                 if enrageTurnsLeftPlayer > 0:
                     enrageTurnsLeftPlayer -= 1
                     if enrageTurnsLeftPlayer == 0:
                         damageMultiplierPlayer /= 1.5
-                # damages and removes a turn if the enemy is poisoned
+                #damages and removes a turn if the enemy is poisoned
                 if poisonTurnsLeftEnemy > 0 and enemyCurrentHealth > 0:
                     time.sleep(0.5)
                     damage = int(1 / (enemyCurrentHealth / enemy.hitpoints) + 4)
@@ -403,23 +372,23 @@ def fight(enemy, player, screen):
                     if poisonTurnsLeftEnemy == 0:
                         time.sleep(0.5)
                         scrollText("poison cleared", (255, 0, 255), "enemy", 40, 40)
-                # removes a turn if the enemy is immune
+                #removes a turn if the enemy is immune
                 if immunityTurnsLeftEnemy > 0:
                     immunityTurnsLeftEnemy -= 1
                     if immunityTurnsLeftEnemy == 0:
                         scrollText("No longer immune", (100, 100, 255), "enemy", 40, 40)
-            # checks if the enemy is dead
-            if enemyCurrentHealth <= 0:
-                enemyCurrentHealth = 0
-                fighting = False
-                state = "gameOver"
-                result = "win"
-        # the enemy turn
+                #checks if the enemy is dead
+                if enemyCurrentHealth <= 0:
+                    enemyCurrentHealth = 0
+                    fighting = False
+                    state = "gameOver"
+                    result = "win"
+        #the enemy turn
         elif state == "turnEnemy":
             draw_scene()
             time.sleep(0.5)
             selected = False
-            # loop where a move is selected
+            #loop where a move is selected
             while not selected:
                 roll = random.randint(0, len(enemy.moveset))
                 if roll == len(enemy.moveset):
@@ -428,15 +397,15 @@ def fight(enemy, player, screen):
                     move = enemy.moveset[roll]
                 if (move != "heal" or enemyCurrentHealth < enemy.hitpoints and enemyHeals > 0) and (move!= "block" or enemyBlocks > 0):
                     selected = True
-            # the punch move
+            #the punch move
             if move == "punch":
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
                 else:
-                    damage = int(10 * damageMultiplierEnemy)
+                    damage = 10 * damageMultiplierEnemy
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)
-            # the combo punch move
+            #the combo punch move
             elif move == "combo punch":
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
@@ -448,13 +417,13 @@ def fight(enemy, player, screen):
                         scrollText(str(damage), (255, 0, 0), "player", 80, 20)
                         if random.randint(0, 2) == 0:
                             done = True
-            # the enrage move
+            #the enrage move
             elif move == "enrage":
                 if enrageTurnsLeftEnemy == 0:
                     scrollText("1.5x damage", (255, 0, 0), "enemy", 40, 20)
                     damageMultiplierEnemy *= 1.5
                 enrageTurnsLeftEnemy = 3
-            # the poison move
+            #the poison move
             elif move == "poison":
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
@@ -463,7 +432,7 @@ def fight(enemy, player, screen):
                     if poisonTurnsLeftPlayer < roll:
                         poisonTurnsLeftPlayer = roll
                     scrollText("poisoned for " + str(poisonTurnsLeftPlayer) + " turns", (255, 0, 255), "player", 30, 50)
-            # the life steal move
+            #the life steal move
             elif move == "life steal":
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
@@ -478,7 +447,7 @@ def fight(enemy, player, screen):
                     else:
                         enemyCurrentHealth += healed
                     scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
-            # the block move
+            #the block move
             elif move == "block":
                 enemyBlocks -= 1
                 roll = random.randint(0, 2)
@@ -488,7 +457,7 @@ def fight(enemy, player, screen):
                     scrollText("immune for " + str(immunityTurnsLeftEnemy) + " turns", (100, 100, 255), "enemy", 30, 50)
                 else:
                     scrollText("Block Failed", (255, 0, 0), "enemy", 40, 20)
-            # the heal move
+            #the heal move
             elif move == "heal":
                 enemyHeals -= 1
                 healed = 20
@@ -501,12 +470,12 @@ def fight(enemy, player, screen):
                 if poisonTurnsLeftEnemy > 0:
                     poisonTurnsLeftEnemy = 0
                     scrollText("poison cleared", (0, 255, 0), "enemy", 40, 40)
-            # removes a turn if the enemy is enraged and resets if they are no longer enraged
+            #removes a turn if the enemy is enraged and resets if they are no longer enraged
             if enrageTurnsLeftEnemy > 0:
                 enrageTurnsLeftEnemy -= 1
                 if enrageTurnsLeftEnemy == 0:
                     damageMultiplierEnemy /= 1.5
-            # damages the player and removes a turn if theyre poisoned
+            #damages the player and removes a turn if theyre poisoned
             if poisonTurnsLeftPlayer > 0 and playerCurrentHealth > 0:
                 time.sleep(0.5)
                 damage = int(1 / enemyCurrentHealth / enemy.hitpoints + 4)
@@ -516,23 +485,23 @@ def fight(enemy, player, screen):
                 if poisonTurnsLeftPlayer == 0:
                     time.sleep(0.5)
                     scrollText("poison cleared", (255, 0, 255), "player", 40, 40)
-            # removes a turn if the player is immune
+            #removes a turn if the player is immune
             if immunityTurnsLeftPlayer > 0:
                 immunityTurnsLeftPlayer -= 1
                 if immunityTurnsLeftPlayer == 0:
                     scrollText("No longer immune", (100, 100, 255), "player", 40, 40)
-            # checks if the player has died
+            #checks if the player has died
             if playerCurrentHealth <= 0:
                 playerCurrentHealth = 0
                 fighting = False
                 result = "loss"
-            # returns to the player turn
+            #returns to the player turn
             time.sleep(0.5)
             state = "turnPlayer"
         time.sleep(0.01)
         pygame.display.update()
-    # returning the values when the fight is over
-    return [result, playerCurrentHealth, playerItemAmmounts]
+    #returning the values if the fight is over
+    return [result, playerCurrentHealth]
 
 pygame.init()
 while running:
@@ -550,15 +519,14 @@ while running:
     elif button.check(buttonEnemy2, mouseDown, screen):
         result = fight(enemy2, player, screen)
         screen.fill((0, 0, 0))
-    if result != "pass":
+    if result[0] == "win":
         player.hitpoints = result[1]
-        for i in range(0, len(result[2])):
-            player.items[i].ammount = result[2][i]
-        if result[0] == "win":
-            screen.fill((0, 255, 0))
-        elif result[0] == "loss":
-            player.hitpoints = 100
-            player.lives -= 1
+        screen.fill((0, 255, 0))
+    elif result[0] == "flee":
+        player.hitpoints = result[1]
+    elif result[0] == "loss":
+        player.hitpoints = 100
+        player.lives -= 1
 
     time.sleep(0.01)
 pygame.quit()

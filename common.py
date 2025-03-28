@@ -1,3 +1,4 @@
+from pauze import *
 from button_code import *
 from firework_function import *
 import pygame
@@ -6,19 +7,7 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class character:
-    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):
-        """
-        Initializes a character with attributes like name, lives, health, moves, and items.
-
-        :param name: The name of the character.
-        :param lives: The number of lives the character has.
-        :param colour: The color associated with the character.
-        :param hitpoints: The current health points of the character.
-        :param maxHitpoints: The maximum health points the character can have.
-        :param moveset: The set of moves the character can perform.
-        :param items: The list of items the character possesses.
-        :param heals: The number of healing items the character has.
-        """
+    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals, alive):
         self.name = name
         self.lives = lives
         self.colour = colour
@@ -27,34 +16,31 @@ class character:
         self.moveset = moveset
         self.items = items
         self.heals = heals
+        self.alive = alive
+
+
 
     def displayInfo(self):
-        """
-        Displays information about the object.
-        """
-        surface = pygame.surface.Surface((230, 200), pygame.SRCALPHA)
-        surface.set_alpha(200)
-        pygame.draw.rect(surface, (0, 0, 0, 255), pygame.Rect(20, 65, 210, 60))
-        pygame.draw.rect(surface, (255, 0, 0, 255), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
+        pygame.draw.rect(screen, (0, 0, 0, 50), pygame.Rect(20, 65, 210, 60))
+        pygame.draw.rect(screen, (255, 0, 0, 50), pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
+        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
+        textPrint(self.name, 40, 'black', (125, 45))
 
         lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
         nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/nolife.png"), (38, 38))
         for i in range(5):
             if self.lives >= i + 1:
-                surface.blit(lifeImage, (20 + 43 * i, 140))
+                screen.blit(lifeImage, (20 + 43 * i, 140))
             else:
-                surface.blit(nolifeImage, (20 + 43 * i, 140))
-        screen.blit(surface, (0, 0))
+                screen.blit(nolifeImage, (20 + 43 * i, 140))
 
-        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        center = (125, 45)
-        # Gives the name a white outline of 1 pixel.
-        textPrint(self.name, 40, 'white', (center[0] - 1, center[1] - 1))
-        textPrint(self.name, 40, 'white', (center[0] - 1, center[1] + 1))
-        textPrint(self.name, 40, 'white', (center[0] + 1, center[1] - 1))
-        textPrint(self.name, 40, 'white', (center[0] + 1, center[1] + 1))
-        textPrint(self.name, 40, 'black', center)
+class Game_Manager:
+    def __init__(self, scene, Player_posx, Player_posy):
+        self.scene = scene
+        self.Player_posx = Player_posx
+        self.Player_posy = Player_posy
 
+game_manager = Game_Manager(1, -90, 450)
 
 def menu(name):
     """
@@ -155,13 +141,6 @@ def eind(name):
 
 
 def Afstand(pos1, pos2):
-    """
-    Calculates the absolute distance between two positions.
-
-    :param pos1: The first position as a tuple (x, y).
-    :param pos2: The second position as a tuple (x, y).
-    :return: The absolute x and y distance as a tuple.
-    """
     x_afstand = pos2[0] - pos1[0]
     y_afstand = pos2[1] - pos1[1]
     if x_afstand < 0:
