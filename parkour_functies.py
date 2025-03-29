@@ -411,7 +411,7 @@ def parkour(player):
             if type(Collider) == character:
                 if Collider.alive == True and InvisibilityFrames == 0:
                     return Collider
-        print(InvisibilityFrames)
+        #print(InvisibilityFrames)
 
 
         # verandert camera position
