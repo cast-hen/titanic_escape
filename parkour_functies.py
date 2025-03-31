@@ -267,7 +267,7 @@ cube17_Enemy1 = Objects(950, 164, 160, 370, 'orange', 1, 0, 0, [17], enemyKwaard
 
 cube19_1 = Objects(-500, 530, 1500, 300, 'black', 1, 0, 0, [19], "Collider")
 
-cube_RisingWater = Objects(-500, 800, 2000, 1000, 'red', 1, 0, 0, [19], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
+cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [19], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
