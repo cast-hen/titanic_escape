@@ -14,6 +14,12 @@ class move:
         self.description = description
         self.image = image
 
+    class item:
+        def __init__(self, name, ammount, image):
+            self.name = name
+            self.ammount = ammount
+            self.image = image
+
     def displayMove(self, x, y):
         """
         Displays a card with a move and its description
@@ -117,6 +123,7 @@ def fight(enemy, player, screen):
     width = screen.get_width()
     height = screen.get_height()
     attackButton = button(0, round(height * 3 / 5), round(width / 2), round(height / 5), (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
+    itemButton = button(0, round(height * 4 / 5), width / 2, round(height / 5), (255, 180, 0), (255, 255, 255),"Use item", (0, 0, 0), width // 12, (0, 0, 0))
     fleeButton = button(width / 2, round(height * 4 / 5), round(width / 2), round(height / 5), (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
     buttonNextPage = button(width / 2, round(height * 6 / 7), round(width / 2), round(height / 7), (255, 180, 0), (255, 255, 255), "Next page", (0, 0, 0), width // 30, (0, 0, 0))
     buttonPrevPage = button(0, round(height * 6 / 7), round(width / 2), round(height / 7), (255, 180, 0), (255, 255, 255), "Previous page",(0, 0, 0), width // 30, (0, 0, 0))
@@ -147,10 +154,6 @@ def fight(enemy, player, screen):
                 healButton = button(width / 2, round(height * 3 / 5), width / 2, round(height / 5), (255, 180, 0), (255, 255, 255),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
             else:
                 healButton = button(width / 2, round(height * 3 / 5), width / 2, round(height / 5), (100, 40, 0), (100, 40, 0),"Heal", (0, 0, 0), width // 12, (0, 0, 0))
-            if len(player.items) > 0:
-                itemButton = button(0, round(height * 4 / 5), width / 2, round(height / 5), (255, 180, 0),(255, 255, 255), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
-            else:
-                itemButton = button(0, round(height * 4 / 5), width / 2, round(height / 5), (100, 40, 0),(100, 40, 0), "Use item", (0, 0, 0), width // 12, (0, 0, 0))
             #checks whether the mousebutton is down
             mouseDown = False
             for event in pygame.event.get():
@@ -259,12 +262,12 @@ def fight(enemy, player, screen):
                             scrollText("Block Failed", (255, 0, 0), "player", 40, 20)
                     state = "turnEnemy"
             #the code for when the item button is pressed
-            elif button.check(itemButton, mouseDown, screen) and len(player.items) > 0:
+            elif button.check(itemButton, mouseDown, screen):
                 draw_scene()
                 done = False
                 pages = len(player.items) // 4
                 page = 0
-                move = "none"
+                usedItem = None
                 # loop where an item can be selected
                 while not done:
                     # checks if the mousebutton is down
@@ -285,16 +288,18 @@ def fight(enemy, player, screen):
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.items):
                             if player.items[page * 4 + i].ammount <= 0:
-                                itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                                selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
                             else:
-                                itemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                            if button.check(itemButton, mouseDown, screen) and player.items[page * 4 + i].ammount > 0:
+                                selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                            if button.check(selectItemButton, mouseDown, screen) and player.items[page * 4 + i].ammount > 0:
                                 usedItem = player.items[page * 4 + i].name
                                 done = True
                     # checks whether the button to return to the main options is pressed
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
+                if usedItem is not None:
+                    pass
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
@@ -470,33 +475,43 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    return result, playerCurrentHealth, enemyCurrentHealth
+    return result, playerCurrentHealth
 
-def chooseNewAttack(options):
+def chooseNewAttack(allMovesList, player):
     """
     Displays 3 moves the player can choose from to add to their deck
     :param options: list of 3 moves the player can choose from
     :return: the chosen move or the new state
     """
+    allMoves = allMovesList
     # Tekent de 3 opties als kaarten
-    screen.fill((100, 100, 100))
-    options[0].displayMove(WIDTH/2 - 288 - 40, HEIGHT/2 - 50)
-    options[1].displayMove(WIDTH/2, HEIGHT/2 - 50)
-    options[2].displayMove(WIDTH/2 + 288 + 40, HEIGHT/2 - 50)
-    # Maakt drie knoppen aan om je keuze te maken
-    buttonChoice1 = button(WIDTH/2 - 288 - 40 - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
-    buttonChoice2 = button(WIDTH/2 - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
-    buttonChoice3 = button(WIDTH/2 + 288 + 40 - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white')
-    # Loop waarin gekeken wordt welke knop wordt ingedrukt
-    while True:
-        index = waitForInput([buttonChoice1, buttonChoice2, buttonChoice3], True)
-        if index == -1:
-            if Pause() == "Menu":
-                return "Menu"
+    if len(allMoves) != len(player.moveset):
+        screen.fill((100, 100, 100))
+        options = []
+        for i in range(3):
+            selected = False
+            while not selected:
+                selected = True
+                move = random.randint(0, len(allMoves) - 1)
+                for i in range(len(player.moveset)):
+                    if allMoves[move] == player.moveset[i]:
+                        selected = False
+                if selected:
+                    options.append(allMoves[move])
+                    allMoves.pop(move)
+                if len(allMoves) == len(player.moveset):
+                    selected = True
+        buttonList = []
+        for i in range(len(options)):
+            options[i].displayMove(WIDTH/2 + 328 * (i - 1), HEIGHT/2 - 50)
+            buttonList.append(button(WIDTH/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
+        # Loop waarin gekeken wordt welke knop wordt ingedrukt
+        while True:
+            index = waitForInput(buttonList, True)
+            if index == -1:
+                if Pause() == "Menu":
+                    return "Menu"
             else:
-                screen.fill((100, 100, 100))
-                options[0].displayMove(WIDTH / 2 - 288 - 40, HEIGHT / 2 - 50)
-                options[1].displayMove(WIDTH / 2, HEIGHT / 2 - 50)
-                options[2].displayMove(WIDTH / 2 + 288 + 40, HEIGHT / 2 - 50)
-        else:
-            return options[index]
+                return options[index]
+    else:
+        return None

@@ -35,25 +35,27 @@ while running:
         state = parkour(player)
         if type(state) == character:
             encounter = state
-            result, player.hitpoints, enemyBOB_1.hitpoints = fight(encounter, player, screen)
+            result, player.hitpoints = fight(encounter, player, screen)
             if result == "loss":
                 player.lives, state = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints
                 if state is None:
                     state = "Playing"
-                    playerObject.xpos += 120
             elif result == "win":
                 encounter.alive = False
-                nieuweAanval = chooseNewAttack([enrage, lifeSteal, block])
-                if type(nieuweAanval) == move:
-                    player.moveset.append(nieuweAanval)
-                    state = "Playing"
-                    playerObject.xpos += 120
+                allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
+                newMove = chooseNewAttack(allMovesList, player)
+                if newMove is not None:
+                    if newMove != "Menu":
+                        player.moveset.append(newMove)
+                        state = "Playing"
+                    else:
+                        state = newMove
                 else:
-                    state = nieuweAanval
+                    state = "Playing"
             else:
                 state = result
-                playerObject.xpos += 120
+            playerObject.xpos += 120
 
     elif state == "quit":
         running = False

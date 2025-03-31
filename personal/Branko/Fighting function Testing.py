@@ -187,7 +187,7 @@ def fight(enemy, player, screen):
                 done = False
                 pages = len(player.moveset) // 4
                 page = 0
-                move = "none"
+                move = None
                 #loop where a move is selected
                 while not done:
                     #checks if the mousebutton is down
@@ -219,7 +219,7 @@ def fight(enemy, player, screen):
                         done = True
                 draw_scene()
                 #checks if a move is selected or whether to return to the main options
-                if move != "none":
+                if move is not None:
                     #the punch move
                     if move == "punch":
                         if immunityTurnsLeftEnemy > 0:
@@ -288,7 +288,7 @@ def fight(enemy, player, screen):
                 done = False
                 pages = len(player.items) // 4
                 page = 0
-                move = "none"
+                usedItem = None
                 # loop where an item can be selected
                 while not done:
                     # checks if the mousebutton is down
@@ -319,6 +319,8 @@ def fight(enemy, player, screen):
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
+                if usedItem is not None:
+                    pass
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
