@@ -132,6 +132,7 @@ enemyWillem_1 = character("Willem", 1, (255, 255, 0), 10, 10,["punch"], [], 0, T
 enemyAlexander_1 = character("Alexander", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 enemyWillem_Henk_1 = character("Willem-Henk", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 enemyBoze_Janje_1 = character("Boze Jantje", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 50, 50, 'green', 2, 0, 0, [1], "Player")
@@ -234,7 +235,7 @@ cube14_7 = Objects(227, 1000, 120, 120, 'red', 1, 0, 0, [14], MoveObject((227, -
 cube14_8 = Objects(888, 0, 120, 120, 'red', 1, 0, 0, [14], MoveObject((888, -100), (888, 2500), 0.7, 10, False, 0))
 cube14_9 = Objects(555, 500, 120, 120, 'red', 1, 0, 0, [14], MoveObject((555, -100), (555, 2500), 0.7, 10, False, 0))
 
-cube15_1 = Objects(-500, 650, 2000, 500, 'black', 1, 0, 0, [15], "Collider")
+cube15_16_1 = Objects(-500, 650, 2000, 500, 'black', 1, 0, 0, [15,16], "Collider")
 cube15_2 = Objects(-500, 190, 2000, 250, 'black', 1, 0, 0, [15], "Collider")
 cube15_3 = Objects(-500, 0, 300, 350, 'black', 1, 0, 0, [15], "Collider")
 cube15_4 = Objects(1100, 0, 300, 350, 'black', 1, 0, 0, [15], "Collider")
@@ -244,6 +245,29 @@ cube15_Enemy2 = Objects(880, 440, 100, 400, 'orange', 1, 0, 0, [15], enemyBoze_J
 cube15_5 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 4, 10, False, 500))
 cube15_6 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 4.5, 10, False, 500))
 cube15_7 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [15], MoveObject((400, -100), (400, 190), 5.5, 10, False, 500))
+
+cube16_1 = Objects(-500, 0, 300, 400, 'black', 1, 0, 0, [16], "Collider")
+cube16_2 = Objects(1200, 100, 270, 570, 'black', 1, 0, 0, [16], "Collider")
+cube16_3 = Objects(1100, 100, 270, 385, 'black', 1, 0, 0, [16], "Collider")
+cube16_4 = Objects(640, 410, 175, 40, 'black', 1, 0, 0, [16], "Collider")
+cube16_5 = Objects(210, 330, 175, 40, 'black', 1, 0, 0, [16], "Collider")
+cube16_6 = Objects(-210, 280, 180, 120, 'black', 1, 0, 0, [16], "Collider")
+cube16_7 = Objects(-215, 0, 130, 160, 'black', 1, 0, 0, [16], "Collider")
+cube16_8 = Objects(615, 90, 175, 40, 'black', 1, 0, 0, [16], "Collider")
+
+cube16_9 = Objects(0, -400, 300, 300, 'red', 1, 0, 0, [16], MoveObject((0, -400), (0, 2500), 0.5, 10, False, 0))
+cube16_10 = Objects(350, -400, 300, 300, 'red', 1, 0, 0, [16], MoveObject((350, -400), (350, 2500), 0.5, 10, False, 0))
+cube16_11 = Objects(700, -400, 300, 300, 'red', 1, 0, 0, [16], MoveObject((700, -400), (700, 2500), 0.5, 10, False, 0))
+
+cube17_1 = Objects(-500, 100, 270, 770, 'black', 1, 0, 0, [17], "Collider")
+cube17_2 = Objects(-500, 330, 1000, 500, 'black', 1, 0, 0, [17], "Collider")
+cube17_3 = Objects(465, 530, 1000, 500, 'black', 1, 0, 0, [17], "Collider")
+cube17_4 = Objects(300, 0, 1200, 75, 'black', 1, 0, 0, [17], "Collider")
+cube17_Enemy1 = Objects(950, 164, 160, 370, 'orange', 1, 0, 0, [17], enemyKwaardaardige_BOB_1)
+
+cube19_1 = Objects(-500, 530, 1500, 300, 'black', 1, 0, 0, [19], "Collider")
+
+cube_RisingWater = Objects(-500, 800, 2000, 1000, 'red', 1, 0, 0, [19], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
@@ -259,11 +283,14 @@ platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
              cube12_13_1, cube12_13_2, cube12_13_3, cube12_13_4, cube12_13_5, cube12_13_6, cube12_13_7, cube12_13_8, cube12_13_9,
              cube13_1, cube13_2, cube13_3, cube13_4,
              cube14_1, cube14_2, cube14_3, cube14_4, cube14_5, cube14_6, cube14_7, cube14_8, cube14_9,
-             cube15_1, cube15_2, cube15_3,cube15_4, cube15_5, cube15_6, cube15_7, cube15_Enemy1, cube15_Enemy2]
+             cube15_16_1, cube15_2, cube15_3,cube15_4, cube15_5, cube15_6, cube15_7, cube15_Enemy1, cube15_Enemy2,
+             cube16_1, cube16_2, cube16_3, cube16_4, cube16_5, cube16_6, cube16_7, cube16_8, cube16_9, cube16_10, cube16_11,
+             cube17_1, cube17_2, cube17_3, cube17_4, cube17_Enemy1,
+             cube19_1, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
-fps = 60
+fps = 120
 jump_height = -25
 speed = 11
 
@@ -307,6 +334,7 @@ def parkour(player):
             if Afstand(PlayerPos1, PlayerPos2) < 50 or Afstand(PlayerPos1, PlayerPos2) > 500 :
                 PlayerPos1 = PlayerPos2
             else:
+
                 (playerObject.xpos, playerObject.ypos) = PlayerPos1
 
 
@@ -385,8 +413,21 @@ def parkour(player):
         elif scene == 15:
             RespawnPos = (-340, 400)
             playerObject.draw(screen, CameraPosx)
-
         elif scene == 16:
+            RespawnPos = (-440, 600)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 17:
+            RespawnPos = (-440, 600)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 18:
+            LevelGehaald()
+            scene += 1
+            player.lives = 5
+        elif scene == 19:
+            RespawnPos = (-440, 600)
+            playerObject.draw(screen, CameraPosx)
+
+        elif scene == 20:
             eind(player.name)
             return "Menu"
 
@@ -404,6 +445,8 @@ def parkour(player):
                 playerObject.ypos = RespawnPos[1]
                 CollisionGlitch = False
                 InvisibilityFrames += 50
+
+                cube_RisingWater.ypos = 800
                 if state is not None:
                     return state
 
@@ -423,13 +466,13 @@ def parkour(player):
             CameraPosx = R_border - 500
 
         # linker scene transition
-        if L_border - 500 > playerObject.xpos and not scene  in [1, 10]:
+        if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19]:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             playerObject.ypos -= 30
             scene -= 1
             CollisionGlitch = False
-            InvisibilityFrames += 25
+            InvisibilityFrames = 25
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
             playerObject.xpos = L_border - 450
@@ -437,7 +480,7 @@ def parkour(player):
             CameraPosx = L_border - 500
             scene += 1
             CollisionGlitch = False
-            InvisibilityFrames += 25
+            InvisibilityFrames = 25
 
         # event handler
         for event in pygame.event.get():

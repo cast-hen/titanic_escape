@@ -51,7 +51,7 @@ class Game_Manager:
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
 
-game_manager = Game_Manager(1, -90, 450)
+game_manager = Game_Manager(19, -90, 450)
 
 def menu(name):
     """
