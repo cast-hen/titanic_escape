@@ -423,6 +423,7 @@ def parkour(player):
             LevelGehaald()
             scene += 1
             player.lives = 5
+            cube_RisingWater.ypos = 900
         elif scene == 19:
             RespawnPos = (-440, 600)
             playerObject.draw(screen, CameraPosx)
