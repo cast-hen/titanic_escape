@@ -35,7 +35,7 @@ while running:
         state = parkour(player)
         if type(state) == character:
             encounter = state
-            result, player.hitpoints = fight(encounter, player, screen)
+            result, player.hitpoints, player.items = fight(encounter, player, screen)
             if result == "loss":
                 player.lives, state = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints

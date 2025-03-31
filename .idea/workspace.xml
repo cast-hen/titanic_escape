@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0207619f-c113-4953-ac52-86518db1f2bf" name="Changes" comment="fixes">
+      <change beforePath="$PROJECT_DIR$/fighting_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/fighting_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2tfGBlq9nUDQGKDA8bwHUB6LbFL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Fighting function Testing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Fighting function-DESKTOP-O62RGSF.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Pausescreen Test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.common.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fighting_functions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="Fighting function Testing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="titanic_Escape" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/personal/Branko" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/personal/Branko/Fighting function Testing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Pausescreen Test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="titanic_Escape" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/personal/Branko" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/personal/Branko/Pausescreen Test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Fighting function Testing" />
+        <item itemvalue="Python.Pausescreen Test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-a5bc9544c897-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.23654.177" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0207619f-c113-4953-ac52-86518db1f2bf" name="Changes" comment="" />
+      <created>1740735582921</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740735582921</updated>
+    </task>
+    <task id="LOCAL-00001" summary="added sum stuff">
+      <option name="closed" value="true" />
+      <created>1740739143753</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1740739143753</updated>
+    </task>
+    <task id="LOCAL-00002" summary="button code made">
+      <option name="closed" value="true" />
+      <created>1740739672274</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1740739672274</updated>
+    </task>
+    <task id="LOCAL-00003" summary="button code made">
+      <option name="closed" value="true" />
+      <created>1740739753743</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740739753743</updated>
+    </task>
+    <task id="LOCAL-00004" summary="compatible with button file">
+      <option name="closed" value="true" />
+      <created>1740744323069</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1740744323069</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Did sum stuff">
+      <option name="closed" value="true" />
+      <created>1741003548569</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741003548569</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added more updated fighting function">
+      <option name="closed" value="true" />
+      <created>1741253336375</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1741253336375</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Now saved player hitpoints after fighting">
+      <option name="closed" value="true" />
+      <created>1741254237721</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1741254237721</updated>
+    </task>
+    <task id="LOCAL-00008" summary="bugfixing and re-implemented choosing a new attack">
+      <option name="closed" value="true" />
+      <created>1741257840609</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1741257840609</updated>
+    </task>
+    <task id="LOCAL-00009" summary="smol fix">
+      <option name="closed" value="true" />
+      <created>1741338869739</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1741338869739</updated>
+    </task>
+    <task id="LOCAL-00010" summary="added pydoc">
+      <option name="closed" value="true" />
+      <created>1741339259435</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741339259435</updated>
+    </task>
+    <task id="LOCAL-00011" summary="commentaar toegevoegd">
+      <option name="closed" value="true" />
+      <created>1741342857193</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1741342857193</updated>
+    </task>
+    <task id="LOCAL-00012" summary="een paar moves toegevoeg, unfinished">
+      <option name="closed" value="true" />
+      <created>1741343821024</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1741343821024</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Added pydoc to more functions">
+      <option name="closed" value="true" />
+      <created>1742295134568</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1742295134568</updated>
+    </task>
+    <task id="LOCAL-00014" summary="thingies">
+      <option name="closed" value="true" />
+      <created>1742456783976</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1742456783976</updated>
+    </task>
+    <task id="LOCAL-00015" summary="updated fighting function">
+      <option name="closed" value="true" />
+      <created>1742458241158</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1742458241158</updated>
+    </task>
+    <task id="LOCAL-00016" summary="updated fighting function">
+      <option name="closed" value="true" />
+      <created>1742458289872</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1742458289872</updated>
+    </task>
+    <task id="LOCAL-00017" summary="updated fighting function">
+      <option name="closed" value="true" />
+      <created>1742458396895</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1742458396895</updated>
+    </task>
+    <task id="LOCAL-00018" summary="updated fighting function">
+      <option name="closed" value="true" />
+      <created>1742458934152</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1742458934152</updated>
+    </task>
+    <task id="LOCAL-00019" summary="smol bugfix">
+      <option name="closed" value="true" />
+      <created>1742460814469</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1742460814469</updated>
+    </task>
+    <task id="LOCAL-00020" summary="smol bugfix">
+      <option name="closed" value="true" />
+      <created>1742460959349</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1742460959349</updated>
+    </task>
+    <task id="LOCAL-00021" summary="smol bugfix">
+      <option name="closed" value="true" />
+      <created>1742461011568</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1742461011568</updated>
+    </task>
+    <task id="LOCAL-00022" summary="smol bugfix">
+      <option name="closed" value="true" />
+      <created>1742461053785</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1742461053785</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Added the other moves">
+      <option name="closed" value="true" />
+      <created>1742900921008</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1742900921008</updated>
+    </task>
+    <task id="LOCAL-00024" summary="added back removed stuff">
+      <option name="closed" value="true" />
+      <created>1743061774878</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1743061774878</updated>
+    </task>
+    <task id="LOCAL-00025" summary="commit better">
+      <option name="closed" value="true" />
+      <created>1743063027195</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1743063027195</updated>
+    </task>
+    <task id="LOCAL-00026" summary="commit better">
+      <option name="closed" value="true" />
+      <created>1743063126209</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1743063126209</updated>
+    </task>
+    <task id="LOCAL-00027" summary="chooseNewAttack works now">
+      <option name="closed" value="true" />
+      <created>1743161885596</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1743161885596</updated>
+    </task>
+    <task id="LOCAL-00028" summary="enemy now resets hitpoints">
+      <option name="closed" value="true" />
+      <created>1743162006886</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1743162006886</updated>
+    </task>
+    <task id="LOCAL-00029" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1743422823394</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1743422823394</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added sum stuff" />
+    <MESSAGE value="button code made" />
+    <MESSAGE value="compatible with button file" />
+    <MESSAGE value="Did sum stuff" />
+    <MESSAGE value="added more updated fighting function" />
+    <MESSAGE value="Now saved player hitpoints after fighting" />
+    <MESSAGE value="bugfixing and re-implemented choosing a new attack" />
+    <MESSAGE value="smol fix" />
+    <MESSAGE value="added pydoc" />
+    <MESSAGE value="commentaar toegevoegd" />
+    <MESSAGE value="een paar moves toegevoeg, unfinished" />
+    <MESSAGE value="Added pydoc to more functions" />
+    <MESSAGE value="thingies" />
+    <MESSAGE value="updated fighting function" />
+    <MESSAGE value="smol bugfix" />
+    <MESSAGE value="Added the other moves" />
+    <MESSAGE value="added back removed stuff" />
+    <MESSAGE value="commit better" />
+    <MESSAGE value="chooseNewAttack works now" />
+    <MESSAGE value="enemy now resets hitpoints" />
+    <MESSAGE value="fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+  </component>
+</project>

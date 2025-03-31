@@ -1,0 +1,57 @@
+Index: personal/Branko/Pausescreen Test.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\r\nimport random\r\nfrom button_code import *\r\n\r\nclass character:\r\n    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals):\r\n        self.name = name\r\n        self.lives = lives\r\n        self.colour = colour\r\n        self.hitpoints = hitpoints\r\n        self.maxHitpoints = maxHitpoints\r\n        self.moveset = moveset\r\n        self.items = items\r\n        self.heals = heals\r\n\r\nclass move:\r\n    def __init__(self, name, description, image):\r\n        self.name = name\r\n        self.description = description\r\n        self.image = image\r\n\r\n    def __str__(self):\r\n        return f\"{self.name}\"\r\n\r\n    def displayMove(self, x, y):\r\n        \"\"\"\r\n        Displays a card with a move and its description\r\n        :param x: horizontal position of the center of the card\r\n        :param y: vertical position of the center of the card\r\n        :return: nothing\r\n        \"\"\"\r\n        # Tekent het plaatje als er voor die move een is\r\n        if not self.image == \"\":\r\n            screen.blit(self.image, (x, y))\r\n        # Print de tekst op de kaart\r\n        textPrint(self.description, 20, 'white', (x, y + 150))\r\n        textPrint(self.name, 35, 'white', (x, y - 200))\r\n\r\npunch = move(\"punch\", \"Hits the opponent \\n for 10 damage\",\"\")\r\ncomboPunch = move(\"combo punch\", \"Hits the opponent a \\n random number of times\",\"\")\r\nenrage = move(\"enrage\", \"Increases your damage on \\n the next 3 turns\",'')\r\npoison = move(\"poison\", \"poisons your opponent to \\n take damage over time\",'')\r\nlifeSteal = move(\"life steal\", \"Damages your opponent \\n and gives you 30% \\n back as health\",'')\r\nblock = move(\"block\", \"Blocks your opponents \\n next attack\",'')\r\nplayer = character(\"bob\", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)\r\nallMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]\r\n\r\ndef chooseNewAttack(allMovesList, player):\r\n    \"\"\"\r\n    Displays 3 moves the player can choose from to add to their deck\r\n    player: the player character\r\n    :return: the chosen move or the new state\r\n    \"\"\"\r\n    allMoves = allMovesList\r\n    if len(allMoves) != len(player.moveset):\r\n        options = []\r\n        for i in range(3):\r\n            selected = False\r\n            while not selected:\r\n                selected = True\r\n                move = random.randint(0, len(allMoves) - 1)\r\n                for i in range(len(player.moveset)):\r\n                    if allMoves[move] == player.moveset[i]:\r\n                        selected = False\r\n                if selected:\r\n                    options.append(allMoves[move])\r\n                    allMoves.pop(move)\r\n                elif len(allMoves) == len(player.moveset):\r\n                    selected = True\r\n        screen.fill((100, 100, 100))\r\n        buttonList = []\r\n        width = screen.get_width()\r\n        height = screen.get_height()\r\n        for i in range(len(options)):\r\n            options[i].displayMove(width/2 + 328 * (i - 1), height/2 - 50)\r\n            buttonList.append(button(width/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), \"Choose\", 'white', 50, 'white'))\r\n        # Loop waarin gekeken wordt welke knop wordt ingedrukt\r\n        while True:\r\n            index = waitForInput(buttonList, True)\r\n            if index == -1:\r\n                if Pause() == \"Menu\":\r\n                    return \"Menu\"\r\n            else:\r\n                return options[index]\r\n    else:\r\n        return None\r\n\r\nscreen = pygame.display.set_mode((1300, 600), pygame.FULLSCREEN)\r\nrunning = True\r\n\r\npygame.init()\r\nwhile running:\r\n    screen.fill((0, 0, 0))\r\n    pygame.display.update()\r\n    time.sleep(1)\r\n    for i in range(len(player.moveset)):\r\n        print(player.moveset[i])\r\n    print(\"yay\")\r\n    newMove = chooseNewAttack(allMovesList, player)\r\n    if newMove is not None:\r\n        player.moveset.append(newMove)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/personal/Branko/Pausescreen Test.py b/personal/Branko/Pausescreen Test.py
+--- a/personal/Branko/Pausescreen Test.py	(revision 32d47c5c495893d75a0de48f3e53ee3a102ac16f)
++++ b/personal/Branko/Pausescreen Test.py	(date 1743162664569)
+@@ -43,7 +43,6 @@
+ lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health",'')
+ block = move("block", "Blocks your opponents \n next attack",'')
+ player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)
+-allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
+ 
+ def chooseNewAttack(allMovesList, player):
+     """
+@@ -77,10 +76,7 @@
+         # Loop waarin gekeken wordt welke knop wordt ingedrukt
+         while True:
+             index = waitForInput(buttonList, True)
+-            if index == -1:
+-                if Pause() == "Menu":
+-                    return "Menu"
+-            else:
++            if index != -1:
+                 return options[index]
+     else:
+         return None
+@@ -96,6 +92,7 @@
+     for i in range(len(player.moveset)):
+         print(player.moveset[i])
+     print("yay")
++    allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
+     newMove = chooseNewAttack(allMovesList, player)
+     if newMove is not None:
+         player.moveset.append(newMove)
+\ No newline at end of file
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from pauze import *\r\nfrom fighting_functions import *\r\nfrom parkour_functies import *\r\nfrom button_code import *\r\nfrom common import *\r\nimport pygame\r\nimport time\r\n\r\npygame.init()\r\nscreen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)\r\nWIDTH, HEIGHT = pygame.display.get_window_size()\r\nrunning = True\r\nstate = \"Menu\"\r\n\r\npunch = move(\"punch\", \"Hits the opponent \\n for 10 damage\",\"\")\r\ncomboPunch = move(\"combo punch\", \"Hits the opponent a \\n random number of times\",\"\")\r\nenrage = move(\"enrage\", \"Increases your damage on \\n the next 3 turns\",'')\r\npoison = move(\"poison\", \"poisons your opponent to \\n take damage over time\",'')\r\nlifeSteal = move(\"life steal\", \"Damages your opponent \\n and gives you 30% \\n back as health\",'')\r\nblock = move(\"block\", \"Blocks your opponents \\n next attack\",'')\r\nallMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]\r\nplayer = character(\"bob\", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5)\r\n\r\n\r\nwhile running:\r\n    if state == \"Menu\":\r\n        screen.fill('black')\r\n        player.lives, player.hitpoints, items = (5, 100, [])\r\n        state, player.name = menu(player.name)\r\n\r\n    # Hoofd code:\r\n    elif state == \"Playing\":\r\n        state = parkour(player)\r\n        if type(state) == character:\r\n            encounter = state\r\n            result, player.hitpoints = fight(encounter, player, screen)\r\n            if result == \"loss\":\r\n                player.lives, state = game_over(player.lives)\r\n                player.hitpoints = player.maxHitpoints\r\n                if state is None:\r\n                    state = \"Playing\"\r\n                    playerObject.xpos += 120\r\n            elif result == \"win\":\r\n                newMove = chooseNewAttack(allMovesList, player)\r\n                if newMove != \"Menu\":\r\n                    if newMove is not None:\r\n                        player.moveset.append(newMove)\r\n                    state = \"Playing\"\r\n                    playerObject.xpos += 120\r\n                else:\r\n                    state = newMove\r\n            else:\r\n                state = result\r\n                playerObject.xpos += 120\r\n\r\n    elif state == \"quit\":\r\n        running = False\r\n\r\npygame.quit()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 32d47c5c495893d75a0de48f3e53ee3a102ac16f)
++++ b/main.py	(date 1743162730395)
+@@ -41,6 +41,7 @@
+                     state = "Playing"
+                     playerObject.xpos += 120
+             elif result == "win":
++                allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
+                 newMove = chooseNewAttack(allMovesList, player)
+                 if newMove != "Menu":
+                     if newMove is not None:

@@ -142,6 +142,8 @@ def fight(enemy, player, screen):
     poisonTurnsLeftEnemy = 0
     immunityTurnsLeftPlayer = 0
     immunityTurnsLeftEnemy = 0
+    playerItems = player.items
+    enemyItems = enemy.items
     fighting = True
     state = "turnPlayer"
     draw_scene()
@@ -286,20 +288,20 @@ def fight(enemy, player, screen):
                             draw_scene()
                     # for loop drawing the buttons and checking if they're pressed
                     for i in range(0, 4):
-                        if (page * 4) + i < len(player.items):
-                            if player.items[page * 4 + i].ammount <= 0:
-                                selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                        if (page * 4) + i < len(playerItems):
+                            if playerItems[page * 4 + i].ammount <= 0:
+                                selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (100, 40, 0), (100, 40, 0), playerItems[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
                             else:
-                                selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), player.items[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                            if button.check(selectItemButton, mouseDown, screen) and player.items[page * 4 + i].ammount > 0:
-                                usedItem = player.items[page * 4 + i].name
+                                selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4), int((height / 7) * 2), (255, 180, 0), (255, 255, 255), playerItems[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
+                            if button.check(selectItemButton, mouseDown, screen) and playerItems[page * 4 + i].ammount > 0:
+                                usedItem = page * 4 + i
                                 done = True
                     # checks whether the button to return to the main options is pressed
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
                 draw_scene()
                 if usedItem is not None:
-                    pass
+                    playerItems[usedItem].ammount -= 1
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
@@ -475,7 +477,7 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    return result, playerCurrentHealth
+    return result, playerCurrentHealth, playerItems
 
 def chooseNewAttack(allMovesList, player):
     """
