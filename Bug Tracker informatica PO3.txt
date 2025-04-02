@@ -1,9 +1,10 @@
 bug tracker
-Format: <bugnaam> status: <status> <beschrijving>
-bugnaam: korte naam die de bug voor een deel beschrijft
-status: unresolved, working on a fix, resolved
+Format: <bugnaam> status: <status>
+        <beschrijving>
+<bugnaam>: korte naam die de bug voor een deel beschrijft
+<status>: unresolved, working on a fix, resolved
 (als je een bug hebt gefixt markeer hem dan also resolved, niet weghalen)
-beschrijving: langere beschrijving van de bug en een uitleg hoe je hem kan reproduceren
+<beschrijving>: langere beschrijving van de bug en een uitleg hoe je hem kan reproduceren
 
 Game over returnt niet naar begin     status: unresolved
     Als je al je levens hebt verloren en daarna op "restart" drukt ga je niet helemaal naar het begin terug
