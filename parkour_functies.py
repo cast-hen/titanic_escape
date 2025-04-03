@@ -135,7 +135,13 @@ enemyBoze_Janje_1 = character("Boze Jantje", 1, (255, 255, 0), 10, 10,["punch"],
 enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 
 #All objects
+#Tijdelijke player objects, worden plaatjes
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 50, 50, 'green', 2, 0, 0, [1], "Player")
+playerColor_Still = 'green'
+playerColor_Left = 'yellow'
+playerColor_Right = 'blue'
+playerColor_Jump = 'red'
+
 
 cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
@@ -345,6 +351,15 @@ def parkour(player):
             PlayerPos1 = PlayerPos2
             CollisionGlitch = True
 
+
+        if playerObject.yspeed != 0:
+            playerObject.color = playerColor_Jump
+        elif playerObject.xspeed < 0:
+            playerObject.color = playerColor_Left
+        elif playerObject.xspeed > 0:
+            playerObject.color = playerColor_Right
+        else:
+            playerObject.color = playerColor_Still
 
         #spawnt alle objects
 
