@@ -65,7 +65,6 @@ def menu(name):
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
     textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
     textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2))
-
     index, name = waitForInput([buttonPlaying, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
     possibleStates = ["Playing", "quit"]
     return possibleStates[index], name
@@ -99,6 +98,7 @@ def game_over(lives, state=None):
     lives -= 1
     screen.fill('red')
     if lives == 0:
+
         textPrint("Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
         textPrint("Play again?", 50, 'white', (WIDTH / 2, HEIGHT / 2))
         buttonYes = button(WIDTH / 2 - 150, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')

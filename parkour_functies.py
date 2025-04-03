@@ -305,7 +305,6 @@ def parkour(player, game_manager):
     """
     The entire code of the platforming part of the game
     :param player: The active player
-    :param game_manager: positions of the player. Function?????
     :return: the new state or the enemy that is encountered
     """
     running = True
@@ -457,10 +456,17 @@ def parkour(player, game_manager):
         # maakt de speler dood
         for Collider in Colliders:
             if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvisibilityFrames == 0:
+                if player.lives == 1:
+                    game_manager = Game_Manager(1, -90, 450)
+                    scene = 1
+                    playerObject.xpos = -90
+                    playerObject.ypos = 450
+                    print(scene)
+                else:
+                    playerObject.xpos = RespawnPos[0]
+                    playerObject.ypos = RespawnPos[1]
                 player.lives, state = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints
-                playerObject.xpos = RespawnPos[0]
-                playerObject.ypos = RespawnPos[1]
                 CollisionGlitch = False
                 InvisibilityFrames += 50
 
