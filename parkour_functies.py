@@ -78,8 +78,7 @@ class Objects:
 
     def draw(self, surface, CameraPosx):
         if type(self.color) == pygame.Surface:
-            image = pygame.transform.scale(self.color, (self.width, self.height))
-            screen.blit(image,(self.xpos - CameraPosx, self.ypos))
+            screen.blit(self.color,(self.xpos - CameraPosx, self.ypos))
         else:
             self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
@@ -139,7 +138,7 @@ enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 1
 #All objects
 #Tijdelijke player objects, worden plaatjes
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 50, 50, 'green', 2, 0, 0, [1], "Player")
-playerColor_Still = pygame.image.load("resources/textures/BozeJantje.png")
+playerColor_Still = pygame.transform.scale(pygame.image.load("resources/textures/BozeJantje.png"), (playerObject.width, playerObject.height))
 playerColor_Left = 'yellow'
 playerColor_Right = 'blue'
 playerColor_Jump = 'red'
