@@ -6,7 +6,7 @@ Player texture:         Not done
         going sideways (2) and in the air (3).
         Sideways can be flipped via pygame.transform.flip() to go other way.
 
-Enemy texture:          Not done
+Enemy texture:          Doing by Maarten
         The texture of the enemies with a base version and then different attributes added to make
         different enemies.
         Example attributes: hat, glasses, moustache, other colors (clothes, hair, skin)
