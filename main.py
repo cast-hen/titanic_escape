@@ -26,12 +26,13 @@ player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5, 
 while running:
     if state == "Menu":
         screen.fill('black')
+        game_manager = Game_Manager(1, -90, 450)
         player.lives, player.hitpoints, items = (5, 100, [])
         state, player.name = menu(player.name)
 
     # Hoofd code:
     elif state == "Playing":
-        state = parkour(player)
+        state = parkour(player, game_manager)
         if type(state) == character:
             encounter = state
             result, player.hitpoints, player.items = fight(encounter, player, screen)

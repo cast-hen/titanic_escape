@@ -299,7 +299,7 @@ fps = 60
 jump_height = -25
 speed = 11
 
-def parkour(player):
+def parkour(player, game_manager):
     """
     The entire code of the platforming part of the game
     :param player: The active player
