@@ -26,7 +26,6 @@ class Objects:
         self.Type = Type
 
     def update_pos(self, platforms, CameraPosx, scene):
-
         Collider = []
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
@@ -78,7 +77,11 @@ class Objects:
         return Collider
 
     def draw(self, surface, CameraPosx):
-        self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
+        if type(self.color) == pygame.Surface:
+            image = pygame.transform.scale(self.color, (self.width, self.height))
+            screen.blit(image,(self.xpos - CameraPosx, self.ypos))
+        else:
+            self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
@@ -136,7 +139,7 @@ enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 1
 #All objects
 #Tijdelijke player objects, worden plaatjes
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 50, 50, 'green', 2, 0, 0, [1], "Player")
-playerColor_Still = 'green'
+playerColor_Still = pygame.image.load("resources/textures/BozeJantje.png")
 playerColor_Left = 'yellow'
 playerColor_Right = 'blue'
 playerColor_Jump = 'red'
@@ -303,6 +306,7 @@ def parkour(player, game_manager):
     """
     The entire code of the platforming part of the game
     :param player: The active player
+    :param game_manager: positions of the player. Function?????
     :return: the new state or the enemy that is encountered
     """
     running = True

@@ -6,7 +6,7 @@ Format: <bugnaam> status: <status>
 (als je een bug hebt gefixt markeer hem dan also resolved, niet weghalen)
 <beschrijving>: langere beschrijving van de bug en een uitleg hoe je hem kan reproduceren
 
-Game over returnt niet naar begin     status: unresolved
+Game over returnt niet naar begin     status: resolved
     Als je al je levens hebt verloren en daarna op "restart" drukt ga je niet helemaal naar het begin terug
     maar blijf je in de scene waar je bent doodgegaan.
 
