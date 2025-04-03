@@ -290,7 +290,7 @@ platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
 
 # Other contstants
 clock = pygame.time.Clock()
-fps = 120
+fps = 60
 jump_height = -25
 speed = 11
 
