@@ -6,7 +6,7 @@ Format: <bugnaam> status: <status>
 (als je een bug hebt gefixt markeer hem dan also resolved, niet weghalen)
 <beschrijving>: langere beschrijving van de bug en een uitleg hoe je hem kan reproduceren
 
-Game over returnt niet naar begin     status: resolved
+Game over returnt niet naar begin     status: resolved - game_manager parameter toegeveogd aan parkour
     Als je al je levens hebt verloren en daarna op "restart" drukt ga je niet helemaal naar het begin terug
     maar blijf je in de scene waar je bent doodgegaan.
 
@@ -17,7 +17,7 @@ wall glitched frame    status: unresolved
     als je recht in een muur loopt is er 1 frame waarin je op de muur teleporteert
     voordat je weer teruggaat naar waar je hoort te zijn
 
-scene switch deaths    status: resolved
+scene switch deaths    status: resolved - movement stops after scene switch
     als je naar bepaalde scenes wisselt kun je boven de void spawnen en meteen een leven verliezen
 
 left scene switch not working
