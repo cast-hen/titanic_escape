@@ -1,4 +1,3 @@
-from pauze import *
 from fighting_functions import *
 from parkour_functies import *
 from button_code import *

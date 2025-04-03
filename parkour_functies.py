@@ -1,4 +1,3 @@
-from pauze import *
 from common import *
 import pygame
 import random
