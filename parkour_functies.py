@@ -490,6 +490,7 @@ def parkour(player, game_manager):
             CameraPosx = R_border - 500
             playerObject.ypos -= 30
             scene -= 1
+            keys = {"left": False, "right": False, "up": False}
             CollisionGlitch = False
             InvisibilityFrames = 25
         #rechter scene transition
@@ -498,6 +499,7 @@ def parkour(player, game_manager):
             playerObject.ypos -= 30
             CameraPosx = L_border - 500
             scene += 1
+            keys = {"left": False, "right": False, "up": False}
             CollisionGlitch = False
             InvisibilityFrames = 25
 
