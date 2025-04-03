@@ -17,5 +17,9 @@ wall glitched frame    status: unresolved
     als je recht in een muur loopt is er 1 frame waarin je op de muur teleporteert
     voordat je weer teruggaat naar waar je hoort te zijn
 
-scene switch deaths    status: unresolved
+scene switch deaths    status: resolved
     als je naar bepaalde scenes wisselt kun je boven de void spawnen en meteen een leven verliezen
+
+left scene switch not working
+    Alsje je via de linker border naar de vorige scene switcht blijf je bij enkele scenes in dezelfde scene
+    (en soms in de muur). In elk geval bij scene 3 en 5 het geval
