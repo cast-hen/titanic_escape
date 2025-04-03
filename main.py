@@ -10,6 +10,9 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 running = True
 state = "Menu"
+logo = pygame.image.load('resources/textures/logo.png')
+pygame.display.set_caption("Titanic escape")
+pygame.display.set_icon(logo)
 
 punch = move("punch", "Hits the opponent \n for 10 damage","")
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times","")

@@ -4,6 +4,7 @@ import pygame
 import time
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
+image = pygame.transform.scale(pygame.image.load("resources/textures/titanic 3rd class interior backdrop.png"), (pygame.display.get_window_size())).convert()
 
 class character:
     def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals, alive):
@@ -58,6 +59,7 @@ def menu(name):
     :return the pressed button (Start, Quit)
     """
     screen.fill('black')
+    screen.blit(image)
     buttonPlaying = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
