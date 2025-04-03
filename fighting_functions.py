@@ -2,7 +2,6 @@ import pygame
 import time
 import random
 from button_code import *
-from pauze import *
 from common import *
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
