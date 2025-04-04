@@ -70,10 +70,6 @@ class Objects:
             self.on_ground = True
             self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
             Collider.append(platform.Type)
-        if self.xpos + self.width > WIDTH:
-            self.xpos = WIDTH - self.width
-            Collider.append(platform.Type)
-        self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
         return Collider
 
     def draw(self, surface, CameraPosx):
@@ -137,12 +133,12 @@ enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 1
 
 #All objects
 #Tijdelijke player objects, worden plaatjes
-playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 50, 50, 'green', 2, 0, 0, [1], "Player")
-playerColor_Still = pygame.transform.scale(pygame.image.load("resources/textures/BozeJantje.png"), (playerObject.width, playerObject.height))
-playerColor_Left = 'yellow'
-playerColor_Right = 'blue'
-playerColor_Jump = 'red'
-
+playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, 'green', 2, 0, 0, [1], "Player")
+player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
+player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
+player_Left = pygame.transform.flip(player_Right, True, False)
+player_Jump_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_jump.png"), (playerObject.width, playerObject.height))
+player_Jump_Left =  pygame.transform.flip(player_Jump_Right, True, False)
 
 cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
@@ -353,14 +349,16 @@ def parkour(player, game_manager):
             CollisionGlitch = True
 
 
-        if playerObject.yspeed != 0:
-            playerObject.color = playerColor_Jump
+        if playerObject.yspeed != 0 and playerObject.xspeed < 0:
+            playerObject.color = player_Jump_Left
+        elif playerObject.yspeed != 0 and playerObject.xspeed > 0:
+            playerObject.color = player_Jump_Right
         elif playerObject.xspeed < 0:
-            playerObject.color = playerColor_Left
+            playerObject.color = player_Left
         elif playerObject.xspeed > 0:
-            playerObject.color = playerColor_Right
+            playerObject.color = player_Right
         else:
-            playerObject.color = playerColor_Still
+            playerObject.color = player_idle
 
         #spawnt alle objects
 
@@ -456,6 +454,9 @@ def parkour(player, game_manager):
         # maakt de speler dood
         for Collider in Colliders:
             if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvisibilityFrames == 0:
+                print(playerObject.ypos)
+                print(playerObject.xpos)
+
                 if player.lives == 1:
                     game_manager = Game_Manager(1, -90, 450)
                     scene = 1
@@ -500,7 +501,7 @@ def parkour(player, game_manager):
             InvisibilityFrames = 25
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
-            playerObject.xpos = L_border - 450
+            playerObject.xpos = L_border - 420
             playerObject.ypos -= 30
             CameraPosx = L_border - 500
             scene += 1
