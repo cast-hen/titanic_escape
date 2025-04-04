@@ -268,9 +268,22 @@ cube17_3 = Objects(465, 530, 1000, 500, 'black', 1, 0, 0, [17], "Collider")
 cube17_4 = Objects(300, 0, 1200, 75, 'black', 1, 0, 0, [17], "Collider")
 cube17_Enemy1 = Objects(950, 164, 160, 370, 'orange', 1, 0, 0, [17], enemyKwaardaardige_BOB_1)
 
-cube19_1 = Objects(-500, 530, 1500, 300, 'black', 1, 0, 0, [19], "Collider")
+cube19_1 = Objects(-500, 600, 2000, 300, 'black', 1, 0, 0, [19], "Collider")
+cube19_2 = Objects(-40, 430, 230,290, 'black', 1, 0, 0, [19], "Collider")
+cube19_3 = Objects(400, 280, 200, 400, 'black', 1, 0, 0, [19], "Collider")
+cube19_4 = Objects(780, 380, 217, 260, 'black', 1, 0, 0, [19], "Collider")
+cube19_5 = Objects(1200, 140, 170, 625, 'black', 1, 0, 0, [19], "Collider")
 
-cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [19], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
+cube20_1 = Objects(-500, 600, 2000, 300, 'black', 1, 0, 0, [20], "Collider")
+cube20_2 = Objects(-500, 0, 414, 380, 'black', 1, 0, 0, [20], "Collider")
+cube20_3 = Objects(131, 400, 263, 239, 'black', 1, 0, 0, [20], "Collider")
+cube20_4 = Objects(-106, 0, 651, 184, 'black', 1, 0, 0, [20], "Collider")
+cube20_5 = Objects(280, 520, 585, 268, 'black', 1, 0, 0, [20], "Collider")
+cube20_6 = Objects(533, 0, 192, 407, 'black', 1, 0, 0, [20], "Collider")
+cube20_7 = Objects(834, 300, 600, 364, 'black', 1, 0, 0, [20], "Collider")
+cube20_8 = Objects(704, 0, 700, 150, 'black', 1, 0, 0, [20], "Collider")
+
+cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [19, 20, 22, 23, 25, 26], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
@@ -289,7 +302,8 @@ platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
              cube15_16_1, cube15_2, cube15_3,cube15_4, cube15_5, cube15_6, cube15_7, cube15_Enemy1, cube15_Enemy2,
              cube16_1, cube16_2, cube16_3, cube16_4, cube16_5, cube16_6, cube16_7, cube16_8, cube16_9, cube16_10, cube16_11,
              cube17_1, cube17_2, cube17_3, cube17_4, cube17_Enemy1,
-             cube19_1, cube_RisingWater]
+             cube19_1, cube19_2, cube19_3, cube19_4, cube19_5,
+             cube20_1, cube20_2, cube20_3, cube20_4, cube20_5, cube20_6, cube20_7, cube20_8, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -303,8 +317,10 @@ def parkour(player, game_manager):
     :param player: The active player
     :return: the new state or the enemy that is encountered
     """
+
     running = True
     scene = game_manager.scene
+
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
@@ -312,6 +328,7 @@ def parkour(player, game_manager):
     playerObject.ypos = game_manager.Player_posy
     pos1 = (0, 0)
     CollisionGlitch = True
+    TransitionGlitch = 0
     InvisibilityFrames = 5
 
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
@@ -325,6 +342,10 @@ def parkour(player, game_manager):
 
     # game loop
     while running:
+        if TransitionGlitch > 0:
+            playerObject.xpos, playerObject.ypos = RespawnPos
+            CollisionGlitch = False
+
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         screen.fill((135, 206, 250))
@@ -365,28 +386,28 @@ def parkour(player, game_manager):
         for platform in platforms:
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
-            if type(platform.Type) == MoveObject:
-                (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
-            elif type(platform.Type) == character:
-                if not platform.Type.alive:
-                    platforms.remove(platform)
+                if type(platform.Type) == MoveObject:
+                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
+                elif type(platform.Type) == character:
+                    if not platform.Type.alive:
+                        platforms.remove(platform)
         if scene == 1:
             RespawnPos = (270, 450)
             playerObject.draw(screen, CameraPosx)
 
             cube1_1.draw(screen, CameraPosx)
         elif scene == 2:
-            RespawnPos = (-35, 300)
+            RespawnPos = (-350, 350)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 3:
             scene += 1
         elif scene == 4:
-            RespawnPos = (-170, 400)
+            RespawnPos = (-300, 450)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 5:
-            RespawnPos = (-175, 300)
+            RespawnPos = (-330, 50)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 6:
@@ -425,7 +446,7 @@ def parkour(player, game_manager):
             RespawnPos = (-340, 300)
             playerObject.draw(screen, CameraPosx)
         elif scene == 15:
-            RespawnPos = (-340, 400)
+            RespawnPos = (-300, 530)
             playerObject.draw(screen, CameraPosx)
         elif scene == 16:
             RespawnPos = (-440, 600)
@@ -439,10 +460,13 @@ def parkour(player, game_manager):
             player.lives = 5
             cube_RisingWater.ypos = 900
         elif scene == 19:
-            RespawnPos = (-440, 600)
+            RespawnPos = (-440, 500)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 20:
+            RespawnPos = (-300, 480)
             playerObject.draw(screen, CameraPosx)
 
-        elif scene == 20:
+        elif scene == 21:
             eind(player.name)
             return "Menu"
 
@@ -491,7 +515,7 @@ def parkour(player, game_manager):
             CameraPosx = R_border - 500
 
         # linker scene transition
-        if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19]:
+        if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvisibilityFrames == 0:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             playerObject.ypos -= 30
@@ -501,13 +525,17 @@ def parkour(player, game_manager):
             InvisibilityFrames = 25
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
-            playerObject.xpos = L_border - 420
+            TransitionGlitch = 5
+            playerObject.xpos = -450
             playerObject.ypos -= 30
             CameraPosx = L_border - 500
             scene += 1
+            cube_RisingWater.ypos = 800
             keys = {"left": False, "right": False, "up": False}
             CollisionGlitch = False
             InvisibilityFrames = 25
+            if scene in [19, 20, 22, 23, 25, 26]:
+                playerObject.ypos = 500
 
         # event handler
         for event in pygame.event.get():
@@ -554,6 +582,6 @@ def parkour(player, game_manager):
 
         if InvisibilityFrames > 0:
             InvisibilityFrames -= 1
-        game_manager.scene = scene
-        (game_manager.Player_posx, game_manager.Player_posy) = (playerObject.xpos, playerObject.ypos)
-
+        if TransitionGlitch > 0:
+            TransitionGlitch -= 1
+        game_manager.Set(scene, playerObject.xpos, playerObject.ypos)
