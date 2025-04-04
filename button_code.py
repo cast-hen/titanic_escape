@@ -52,7 +52,6 @@ class button:
                                                            round(self.width - (2 * borderSize)),
                                                            round(self.height - (2 * borderSize))])
         textPrint(self.text, self.textSize, self.textColour, (self.x + (self.width / 2), self.y + (self.height / 2)))
-        pygame.display.update()
         if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[
             1] <= self.y + self.height and mouseDown == True:
             return True
@@ -129,6 +128,7 @@ def waitForInput(buttonList, keyEscape=None, typeInfo=None):
                     return i
                 else:
                     return i, text
+            pygame.display.update()
 
         if typeInfo is not None:
             if button.check(buttonToType, mouseDown, screen):
