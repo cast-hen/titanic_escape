@@ -44,7 +44,14 @@ screen = pygame.display.set_mode((1300, 600), pygame.FULLSCREEN)
 mouseDown = False
 health = 100
 enemy1 = character("Bob", 0, (0, 0, 255), 100, 100, ["punch"], [], 5)
-enemy2 = character("ASHRddgteGEtek, destroyer of lightbulbs", 0, (255, 0, 255), 20, 20, ["punch", "combo punch", "enrage"], [], 0)
+enemy2 = character("ASHRddgteGEtek, destroyer of lightbulbs", 0, (255, 0, 255), 20, 20, ["punch", "combo punch", "enrage"], [
+    item("Full Restore", 5),
+    item("Bomb", 5),
+    item("Poison bottle", 5),
+    item("Immunifying elixir", 5),
+    item("Giantkiller", 5),
+    item("Orb of absorption", 5)
+], 0)
 buttonEnemy1 = button(100, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy1", (255, 255, 255), 80,  (255, 0, 0))
 buttonEnemy2 = button(800, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy2", (255, 255, 255), 80, (255, 0, 0))
 buttonGainItem = button(0, 0, 200, 100, (0, 0, 255), (255, 0, 0), "gain item", (255, 255, 255), 20, (255, 0, 0))
@@ -321,7 +328,9 @@ def fight(enemy, player, screen):
                         done = True
                     pygame.display.update()
                 draw_scene()
+                #checks whether an item has been selected or whether to return to main options
                 if usedItem is not None:
+                    #the Full Restore item
                     if usedItem == "Full Restore":
                         healed = player.maxHitpoints - playerCurrentHealth
                         playerCurrentHealth = player.maxHitpoints
@@ -329,19 +338,24 @@ def fight(enemy, player, screen):
                         if poisonTurnsLeftPlayer > 0:
                             poisonTurnsLeftPlayer = 0
                             scrollText("poison cleared", (255, 0, 255), "player", 40, 40)
+                    #the Bomb item
                     elif usedItem == "Bomb":
                         enemyCurrentHealth -= 20
                         scrollText("20", (255, 0, 0), "enemy", 80, 20)
+                    #the Poison bottle item
                     elif usedItem == "Poison bottle":
                         poisonTurnsLeftEnemy = 5
                         scrollText("Poisoned for 5 turns", (255, 0, 255), "enemy", 30, 50)
+                    #the Immunifying elixir item
                     elif usedItem == "Immunifying elixir":
                         immunityTurnsLeftPlayer = 3
                         scrollText("Immune for 3 turns", (100, 100, 255), "player", 30, 50)
+                    #the Giantkiller item
                     elif usedItem == "Giantkiller":
                         damage = int(0.1 * enemy.maxHitpoints)
                         enemyCurrentHealth -= damage
                         scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
+                    #the Orb of absorption item
                     elif usedItem == "Orb of absorption":
                         damage = int(30 * (enemyCurrentHealth / enemy.maxHitpoints))
                         enemyCurrentHealth -= damage
@@ -416,41 +430,51 @@ def fight(enemy, player, screen):
             draw_scene()
             time.sleep(0.5)
             selected = False
+            #rolls whether the enemy should use an item and selects it
             if random.randint(0, 2) != 0 and len(enemyItems) > 0:
-                roll = random.randint(0, len(enemyItems - 1))
+                roll = random.randint(0, len(enemyItems) - 1)
                 usedItem = enemyItems[roll].name
-                enemyItems[roll].ammount -= 1
-                if usedItem == "Full Restore":
-                    healed = enemy.maxHitpoints - enemyCurrentHealth
-                    enemyCurrentHealth = enemy.maxHitpoints
-                    scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
-                    if poisonTurnsLeftEnemy > 0:
-                        poisonTurnsLeftEnemy = 0
-                        scrollText("poison cleared", (255, 0, 255), "enemy", 40, 40)
-                elif usedItem == "Bomb":
-                    playerCurrentHealth -= 20
-                    scrollText("20", (255, 0, 0), "player", 80, 20)
-                elif usedItem == "Poison bottle":
-                    poisonTurnsLeftPlayer = 5
-                    scrollText("Poisoned for 5 turns", (255, 0, 255), "player", 30, 50)
-                elif usedItem == "Immunifying elixir":
-                    immunityTurnsLeftEnemy = 3
-                    scrollText("Immune for 3 turns", (100, 100, 255), "enemy", 30, 50)
-                elif usedItem == "Giantkiller":
-                    damage = int(0.1 * player.maxHitpoints)
-                    playerCurrentHealth -= damage
-                    scrollText(str(damage), (255, 0, 0), "player", 80, 20)
-                elif usedItem == "Orb of absorption":
-                    damage = int(30 * (enemyCurrentHealth / enemy.maxHitpoints))
-                    enemyCurrentHealth -= damage
-                    scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
-                    healed = int(0.5 * damage)
-                    if playerCurrentHealth + healed > player.maxHitpoints:
-                        healed = player.maxHitpoints - playerCurrentHealth
-                        playerCurrentHealth = player.maxHitpoints
-                    else:
-                        playerCurrentHealth += healed
-                    scrollText(str(healed), (0, 255, 0), "player", 80, 20)
+                #checks whether the enemy "should" use full restore
+                if usedItem != "Full Restore" or enemyCurrentHealth < enemy.maxHitpoints - 20:
+                    enemyItems[roll].ammount -= 1
+                    #the Full Restore item
+                    if usedItem == "Full Restore":
+                        healed = enemy.maxHitpoints - enemyCurrentHealth
+                        enemyCurrentHealth = enemy.maxHitpoints
+                        scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
+                        if poisonTurnsLeftEnemy > 0:
+                            poisonTurnsLeftEnemy = 0
+                            scrollText("poison cleared", (255, 0, 255), "enemy", 40, 40)
+                    #the Bomb item
+                    elif usedItem == "Bomb":
+                        playerCurrentHealth -= 20
+                        scrollText("20", (255, 0, 0), "player", 80, 20)
+                    #the Poison bottle item
+                    elif usedItem == "Poison bottle":
+                        poisonTurnsLeftPlayer = 5
+                        scrollText("Poisoned for 5 turns", (255, 0, 255), "player", 30, 50)
+                    #the Immunifying elixir item
+                    elif usedItem == "Immunifying elixir":
+                        immunityTurnsLeftEnemy = 3
+                        scrollText("Immune for 3 turns", (100, 100, 255), "enemy", 30, 50)
+                    #the Giantkiller item
+                    elif usedItem == "Giantkiller":
+                        damage = int(0.1 * player.maxHitpoints)
+                        playerCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "player", 80, 20)
+                    #the Orbs of absorption item
+                    elif usedItem == "Orb of absorption":
+                        damage = int(30 * (playerCurrentHealth / player.maxHitpoints))
+                        playerCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "player", 80, 20)
+                        healed = int(0.5 * damage)
+                        if enemyCurrentHealth + healed > enemy.maxHitpoints:
+                            healed = enemy.maxHitpoints - enemyCurrentHealth
+                            enemyCurrentHealth = enemy.maxHitpoints
+                        else:
+                            enemyCurrentHealth += healed
+                        scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
+                    time.sleep(0.5)
             #loop where a move is selected
             while not selected:
                 roll = random.randint(0, len(enemy.moveset))
@@ -465,7 +489,7 @@ def fight(enemy, player, screen):
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
                 else:
-                    damage = 10 * damageMultiplierEnemy
+                    damage = int(10 * damageMultiplierEnemy)
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)
             #the combo punch move
@@ -538,7 +562,7 @@ def fight(enemy, player, screen):
                 enrageTurnsLeftEnemy -= 1
                 if enrageTurnsLeftEnemy == 0:
                     damageMultiplierEnemy /= 1.5
-            #damages the player and removes a turn if theyre poisoned
+            #damages the player and removes a turn if they're poisoned
             if poisonTurnsLeftPlayer > 0 and playerCurrentHealth > 0:
                 time.sleep(0.5)
                 damage = int(1 / enemyCurrentHealth / enemy.hitpoints + 4)
