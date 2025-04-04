@@ -6,18 +6,16 @@ from common import *
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
+class item:
+    def __init__(self, name, ammount):
+        self.name = name
+        self.ammount = ammount
 
 class move:
     def __init__(self, name, description, image):
         self.name = name
         self.description = description
         self.image = image
-
-    class item:
-        def __init__(self, name, ammount, image):
-            self.name = name
-            self.ammount = ammount
-            self.image = image
 
     def displayMove(self, x, y):
         """

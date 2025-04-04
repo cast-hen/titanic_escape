@@ -20,7 +20,14 @@ enrage = move("enrage", "Increases your damage on \n the next 3 turns",'')
 poison = move("poison", "poisons your opponent to \n take damage over time",'')
 lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health",'')
 block = move("block", "Blocks your opponents \n next attack",'')
-player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [], 5, True)
+player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [
+    item("Full Restore", 2),
+    item("Bomb", 5),
+    item("Poison bottle", 0),
+    item("Immunifying elixir", 0),
+    item("Giantkiller", 2),
+    item("Orb of absorption", 2)
+], 5, True)
 
 
 
