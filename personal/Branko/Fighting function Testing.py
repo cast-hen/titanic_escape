@@ -14,14 +14,6 @@ class character:
         self.moveset = moveset
         self.items = items
         self.heals = heals
-class enemy:
-    def __init__(self, name, colour, hitpoints, moveset, items, heals):
-        self.name = name
-        self.colour = colour
-        self.hitpoints = hitpoints
-        self.moveset = moveset
-        self.items = items
-        self.heals = heals
 class move:
     def __init__(self, name, description):
         self.name = name
@@ -39,21 +31,30 @@ lifeSteal = move("life steal", "Damages your opponent and gives you 30% back as 
 block = move("block", "Blocks your opponents next attack")
 
 player = character("greg", 5,(0, 0, 255), 100, 100,[punch, comboPunch, enrage, poison, lifeSteal, block], [
-    item("Full Restore", 2),
+    item("Full Restore", 5),
     item("Bomb", 5),
-    item("Poison bottle", 0),
-    item("Immunifying elixir", 0),
-    item("Giantkiller", 2)
+    item("Poison bottle", 5),
+    item("Immunifying elixir", 5),
+    item("Giantkiller", 5),
+    item("Orb of absorption", 5)
 ], 5)
 
 running = True
 screen = pygame.display.set_mode((1300, 600), pygame.FULLSCREEN)
 mouseDown = False
 health = 100
-enemy1 = enemy("Bob", (0, 0, 255), 100, ["punch"], [], 5)
-enemy2 = enemy("ASHRddgteGEtek, destroyer of lightbulbs", (255, 0, 255), 20, ["punch", "combo punch", "enrage"], [], 0)
+enemy1 = character("Bob", 0, (0, 0, 255), 100, 100, ["punch"], [], 5)
+enemy2 = character("ASHRddgteGEtek, destroyer of lightbulbs", 0, (255, 0, 255), 20, 20, ["punch", "combo punch", "enrage"], [
+    item("Full Restore", 5),
+    item("Bomb", 5),
+    item("Poison bottle", 5),
+    item("Immunifying elixir", 5),
+    item("Giantkiller", 5),
+    item("Orb of absorption", 5)
+], 0)
 buttonEnemy1 = button(100, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy1", (255, 255, 255), 80,  (255, 0, 0))
 buttonEnemy2 = button(800, 300, 400, 200, (0, 0, 255), (255, 0, 0), "Enemy2", (255, 255, 255), 80, (255, 0, 0))
+buttonGainItem = button(0, 0, 200, 100, (0, 0, 255), (255, 0, 0), "gain item", (255, 255, 255), 20, (255, 0, 0))
 
 def fight(enemy, player, screen):
     """
@@ -77,7 +78,7 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
+        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.maxHitpoints), 50))
         healthFont = pygame.font.Font("freesansbold.ttf", 40)
         healthTextPlayer = healthFont.render(str(playerCurrentHealth), True, (255, 255, 255))
         healthTextEnemy = healthFont.render(str(enemyCurrentHealth), True, (255, 255, 255))
@@ -219,6 +220,7 @@ def fight(enemy, player, screen):
                     #checks whether the button to return to the main options is pressed
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
+                    pygame.display.update()
                 draw_scene()
                 #checks if a move is selected or whether to return to the main options
                 if move is not None:
@@ -263,7 +265,7 @@ def fight(enemy, player, screen):
                             blocked("enemy")
                         else:
                             damage = int(5 * damageMultiplierPlayer)
-                            healed = int(damage * (enemyCurrentHealth / enemy.hitpoints))
+                            healed = int(damage * (enemyCurrentHealth / enemy.maxHitpoints))
                             enemyCurrentHealth -= damage
                             scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                             if playerCurrentHealth + healed > player.maxHitpoints:
@@ -310,6 +312,8 @@ def fight(enemy, player, screen):
                     # for loop drawing the buttons and checking if they're pressed
                     for i in range(0, 4):
                         if (page * 4) + i < len(playerItems):
+                            font = pygame.font.Font("freesansbold.ttf", 40)
+                            ammountText = font.render(str(playerItems[page * 4 + i].ammount), True, (0, 0, 0))
                             if playerItems[page * 4 + i].ammount <= 0 or playerItems[page * 4 + i].name == "Full Restore" and not(playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0):
                                 selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4) + 1, int((height / 7) * 2) + 1, (100, 40, 0), (100, 40, 0), playerItems[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
                             else:
@@ -318,11 +322,15 @@ def fight(enemy, player, screen):
                                 usedItem = playerItems[page * 4 + i].name
                                 playerItems[page * 4 + i].ammount -= 1
                                 done = True
+                            screen.blit(ammountText, (int((width / 4) * (i + 1)) - ammountText.get_rect().width - 15, int((height / 7) * 4) + 15))
                     # checks whether the button to return to the main options is pressed
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
+                    pygame.display.update()
                 draw_scene()
+                #checks whether an item has been selected or whether to return to main options
                 if usedItem is not None:
+                    #the Full Restore item
                     if usedItem == "Full Restore":
                         healed = player.maxHitpoints - playerCurrentHealth
                         playerCurrentHealth = player.maxHitpoints
@@ -330,25 +338,35 @@ def fight(enemy, player, screen):
                         if poisonTurnsLeftPlayer > 0:
                             poisonTurnsLeftPlayer = 0
                             scrollText("poison cleared", (255, 0, 255), "player", 40, 40)
+                    #the Bomb item
                     elif usedItem == "Bomb":
                         enemyCurrentHealth -= 20
                         scrollText("20", (255, 0, 0), "enemy", 80, 20)
+                    #the Poison bottle item
                     elif usedItem == "Poison bottle":
                         poisonTurnsLeftEnemy = 5
                         scrollText("Poisoned for 5 turns", (255, 0, 255), "enemy", 30, 50)
+                    #the Immunifying elixir item
                     elif usedItem == "Immunifying elixir":
-                        immunityTurnsLeftPlayer == 3
+                        immunityTurnsLeftPlayer = 3
                         scrollText("Immune for 3 turns", (100, 100, 255), "player", 30, 50)
+                    #the Giantkiller item
                     elif usedItem == "Giantkiller":
-                        damage = 0.2 * enemy.maxHitpoints
+                        damage = int(0.1 * enemy.maxHitpoints)
                         enemyCurrentHealth -= damage
                         scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
-                    elif usedItem == "":
-                        pass
-                    elif usedItem == "":
-                        pass
-                    elif usedItem == "":
-                        pass
+                    #the Orb of absorption item
+                    elif usedItem == "Orb of absorption":
+                        damage = int(30 * (enemyCurrentHealth / enemy.maxHitpoints))
+                        enemyCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
+                        healed = int(0.5 * damage)
+                        if playerCurrentHealth + healed > player.maxHitpoints:
+                            healed = player.maxHitpoints - playerCurrentHealth
+                            playerCurrentHealth = player.maxHitpoints
+                        else:
+                            playerCurrentHealth += healed
+                        scrollText(str(healed), (0, 255, 0), "player", 80, 20)
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
@@ -363,28 +381,22 @@ def fight(enemy, player, screen):
             #the code for when the flee button is pressed
             elif button.check(fleeButton, mouseDown, screen):
                 #defining the variables
-                confirmFont = pygame.font.Font("freesansbold.ttf", int(width * 0.02))
-                confirmText = confirmFont.render("Are you sure you want to leave?", True, (0, 0, 0))
-                confirmRect = confirmText.get_rect()
-                confirmRect.center = (width / 2, (height / 12) * 5)
-                pygame.draw.rect(screen, (255, 180, 0), [int(width / 3), int(height / 3), int(width / 3), int(height / 3)])
-                screen.blit(confirmText, confirmRect)
-                confirmed = False
-                confirmButton = button(width / 3, height / 2, width / 6 + 1, height / 6 + 1, (255, 80, 0), (255, 255, 255), "confirm", (0, 0, 0), width // 30,  (0, 0, 0))
-                cancelButton = button(width / 2, height / 2, width / 6 + 1, height / 6 + 1, (255, 80, 0),(255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
-                #while loop checking if they confirm they want to flee
-                while not confirmed:
-                    mouseDown = False
-                    for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                            mouseDown = True
-                    if button.check(confirmButton, mouseDown, screen):
-                        fighting = False
-                        result = "flee"
-                        confirmed = True
-                    elif button.check(cancelButton, mouseDown, screen):
-                        confirmed = True
-                        draw_scene()
+                dimSurface = pygame.Surface((WIDTH, HEIGHT))
+                pygame.Surface.set_alpha(dimSurface, 150)
+                pygame.Surface.blit(screen, dimSurface)
+                pygame.draw.rect(screen, (255, 180, 0), [width / 3, height / 3, width / 3, height / 3])
+                textPrint("Are you sure you want to leave?", int(width * 0.02), 'black', (width / 2, height / 12 * 5))
+                confirmButton = button(width / 3, height / 2, round(width / 6), round(height / 6), (255, 80, 0),
+                                       (255, 255, 255), "confirm", (0, 0, 0), width // 30, (0, 0, 0))
+                cancelButton = button(width / 2, height / 2, round(width / 6), round(height / 6), (255, 80, 0),
+                                      (255, 255, 255), "cancel", (0, 0, 0), width // 30, (0, 0, 0))
+                # while loop checking if they confirm they want to flee
+                index = waitForInput([confirmButton, cancelButton])
+                if index == 0:
+                    fighting = False
+                    result = "Playing"
+                else:
+                    draw_scene()
             #various checks when the players turn is over
             if state == "turnEnemy":
                 #removes a turn if the player is enraged, resets if they are no longer enraged
@@ -418,6 +430,51 @@ def fight(enemy, player, screen):
             draw_scene()
             time.sleep(0.5)
             selected = False
+            #rolls whether the enemy should use an item and selects it
+            if random.randint(0, 2) != 0 and len(enemyItems) > 0:
+                roll = random.randint(0, len(enemyItems) - 1)
+                usedItem = enemyItems[roll].name
+                #checks whether the enemy "should" use full restore
+                if usedItem != "Full Restore" or enemyCurrentHealth < enemy.maxHitpoints - 20:
+                    enemyItems[roll].ammount -= 1
+                    #the Full Restore item
+                    if usedItem == "Full Restore":
+                        healed = enemy.maxHitpoints - enemyCurrentHealth
+                        enemyCurrentHealth = enemy.maxHitpoints
+                        scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
+                        if poisonTurnsLeftEnemy > 0:
+                            poisonTurnsLeftEnemy = 0
+                            scrollText("poison cleared", (255, 0, 255), "enemy", 40, 40)
+                    #the Bomb item
+                    elif usedItem == "Bomb":
+                        playerCurrentHealth -= 20
+                        scrollText("20", (255, 0, 0), "player", 80, 20)
+                    #the Poison bottle item
+                    elif usedItem == "Poison bottle":
+                        poisonTurnsLeftPlayer = 5
+                        scrollText("Poisoned for 5 turns", (255, 0, 255), "player", 30, 50)
+                    #the Immunifying elixir item
+                    elif usedItem == "Immunifying elixir":
+                        immunityTurnsLeftEnemy = 3
+                        scrollText("Immune for 3 turns", (100, 100, 255), "enemy", 30, 50)
+                    #the Giantkiller item
+                    elif usedItem == "Giantkiller":
+                        damage = int(0.1 * player.maxHitpoints)
+                        playerCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "player", 80, 20)
+                    #the Orbs of absorption item
+                    elif usedItem == "Orb of absorption":
+                        damage = int(30 * (playerCurrentHealth / player.maxHitpoints))
+                        playerCurrentHealth -= damage
+                        scrollText(str(damage), (255, 0, 0), "player", 80, 20)
+                        healed = int(0.5 * damage)
+                        if enemyCurrentHealth + healed > enemy.maxHitpoints:
+                            healed = enemy.maxHitpoints - enemyCurrentHealth
+                            enemyCurrentHealth = enemy.maxHitpoints
+                        else:
+                            enemyCurrentHealth += healed
+                        scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
+                    time.sleep(0.5)
             #loop where a move is selected
             while not selected:
                 roll = random.randint(0, len(enemy.moveset))
@@ -432,7 +489,7 @@ def fight(enemy, player, screen):
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
                 else:
-                    damage = 10 * damageMultiplierEnemy
+                    damage = int(10 * damageMultiplierEnemy)
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)
             #the combo punch move
@@ -505,7 +562,7 @@ def fight(enemy, player, screen):
                 enrageTurnsLeftEnemy -= 1
                 if enrageTurnsLeftEnemy == 0:
                     damageMultiplierEnemy /= 1.5
-            #damages the player and removes a turn if theyre poisoned
+            #damages the player and removes a turn if they're poisoned
             if poisonTurnsLeftPlayer > 0 and playerCurrentHealth > 0:
                 time.sleep(0.5)
                 damage = int(1 / enemyCurrentHealth / enemy.hitpoints + 4)
@@ -554,6 +611,10 @@ while running:
     elif result == "loss":
         player.hitpoints = 100
         player.lives -= 1
+    if button.check(buttonGainItem, mouseDown, screen):
+        roll = random.randint(0, len(player.items) - 1)
+        player.items[roll].ammount += 1
+    pygame.display.update()
 
     time.sleep(0.01)
 pygame.quit()
