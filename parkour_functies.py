@@ -133,8 +133,7 @@ enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 1
 
 #All objects
 #Tijdelijke player objects, worden plaatjes
-playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, 'green', 2, 0, 0, [1], "Player")
-player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
+playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
 player_Left = pygame.transform.flip(player_Right, True, False)
 player_Jump_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_jump.png"), (playerObject.width, playerObject.height))
@@ -357,8 +356,6 @@ def parkour(player, game_manager):
             playerObject.color = player_Left
         elif playerObject.xspeed > 0:
             playerObject.color = player_Right
-        else:
-            playerObject.color = player_idle
 
         #spawnt alle objects
 
