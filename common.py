@@ -50,6 +50,13 @@ class Game_Manager:
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
+    def Set(self, scene, Player_posx, Player_posy):
+        self.scene = scene
+        self.Player_posx = Player_posx
+        self.Player_posy = Player_posy
+    def Reset(self):
+        self.Set(1, -90, 450)
+
 
 game_manager = Game_Manager(1, -90, 450)
 
