@@ -4,6 +4,7 @@ import random
 from pygame import RESIZABLE
 import time
 gravity = 0.6
+tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 # image1 = pygame.transform.scale(pygame.image.load('resources/textures/titanic 3rd class interior backdrop.png').convert(), (pygame.display.get_window_size()))
@@ -138,6 +139,8 @@ player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_
 player_Left = pygame.transform.flip(player_Right, True, False)
 player_Jump_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_jump.png"), (playerObject.width, playerObject.height))
 player_Jump_Left =  pygame.transform.flip(player_Jump_Right, True, False)
+player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
+player_idle_Left = pygame.transform.flip(player_idle, True, False)
 
 cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
@@ -316,7 +319,8 @@ def parkour(player, game_manager):
     :param player: The active player
     :return: the new state or the enemy that is encountered
     """
-
+    looking = "Right"
+    tick = 0
     running = True
     scene = game_manager.scene
 
@@ -368,15 +372,27 @@ def parkour(player, game_manager):
             PlayerPos1 = PlayerPos2
             CollisionGlitch = True
 
-
         if playerObject.yspeed != 0 and playerObject.xspeed < 0:
             playerObject.color = player_Jump_Left
         elif playerObject.yspeed != 0 and playerObject.xspeed > 0:
             playerObject.color = player_Jump_Right
+        elif playerObject.on_ground == True and playerObject.xspeed == 0 and looking == 'Left':
+            playerObject.color = player_idle_Left
+        elif playerObject.on_ground == True and playerObject.xspeed == 0 and looking == 'Right':
+            playerObject.color = player_idle
         elif playerObject.xspeed < 0:
-            playerObject.color = player_Left
+            looking = 'Left'
+            if tick < 10:
+                playerObject.color = player_Jump_Left
+            else:
+                playerObject.color = player_idle_Left
         elif playerObject.xspeed > 0:
-            playerObject.color = player_Right
+            looking = "Right"
+            if tick < 10:
+                playerObject.color = player_Right
+            else:
+                playerObject.color = player_idle
+
 
         #spawnt alle objects
 
@@ -581,4 +597,9 @@ def parkour(player, game_manager):
             InvisibilityFrames -= 1
         if TransitionGlitch > 0:
             TransitionGlitch -= 1
+        if tick < 20:
+            tick += 1
+        else:
+            tick = 0
+
         game_manager.Set(scene, playerObject.xpos, playerObject.ypos)
