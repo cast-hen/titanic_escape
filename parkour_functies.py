@@ -131,6 +131,10 @@ enemyAlexander_1 = character("Alexander", 1, (255, 255, 0), 10, 10,["punch"], []
 enemyWillem_Henk_1 = character("Willem-Henk", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 enemyBoze_Janje_1 = character("Boze Jantje", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyRoderick_1 = character("Roderick", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyKleine_Karel_1 = character("Kleine Karel", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyIni_Mini_1 = character("Ini Mini", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 
 #All objects
 #Tijdelijke player objects, worden plaatjes
@@ -276,7 +280,7 @@ cube19_3 = Objects(400, 280, 200, 400, 'black', 1, 0, 0, [19], "Collider")
 cube19_4 = Objects(780, 380, 217, 260, 'black', 1, 0, 0, [19], "Collider")
 cube19_5 = Objects(1200, 140, 170, 625, 'black', 1, 0, 0, [19], "Collider")
 
-cube20_1 = Objects(-500, 600, 2000, 300, 'black', 1, 0, 0, [20], "Collider")
+cube20_1 = Objects(-500, 600, 2000, 300, 'black', 1, 0, 0, [20, 21], "Collider")
 cube20_2 = Objects(-500, 0, 414, 380, 'black', 1, 0, 0, [20], "Collider")
 cube20_3 = Objects(131, 400, 263, 239, 'black', 1, 0, 0, [20], "Collider")
 cube20_4 = Objects(-106, 0, 651, 184, 'black', 1, 0, 0, [20], "Collider")
@@ -284,6 +288,49 @@ cube20_5 = Objects(280, 520, 585, 268, 'black', 1, 0, 0, [20], "Collider")
 cube20_6 = Objects(533, 0, 192, 407, 'black', 1, 0, 0, [20], "Collider")
 cube20_7 = Objects(834, 300, 600, 364, 'black', 1, 0, 0, [20], "Collider")
 cube20_8 = Objects(704, 0, 700, 150, 'black', 1, 0, 0, [20], "Collider")
+
+cube21_1 = Objects(-500, 0, 575, 450, 'black', 1, 0, 0, [21], "Collider")
+cube21_2 = Objects(33, 0, 1500, 94, 'black', 1, 0, 0, [21], "Collider")
+cube21_3 = Objects(272, 400, 1200, 257, 'black', 1, 0, 0, [21], "Collider")
+cube21_Enemy1 = Objects(519, 98, 186, 302, 'orange', 1, 0, 0, [21], enemyBoudewijn_1)
+cube21_Enemy2 = Objects(750, 98, 186, 302, 'orange', 1, 0, 0, [21], enemyRoderick_1)
+
+cube22_1 = Objects(-500, 600, 486, 267, 'black', 1, 0, 0, [22, 23, 24], "Collider")
+cube22_2 = Objects(-500, 0, 297, 329, 'black', 1, 0, 0, [22], "Collider")
+cube22_3 = Objects(-232, 0, 1600, 90, 'black', 1, 0, 0, [22], "Collider")
+cube22_4 = Objects(270, 470, 100, 445, 'black', 1, 0, 0, [22], "Collider")
+cube22_5 = Objects(650, 390, 100, 445, 'black', 1, 0, 0, [22], "Collider")
+cube22_6 = Objects(1020, 450, 100, 445, 'black', 1, 0, 0, [22], "Collider")
+cube22_7 = Objects(1241, 244, 200, 523,'black', 1, 0, 0, [22], "Collider")
+
+cube23_1 = Objects(-500, 0, 392, 415,'black', 1, 0, 0, [23], "Collider")
+cube23_2 = Objects(263, 406, 469, 361,'black', 1, 0, 0, [23], "Collider")
+cube23_3 = Objects(920, 406, 100, 500,'black', 1, 0, 0, [23], "Collider")
+cube23_4 = Objects(1200, 406, 300, 500,'black', 1, 0, 0, [23], "Collider")
+cube23_5 = Objects(263, 0, 1500, 300,'black', 1, 0, 0, [23], "Collider")
+cube23_6 = Objects(-170, 0, 488, 117,'black', 1, 0, 0, [23], "Collider")
+
+cube24_1 = Objects(-500, 0, 3000, 400,'black', 1, 0, 0, [24], "Collider")
+cube24_2 = Objects(224, 659, 400, 30,'black', 1, 0, 0, [24], "Collider")
+cube24_3 = Objects(870, 700, 500, 30,'black', 1, 0, 0, [24], "Collider")
+cube24_4 = Objects(400, 379, 1000, 93,'black', 1, 0, 0, [24], "Collider")
+cube24_Enemy1 = Objects(493, 490, 100, 169, 'orange', 1, 0, 0, [24], enemyKleine_Karel_1)
+cube24_Enemy2 = Objects(1128, 491, 106, 210, 'orange', 1, 0, 0, [24], enemyIni_Mini_1)
+
+cube25_1 = Objects(-500, 700, 500, 30,'black', 1, 0, 0, [25], "Collider")
+cube25_2 = Objects(-500, 0, 218, 491,'black', 1, 0, 0, [25], "Collider")
+cube25_3 = Objects(-303, 0, 1700, 70,'black', 1, 0, 0, [25], "Collider")
+cube25_4 = Objects(114, 617, 150, 20,'black', 1, 0, 0, [25], "Collider")
+cube25_5 = Objects(750, 500, 150, 20,'black', 1, 0, 0, [25], "Collider")
+cube25_6 = Objects(410, 450, 150, 20,'black', 1, 0, 0, [25], "Collider")
+cube25_7 = Objects(1000, 330, 150, 20,'black', 1, 0, 0, [25], "Collider")
+
+cube25_8 = Objects(114, -400, 150, 150,'red', 1, 0, 0, [25],  MoveObject((114, -400), (114, 2500), 0.7, 10, False, 0))
+cube25_9 = Objects(750, -400, 150, 150,'red', 1, 0, 0, [25],  MoveObject((750, -400), (750, 2500), 0.7, 10, False, 0))
+cube25_10 = Objects(410, 1000, 150, 150,'red', 1, 0, 0, [25],  MoveObject((410, -400), (410, 2500), 0.7, 10, False, 0))
+cube25_11 = Objects(1000, 1000, 150, 150,'red', 1, 0, 0, [25],  MoveObject((1000, -400), (1000, 2500), 0.7, 10, False, 0))
+
+cube25_12 = Objects(1238, 244, 127, 523,'black', 1, 0, 0, [25], "Collider")
 
 cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [19, 20, 22, 23, 25, 26], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
@@ -305,7 +352,12 @@ platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
              cube16_1, cube16_2, cube16_3, cube16_4, cube16_5, cube16_6, cube16_7, cube16_8, cube16_9, cube16_10, cube16_11,
              cube17_1, cube17_2, cube17_3, cube17_4, cube17_Enemy1,
              cube19_1, cube19_2, cube19_3, cube19_4, cube19_5,
-             cube20_1, cube20_2, cube20_3, cube20_4, cube20_5, cube20_6, cube20_7, cube20_8, cube_RisingWater]
+             cube20_1, cube20_2, cube20_3, cube20_4, cube20_5, cube20_6, cube20_7, cube20_8,
+             cube21_1, cube21_2, cube21_3, cube21_Enemy1, cube21_Enemy2,
+             cube22_1, cube22_2, cube22_3, cube22_4, cube22_5, cube22_6, cube22_7,
+             cube23_1, cube23_2,cube23_3, cube23_4, cube23_5, cube23_6,
+             cube24_1, cube24_2, cube24_3, cube24_4, cube24_Enemy1, cube24_Enemy2,
+             cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6, cube25_7, cube25_8, cube25_9, cube25_10, cube25_11, cube25_12, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -478,8 +530,26 @@ def parkour(player, game_manager):
         elif scene == 20:
             RespawnPos = (-300, 480)
             playerObject.draw(screen, CameraPosx)
-
         elif scene == 21:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 22:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 23:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 24:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 25:
+            RespawnPos = (-300, 600)
+            playerObject.draw(screen, CameraPosx)
+
+
+
+
+        elif scene == 26:
             eind(player.name)
             return "Menu"
 
