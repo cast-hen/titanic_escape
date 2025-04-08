@@ -50,8 +50,36 @@ def fight(enemy, player, screen):
         #draws the background
         screen.fill((40, 255, 255))
         #draws the player and the enemy
-        pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(200, 250, 100, 200))
-        pygame.draw.rect(screen, enemy.colour, pygame.Rect(1000, 250, 100, 200))
+        screen.blit(player.image, (250 - (player.image.width / 2), height / 5 * 3 - player.image.height - 10))
+        screen.blit(enemy.image, (1050 - (enemy.image.width / 2), height / 5 * 3 - enemy.image.height - 10))
+        #draws the name of the player with a border
+        text = nameFont.render(player.name, True, (255, 255, 255))
+        textRect = text.get_rect()
+        textRect.center = (248, 148)
+        screen.blit(text, textRect)
+        textRect.center = (248, 152)
+        screen.blit(text, textRect)
+        textRect.center = (252, 148)
+        screen.blit(text, textRect)
+        textRect.center = (252, 152)
+        screen.blit(text, textRect)
+        text = nameFont.render(player.name, True, (0, 0, 0))
+        textRect.center = (250, 150)
+        screen.blit(text, textRect)
+        #draws the name of the enemy with a border
+        text = nameFont.render(enemy.name, True, (255, 255, 255))
+        textRect = text.get_rect()
+        textRect.center = (1048, 148)
+        screen.blit(text, textRect)
+        textRect.center = (1048, 152)
+        screen.blit(text, textRect)
+        textRect.center = (1052, 148)
+        screen.blit(text, textRect)
+        textRect.center = (1052, 152)
+        screen.blit(text, textRect)
+        text = nameFont.render(enemy.name, True, (0, 0, 0))
+        textRect.center = (1050, 150)
+        screen.blit(text, textRect)
         #draws the healthbars
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(945, 175, 210, 60))
@@ -70,7 +98,7 @@ def fight(enemy, player, screen):
         return: none
         """
         #sets the text to be scrolled
-        font = pygame.font.Font("freesansbold.ttf", size)
+        font = pygame.font.Font(mainFont, size)
         toScrollText = font.render(text, True, colour)
         #defines the x value depending on the given location
         if location == "player":
@@ -79,10 +107,13 @@ def fight(enemy, player, screen):
             x = 900 - toScrollText.get_rect().width
         #for loop where the text is slowly moved upwards
         for i in range(0, scrollTime):
+            timeBegin = time.time()
             draw_scene()
             screen.blit(toScrollText, (x, 150 - i))
             pygame.display.update()
-            time.sleep(0.01)
+            waitTime = 0.01 - (time.time() - timeBegin)
+            if waitTime > 0:
+                time.sleep(waitTime)
         #resets the screen
         draw_scene()
         pygame.display.update()
@@ -93,7 +124,7 @@ def fight(enemy, player, screen):
         return: none
         """
         #sets the blocked text to be scrolled
-        font = pygame.font.Font("freesansbold.ttf", 40)
+        font = pygame.font.Font(mainFont, 40)
         blockedText = font.render("blocked", True, (100, 100, 255))
         #sets the x value and rectangle position depending on the given location
         if location == "player":
@@ -115,6 +146,7 @@ def fight(enemy, player, screen):
     #defining the variables before the fight starts
     width = screen.get_width()
     height = screen.get_height()
+    nameFont = pygame.font.Font(mainFont, 40)
     attackButton = button(0, (height / 5) * 3, width / 2 + 1, height/5 + 1, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
     itemButton = button(0, (height / 5) * 4, width / 2 + 1, height / 5 + 1, (255, 180, 0), (255, 255, 255), "Use item",(0, 0, 0), width // 12, (0, 0, 0))
     fleeButton = button(width / 2, (height / 5) * 4, width / 2 + 1, height / 5 + 1, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))

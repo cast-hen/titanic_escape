@@ -3,6 +3,7 @@ import time
 # from common import textPrint
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
+mainFont = 'resources/MinecraftTen-VGORe.ttf'
 
 class button:
     def __init__(self, x, y, width, height, colourNormal, colourHover, text, textColour, textSize, borderColour):
@@ -69,7 +70,7 @@ def textPrint(text, textSize, textColour, center, delete=None):
     :param delete: True if job is to delete the text, fill to black
     :return: None
     """
-    font = pygame.font.Font("freesansbold.ttf", textSize)
+    font = pygame.font.Font(mainFont, textSize)
     text = font.render(text, True, textColour)
     textRect = text.get_rect()
     textRect.center = center

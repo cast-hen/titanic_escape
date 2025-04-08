@@ -7,10 +7,10 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 image = pygame.transform.scale(pygame.image.load("resources/textures/titanic 3rd class interior backdrop.png"), (pygame.display.get_window_size())).convert()
 
 class character:
-    def __init__(self, name, lives, colour, hitpoints, maxHitpoints, moveset, items, heals, alive):
+    def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive):
         self.name = name
         self.lives = lives
-        self.colour = colour
+        self.image = image
         self.hitpoints = hitpoints
         self.maxHitpoints = maxHitpoints
         self.moveset = moveset
@@ -38,11 +38,20 @@ class character:
         textPrint(str(self.hitpoints), 40, 'white', (125, 95))
         #Gives the name a white outline
         center = (125, 45)
-        textPrint(self.name, 40, 'white', (center[0] - 2, center[1] - 2))
-        textPrint(self.name, 40, 'white', (center[0] - 2, center[1] + 2))
-        textPrint(self.name, 40, 'white', (center[0] + 2, center[1] - 2))
-        textPrint(self.name, 40, 'white', (center[0] + 2, center[1] + 2))
-        textPrint(self.name, 40, 'black', center)
+        infoFont = pygame.font.Font(mainFont, 40)
+        text = infoFont.render(self.name, True, (255, 255, 255))
+        textRect = text.get_rect()
+        textRect.center = (center[0] - 2, center[1] - 2)
+        screen.blit(text, textRect)
+        textRect.center = (center[0] - 2, center[1] + 2)
+        screen.blit(text, textRect)
+        textRect.center = (center[0] + 2, center[1] - 2)
+        screen.blit(text, textRect)
+        textRect.center = (center[0] + 2, center[1] + 2)
+        screen.blit(text, textRect)
+        text = infoFont.render(self.name, True, (0, 0, 0))
+        textRect.center = center
+        screen.blit(text, textRect)
 
 
 class Game_Manager:

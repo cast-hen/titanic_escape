@@ -13,14 +13,14 @@ state = "Menu"
 logo = pygame.image.load('resources/textures/logo.png')
 pygame.display.set_caption("Titanic escape")
 pygame.display.set_icon(logo)
-
+mainFont = 'resources/MinecraftTen-VGORe.ttf'
 punch = move("punch", "Hits the opponent \n for 10 damage","")
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times","")
 enrage = move("enrage", "Increases your damage on \n the next 3 turns",'')
 poison = move("poison", "poisons your opponent to \n take damage over time",'')
 lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health",'')
 block = move("block", "Blocks your opponents \n next attack",'')
-player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [
+player = character("bob", 5, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100, 100, [punch, comboPunch], [
     item("Full Restore", 2),
     item("Bomb", 5),
     item("Poison bottle", 0),

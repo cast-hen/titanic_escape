@@ -120,21 +120,21 @@ class MoveObject:
         return TargetPos
 
 #Enemies
-enemyBOB_1 = character("BOB", 1, (255, 255, 0), 100, 100,["punch"], [], 0, True)
-enemyJAN_1 = character("JAN", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyJANBOB_2 = character("JANBOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyBOBJAN_1 = character("BOBJAN", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyBobbie_1 = character("Bobbie", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyWillem_1 = character("Willem", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyAlexander_1 = character("Alexander", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyWillem_Henk_1 = character("Willem-Henk", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyBoze_Janje_1 = character("Boze Jantje", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyBoudewijn_1 = character("Boudewijn", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyRoderick_1 = character("Roderick", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyKleine_Karel_1 = character("Kleine Karel", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
-enemyIni_Mini_1 = character("Ini Mini", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBOB_1 = character("BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 100, 100,["punch"], [], 0, True)
+enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyJANBOB_2 = character("JANBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyBOBJAN_1 = character("BOBJAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyBobbie_1 = character("Bobbie", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyBoze_Janje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
 
 #All objects
 #Tijdelijke player objects, worden plaatjes
