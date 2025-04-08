@@ -48,6 +48,7 @@ def fight(enemy, player, screen):
         return: none
         """
         #draws the background
+        #screen.blit(background, (0, 0))
         screen.fill((40, 255, 255))
         #draws the player and the enemy
         screen.blit(player.image, (250 - (player.image.width / 2), height / 5 * 3 - player.image.height - 10))
@@ -146,6 +147,7 @@ def fight(enemy, player, screen):
     #defining the variables before the fight starts
     width = screen.get_width()
     height = screen.get_height()
+    #background = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (width, height))
     nameFont = pygame.font.Font(mainFont, 40)
     attackButton = button(0, (height / 5) * 3, width / 2 + 1, height/5 + 1, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
     itemButton = button(0, (height / 5) * 4, width / 2 + 1, height / 5 + 1, (255, 180, 0), (255, 255, 255), "Use item",(0, 0, 0), width // 12, (0, 0, 0))
