@@ -36,7 +36,7 @@ player = character("bob", 5, (0, 255, 0), 100, 100, [punch, comboPunch], [
 while running:
     if state == "Menu":
         screen.fill('black')
-        game_manager = Game_Manager(1, -90, 450)
+        game_manager.Reset()
         player.lives, player.hitpoints, items = (5, 100, [])
         state, player.name = menu(player.name)
 

@@ -4,6 +4,7 @@ import random
 from pygame import RESIZABLE
 import time
 gravity = 0.6
+tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 # image1 = pygame.transform.scale(pygame.image.load('resources/textures/titanic 3rd class interior backdrop.png').convert(), (pygame.display.get_window_size()))
@@ -130,15 +131,20 @@ enemyAlexander_1 = character("Alexander", 1, (255, 255, 0), 10, 10,["punch"], []
 enemyWillem_Henk_1 = character("Willem-Henk", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 enemyBoze_Janje_1 = character("Boze Jantje", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyRoderick_1 = character("Roderick", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyKleine_Karel_1 = character("Kleine Karel", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
+enemyIni_Mini_1 = character("Ini Mini", 1, (255, 255, 0), 10, 10,["punch"], [], 0, True)
 
 #All objects
 #Tijdelijke player objects, worden plaatjes
-playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, 'green', 2, 0, 0, [1], "Player")
-player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
+playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
 player_Left = pygame.transform.flip(player_Right, True, False)
 player_Jump_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_jump.png"), (playerObject.width, playerObject.height))
 player_Jump_Left =  pygame.transform.flip(player_Jump_Right, True, False)
+player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
+player_idle_Left = pygame.transform.flip(player_idle, True, False)
 
 cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
@@ -268,9 +274,65 @@ cube17_3 = Objects(465, 530, 1000, 500, 'black', 1, 0, 0, [17], "Collider")
 cube17_4 = Objects(300, 0, 1200, 75, 'black', 1, 0, 0, [17], "Collider")
 cube17_Enemy1 = Objects(950, 164, 160, 370, 'orange', 1, 0, 0, [17], enemyKwaardaardige_BOB_1)
 
-cube19_1 = Objects(-500, 530, 1500, 300, 'black', 1, 0, 0, [19], "Collider")
+cube19_1 = Objects(-500, 600, 2000, 300, 'black', 1, 0, 0, [19], "Collider")
+cube19_2 = Objects(-40, 430, 230,290, 'black', 1, 0, 0, [19], "Collider")
+cube19_3 = Objects(400, 280, 200, 400, 'black', 1, 0, 0, [19], "Collider")
+cube19_4 = Objects(780, 380, 217, 260, 'black', 1, 0, 0, [19], "Collider")
+cube19_5 = Objects(1200, 140, 170, 625, 'black', 1, 0, 0, [19], "Collider")
 
-cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [19], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
+cube20_1 = Objects(-500, 600, 2000, 300, 'black', 1, 0, 0, [20, 21], "Collider")
+cube20_2 = Objects(-500, 0, 414, 380, 'black', 1, 0, 0, [20], "Collider")
+cube20_3 = Objects(131, 400, 263, 239, 'black', 1, 0, 0, [20], "Collider")
+cube20_4 = Objects(-106, 0, 651, 184, 'black', 1, 0, 0, [20], "Collider")
+cube20_5 = Objects(280, 520, 585, 268, 'black', 1, 0, 0, [20], "Collider")
+cube20_6 = Objects(533, 0, 192, 407, 'black', 1, 0, 0, [20], "Collider")
+cube20_7 = Objects(834, 300, 600, 364, 'black', 1, 0, 0, [20], "Collider")
+cube20_8 = Objects(704, 0, 700, 150, 'black', 1, 0, 0, [20], "Collider")
+
+cube21_1 = Objects(-500, 0, 575, 450, 'black', 1, 0, 0, [21], "Collider")
+cube21_2 = Objects(33, 0, 1500, 94, 'black', 1, 0, 0, [21], "Collider")
+cube21_3 = Objects(272, 400, 1200, 257, 'black', 1, 0, 0, [21], "Collider")
+cube21_Enemy1 = Objects(519, 98, 186, 302, 'orange', 1, 0, 0, [21], enemyBoudewijn_1)
+cube21_Enemy2 = Objects(750, 98, 186, 302, 'orange', 1, 0, 0, [21], enemyRoderick_1)
+
+cube22_1 = Objects(-500, 600, 486, 267, 'black', 1, 0, 0, [22, 23, 24], "Collider")
+cube22_2 = Objects(-500, 0, 297, 329, 'black', 1, 0, 0, [22], "Collider")
+cube22_3 = Objects(-232, 0, 1600, 90, 'black', 1, 0, 0, [22], "Collider")
+cube22_4 = Objects(270, 470, 100, 445, 'black', 1, 0, 0, [22], "Collider")
+cube22_5 = Objects(650, 390, 100, 445, 'black', 1, 0, 0, [22], "Collider")
+cube22_6 = Objects(1020, 450, 100, 445, 'black', 1, 0, 0, [22], "Collider")
+cube22_7 = Objects(1241, 244, 200, 523,'black', 1, 0, 0, [22], "Collider")
+
+cube23_1 = Objects(-500, 0, 392, 415,'black', 1, 0, 0, [23], "Collider")
+cube23_2 = Objects(263, 406, 469, 361,'black', 1, 0, 0, [23], "Collider")
+cube23_3 = Objects(920, 406, 100, 500,'black', 1, 0, 0, [23], "Collider")
+cube23_4 = Objects(1200, 406, 300, 500,'black', 1, 0, 0, [23], "Collider")
+cube23_5 = Objects(263, 0, 1500, 300,'black', 1, 0, 0, [23], "Collider")
+cube23_6 = Objects(-170, 0, 488, 117,'black', 1, 0, 0, [23], "Collider")
+
+cube24_1 = Objects(-500, 0, 3000, 400,'black', 1, 0, 0, [24], "Collider")
+cube24_2 = Objects(224, 659, 400, 30,'black', 1, 0, 0, [24], "Collider")
+cube24_3 = Objects(870, 700, 500, 30,'black', 1, 0, 0, [24], "Collider")
+cube24_4 = Objects(400, 379, 1000, 93,'black', 1, 0, 0, [24], "Collider")
+cube24_Enemy1 = Objects(493, 490, 100, 169, 'orange', 1, 0, 0, [24], enemyKleine_Karel_1)
+cube24_Enemy2 = Objects(1128, 491, 106, 210, 'orange', 1, 0, 0, [24], enemyIni_Mini_1)
+
+cube25_1 = Objects(-500, 700, 500, 30,'black', 1, 0, 0, [25], "Collider")
+cube25_2 = Objects(-500, 0, 218, 491,'black', 1, 0, 0, [25], "Collider")
+cube25_3 = Objects(-303, 0, 1700, 70,'black', 1, 0, 0, [25], "Collider")
+cube25_4 = Objects(114, 617, 150, 20,'black', 1, 0, 0, [25], "Collider")
+cube25_5 = Objects(750, 500, 150, 20,'black', 1, 0, 0, [25], "Collider")
+cube25_6 = Objects(410, 450, 150, 20,'black', 1, 0, 0, [25], "Collider")
+cube25_7 = Objects(1000, 330, 150, 20,'black', 1, 0, 0, [25], "Collider")
+
+cube25_8 = Objects(114, -400, 150, 150,'red', 1, 0, 0, [25],  MoveObject((114, -400), (114, 2500), 0.7, 10, False, 0))
+cube25_9 = Objects(750, -400, 150, 150,'red', 1, 0, 0, [25],  MoveObject((750, -400), (750, 2500), 0.7, 10, False, 0))
+cube25_10 = Objects(410, 1000, 150, 150,'red', 1, 0, 0, [25],  MoveObject((410, -400), (410, 2500), 0.7, 10, False, 0))
+cube25_11 = Objects(1000, 1000, 150, 150,'red', 1, 0, 0, [25],  MoveObject((1000, -400), (1000, 2500), 0.7, 10, False, 0))
+
+cube25_12 = Objects(1238, 244, 127, 523,'black', 1, 0, 0, [25], "Collider")
+
+cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [19, 20, 22, 23, 25, 26], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
@@ -289,7 +351,13 @@ platforms = [cube1_1, cube1_2, cube1_3, cube1_Enemy_test, cube1_Enemy1, cube1_5,
              cube15_16_1, cube15_2, cube15_3,cube15_4, cube15_5, cube15_6, cube15_7, cube15_Enemy1, cube15_Enemy2,
              cube16_1, cube16_2, cube16_3, cube16_4, cube16_5, cube16_6, cube16_7, cube16_8, cube16_9, cube16_10, cube16_11,
              cube17_1, cube17_2, cube17_3, cube17_4, cube17_Enemy1,
-             cube19_1, cube_RisingWater]
+             cube19_1, cube19_2, cube19_3, cube19_4, cube19_5,
+             cube20_1, cube20_2, cube20_3, cube20_4, cube20_5, cube20_6, cube20_7, cube20_8,
+             cube21_1, cube21_2, cube21_3, cube21_Enemy1, cube21_Enemy2,
+             cube22_1, cube22_2, cube22_3, cube22_4, cube22_5, cube22_6, cube22_7,
+             cube23_1, cube23_2,cube23_3, cube23_4, cube23_5, cube23_6,
+             cube24_1, cube24_2, cube24_3, cube24_4, cube24_Enemy1, cube24_Enemy2,
+             cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6, cube25_7, cube25_8, cube25_9, cube25_10, cube25_11, cube25_12, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -303,8 +371,11 @@ def parkour(player, game_manager):
     :param player: The active player
     :return: the new state or the enemy that is encountered
     """
+    looking = "Right"
+    tick = 0
     running = True
     scene = game_manager.scene
+
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
@@ -312,6 +383,7 @@ def parkour(player, game_manager):
     playerObject.ypos = game_manager.Player_posy
     pos1 = (0, 0)
     CollisionGlitch = True
+    TransitionGlitch = 0
     InvisibilityFrames = 5
 
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
@@ -325,6 +397,10 @@ def parkour(player, game_manager):
 
     # game loop
     while running:
+        if TransitionGlitch > 0:
+            playerObject.xpos, playerObject.ypos = RespawnPos
+            CollisionGlitch = False
+
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         screen.fill((135, 206, 250))
@@ -348,45 +424,55 @@ def parkour(player, game_manager):
             PlayerPos1 = PlayerPos2
             CollisionGlitch = True
 
-
         if playerObject.yspeed != 0 and playerObject.xspeed < 0:
             playerObject.color = player_Jump_Left
         elif playerObject.yspeed != 0 and playerObject.xspeed > 0:
             playerObject.color = player_Jump_Right
-        elif playerObject.xspeed < 0:
-            playerObject.color = player_Left
-        elif playerObject.xspeed > 0:
-            playerObject.color = player_Right
-        else:
+        elif playerObject.on_ground == True and playerObject.xspeed == 0 and looking == 'Left':
+            playerObject.color = player_idle_Left
+        elif playerObject.on_ground == True and playerObject.xspeed == 0 and looking == 'Right':
             playerObject.color = player_idle
+        elif playerObject.xspeed < 0:
+            looking = 'Left'
+            if tick < 10:
+                playerObject.color = player_Jump_Left
+            else:
+                playerObject.color = player_idle_Left
+        elif playerObject.xspeed > 0:
+            looking = "Right"
+            if tick < 10:
+                playerObject.color = player_Right
+            else:
+                playerObject.color = player_idle
+
 
         #spawnt alle objects
 
         for platform in platforms:
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
-            if type(platform.Type) == MoveObject:
-                (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
-            elif type(platform.Type) == character:
-                if not platform.Type.alive:
-                    platforms.remove(platform)
+                if type(platform.Type) == MoveObject:
+                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
+                elif type(platform.Type) == character:
+                    if not platform.Type.alive:
+                        platforms.remove(platform)
         if scene == 1:
             RespawnPos = (270, 450)
             playerObject.draw(screen, CameraPosx)
 
             cube1_1.draw(screen, CameraPosx)
         elif scene == 2:
-            RespawnPos = (-35, 300)
+            RespawnPos = (-350, 350)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 3:
             scene += 1
         elif scene == 4:
-            RespawnPos = (-170, 400)
+            RespawnPos = (-300, 450)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 5:
-            RespawnPos = (-175, 300)
+            RespawnPos = (-330, 50)
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 6:
@@ -425,7 +511,7 @@ def parkour(player, game_manager):
             RespawnPos = (-340, 300)
             playerObject.draw(screen, CameraPosx)
         elif scene == 15:
-            RespawnPos = (-340, 400)
+            RespawnPos = (-300, 530)
             playerObject.draw(screen, CameraPosx)
         elif scene == 16:
             RespawnPos = (-440, 600)
@@ -439,10 +525,31 @@ def parkour(player, game_manager):
             player.lives = 5
             cube_RisingWater.ypos = 900
         elif scene == 19:
-            RespawnPos = (-440, 600)
+            RespawnPos = (-440, 500)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 20:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 21:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 22:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 23:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 24:
+            RespawnPos = (-300, 480)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 25:
+            RespawnPos = (-300, 600)
             playerObject.draw(screen, CameraPosx)
 
-        elif scene == 20:
+
+
+
+        elif scene == 26:
             eind(player.name)
             return "Menu"
 
@@ -491,7 +598,7 @@ def parkour(player, game_manager):
             CameraPosx = R_border - 500
 
         # linker scene transition
-        if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19]:
+        if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvisibilityFrames == 0:
             playerObject.xpos = R_border + 700
             CameraPosx = R_border - 500
             playerObject.ypos -= 30
@@ -501,13 +608,17 @@ def parkour(player, game_manager):
             InvisibilityFrames = 25
         #rechter scene transition
         elif playerObject.xpos > R_border + 800:
-            playerObject.xpos = L_border - 420
+            TransitionGlitch = 5
+            playerObject.xpos = -450
             playerObject.ypos -= 30
             CameraPosx = L_border - 500
             scene += 1
+            cube_RisingWater.ypos = 800
             keys = {"left": False, "right": False, "up": False}
             CollisionGlitch = False
             InvisibilityFrames = 25
+            if scene in [19, 20, 22, 23, 25, 26]:
+                playerObject.ypos = 500
 
         # event handler
         for event in pygame.event.get():
@@ -554,6 +665,11 @@ def parkour(player, game_manager):
 
         if InvisibilityFrames > 0:
             InvisibilityFrames -= 1
-        game_manager.scene = scene
-        (game_manager.Player_posx, game_manager.Player_posy) = (playerObject.xpos, playerObject.ypos)
+        if TransitionGlitch > 0:
+            TransitionGlitch -= 1
+        if tick < 20:
+            tick += 1
+        else:
+            tick = 0
 
+        game_manager.Set(scene, playerObject.xpos, playerObject.ypos)
