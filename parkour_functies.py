@@ -570,6 +570,7 @@ def parkour(player, game_manager):
                     playerObject.xpos = -90
                     playerObject.ypos = 450
                     print(scene)
+
                 else:
                     playerObject.xpos = RespawnPos[0]
                     playerObject.ypos = RespawnPos[1]
