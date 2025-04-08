@@ -315,7 +315,7 @@ def fight(enemy, player, screen):
                     # for loop drawing the buttons and checking if they're pressed
                     for i in range(0, 4):
                         if (page * 4) + i < len(playerItems):
-                            font = pygame.font.Font("freesansbold.ttf", 40)
+                            font = pygame.font.Font(mainFont, 40)
                             ammountText = font.render(str(playerItems[page * 4 + i].ammount), True, (0, 0, 0))
                             if playerItems[page * 4 + i].ammount <= 0 or playerItems[page * 4 + i].name == "Full Restore" and not(playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0):
                                 selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4) + 1, int((height / 7) * 2) + 1, (100, 40, 0), (100, 40, 0), playerItems[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
