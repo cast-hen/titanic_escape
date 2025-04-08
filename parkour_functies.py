@@ -577,6 +577,7 @@ def parkour(player, game_manager):
                 player.hitpoints = player.maxHitpoints
                 CollisionGlitch = False
                 InvisibilityFrames += 50
+                TransitionGlitch = 5
 
                 cube_RisingWater.ypos = 800
                 if state is not None:
