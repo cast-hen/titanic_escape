@@ -52,7 +52,8 @@ def fight(enemy, player, screen):
         screen.fill((40, 255, 255))
         #draws the player and the enemy
         screen.blit(player.image, (250 - (player.image.width / 2), height / 5 * 3 - player.image.height - 10))
-        screen.blit(enemy.image, (1050 - (enemy.image.width / 2), height / 5 * 3 - enemy.image.height - 10))
+        enemy_image = pygame.transform.scale(enemy.image, (129, 420))
+        screen.blit(enemy_image, (1050 - (enemy_image.width / 2), height / 5 * 4.35 - enemy_image.height - 10))
         #draws the name of the player with a border
         text = nameFont.render(player.name, True, (255, 255, 255))
         textRect = text.get_rect()

@@ -12,7 +12,7 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 
 class Objects:
-    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
+    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, type):
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -24,7 +24,7 @@ class Objects:
         self.Rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
         self.on_ground = False
         self.ObjectScene = ObjectScene
-        self.Type = Type
+        self.type = type
 
     def update_pos(self, platforms, CameraPosx, scene):
         Collider = []
@@ -40,7 +40,7 @@ class Objects:
                         self.xpos = platform.xpos + platform.width
                     self.xspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                    Collider.append(platform.Type)
+                    Collider.append(platform.type)
 
         self.yspeed += self.mass * gravity
 
@@ -60,7 +60,7 @@ class Objects:
                         self.ypos = platform.ypos + platform.height
                         self.yspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                    Collider.append(platform.Type)
+                    Collider.append(platform.type)
 
 
 
@@ -70,12 +70,14 @@ class Objects:
             self.yspeed = 0
             self.on_ground = True
             self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-            Collider.append(platform.Type)
+            Collider.append(platform.type)
         return Collider
 
     def draw(self, surface, CameraPosx):
         if type(self.color) == pygame.Surface:
             screen.blit(self.color,(self.xpos - CameraPosx, self.ypos))
+        elif type(self.type) == character:
+            screen.blit(self.type.image, (self.xpos - CameraPosx, self.ypos))
         else:
             self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
@@ -120,21 +122,21 @@ class MoveObject:
         return TargetPos
 
 #Enemies
-enemyBOB_1 = character("BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 100, 100,["punch"], [], 0, True)
-enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyJANBOB_2 = character("JANBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyBOBJAN_1 = character("BOBJAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyBobbie_1 = character("Bobbie", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyBoze_Janje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
-enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (100, 200)), 10, 10,["punch"], [], 0, True)
+enemyBOB_1 = character("BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 100, 100, ["punch"], [], 0, True)
+enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyJANBOB_2 = character("JANBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyBOBJAN_1 = character("BOBJAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyBobbie_1 = character("Bobbie", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyBoze_Janje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
+enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), (86, 280)), 10, 10,["punch"], [], 0, True)
 
 #All objects
 #Tijdelijke player objects, worden plaatjes
@@ -451,10 +453,10 @@ def parkour(player, game_manager):
         for platform in platforms:
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
-                if type(platform.Type) == MoveObject:
-                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)))
-                elif type(platform.Type) == character:
-                    if not platform.Type.alive:
+                if type(platform.type) == MoveObject:
+                    (platform.xpos, platform.ypos) = platform.type.Move((int(platform.xpos), int(platform.ypos)))
+                elif type(platform.type) == character:
+                    if not platform.type.alive:
                         platforms.remove(platform)
         if scene == 1:
             RespawnPos = (270, 450)
