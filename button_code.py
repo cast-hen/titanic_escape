@@ -60,24 +60,36 @@ class button:
             return False
 
 
-def textPrint(text, textSize, textColour, center, delete=None):
+def textPrint(word, textSize, textColour, center, delete=None, outline=None):
     """
     Prints the text on the screen. Can also delete the text by drawing the Rect of the text given.
-    :param text: What text will print
+    :param word: What word will print
     :param textSize: How big is the text
-    :param textColour: What color is the text. If delete is not None, the colour of the drawn Rect
+    :param textColour: What color is the text. If delete is not None, the colour of the drawn Rect.
     :param center: location of center text in tuple
     :param delete: True if job is to delete the text, fill to black
+    :param outline: tuple (outlineColour, outlineThickness). If not None there will be an outline around the text.
     :return: None
     """
     font = pygame.font.Font(mainFont, textSize)
-    text = font.render(text, True, textColour)
+    if outline is not None:
+        text = font.render(word, True, outline[0])
+        textRect = text.get_rect()
+        textRect.center = (center[0] - outline[1], center[1] - outline[1])
+        screen.blit(text, textRect)
+        textRect.center = (center[0] - outline[1], center[1] + outline[1])
+        screen.blit(text, textRect)
+        textRect.center = (center[0] + outline[1], center[1] - outline[1])
+        screen.blit(text, textRect)
+        textRect.center = (center[0] + outline[1], center[1] + outline[1])
+        screen.blit(text, textRect)
+    text = font.render(word, True, textColour)
     textRect = text.get_rect()
     textRect.center = center
-    if delete is None:
-        screen.blit(text, textRect)
-    else:
+    if delete is not None:
         pygame.draw.rect(screen, textColour, textRect)
+    else:
+        screen.blit(text, textRect)
 
 
 def waitForInput(buttonList, keyEscape=None, typeInfo=None):
@@ -90,7 +102,7 @@ def waitForInput(buttonList, keyEscape=None, typeInfo=None):
     """
     typing = False
     if typeInfo is not None:
-        buttonToType, text, textCenter, textSize = typeInfo
+        buttonToType, text, textCenter, textSize, outline = typeInfo
     while True:
         mouseDown = False
         for event in pygame.event.get():
@@ -106,23 +118,21 @@ def waitForInput(buttonList, keyEscape=None, typeInfo=None):
                         return -1, text
 
                 if event.key == pygame.K_BACKSPACE and typing:
-                    textPrint(text, textSize, 'black', textCenter, True)
+                    textPrint(text, textSize, 'black', (textCenter[0], textCenter[1] - 3), True)
                     text = text[:-1]
-                    textPrint(text, textSize, 'white', textCenter)
+                    textPrint(text, textSize, 'white', textCenter, outline=outline)
                 elif event.key == pygame.K_RETURN and typing:
                     typing = False
             elif event.type == pygame.TEXTINPUT and typing:
-                textPrint(text, textSize, 'black', textCenter, True)
+                textPrint(text + "    ", textSize, 'black', (textCenter[0], textCenter[1] - 3), True)
                 if len(text) <= 10:
                     text += event.text
-                    textPrint(text, textSize, 'white', textCenter)
                 else:
                     textPrint("Too long!", textSize, 'red', textCenter)
                     pygame.display.flip()
                     time.sleep(1)
-                    textPrint("Too long!", textSize, 'black', textCenter, True)
-                    textPrint(text, textSize, 'white', textCenter)
-                    break
+                    textPrint("Too long!", textSize, 'black', (textCenter[0], textCenter[1] - 3), True)
+                textPrint(text, textSize, 'white', textCenter, outline=outline)
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
                 if typeInfo is None:
@@ -133,5 +143,5 @@ def waitForInput(buttonList, keyEscape=None, typeInfo=None):
 
         if typeInfo is not None:
             if button.check(buttonToType, mouseDown, screen):
-                typing = True
+                typing = not typing
         pygame.display.flip()

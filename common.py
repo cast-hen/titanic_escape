@@ -36,22 +36,7 @@ class character:
                 screen.blit(nolifeImage, (20 + 43 * i, 140))
 
         textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        #Gives the name a white outline
-        center = (125, 45)
-        infoFont = pygame.font.Font(mainFont, 40)
-        text = infoFont.render(self.name, True, (255, 255, 255))
-        textRect = text.get_rect()
-        textRect.center = (center[0] - 2, center[1] - 2)
-        screen.blit(text, textRect)
-        textRect.center = (center[0] - 2, center[1] + 2)
-        screen.blit(text, textRect)
-        textRect.center = (center[0] + 2, center[1] - 2)
-        screen.blit(text, textRect)
-        textRect.center = (center[0] + 2, center[1] + 2)
-        screen.blit(text, textRect)
-        text = infoFont.render(self.name, True, (0, 0, 0))
-        textRect.center = center
-        screen.blit(text, textRect)
+        textPrint(self.name, 40, 'black', (125, 45), outline=('white', 2))
 
 
 class Game_Manager:
@@ -79,9 +64,10 @@ def menu(name):
     buttonPlaying = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
-    textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-    textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2))
-    index, name = waitForInput([buttonPlaying, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40))
+    textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
+
+    textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 2))
+    index, name = waitForInput([buttonPlaying, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40, ('black', 2)))
     possibleStates = ["Playing", "quit"]
     return possibleStates[index], name
 
