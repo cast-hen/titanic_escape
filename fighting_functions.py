@@ -7,9 +7,9 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
 class item:
-    def __init__(self, name, ammount):
+    def __init__(self, name, amount):
         self.name = name
-        self.ammount = ammount
+        self.amount = amount
 
 class move:
     def __init__(self, name, description, image):
@@ -96,7 +96,7 @@ def fight(enemy, player, screen):
         colour: the colour of the text as 3 integers
         location: the location of the text as a string with 2 options: "player" or "enemy"
         size: "the size of the text as an integer"
-        scrollTime: the ammount of time the text will scroll for as an integer
+        scrollTime: the amount of time the text will scroll for as an integer
         return: none
         """
         #sets the text to be scrolled
@@ -319,16 +319,16 @@ def fight(enemy, player, screen):
                     for i in range(0, 4):
                         if (page * 4) + i < len(playerItems):
                             font = pygame.font.Font(mainFont, 40)
-                            ammountText = font.render(str(playerItems[page * 4 + i].ammount), True, (0, 0, 0))
-                            if playerItems[page * 4 + i].ammount <= 0 or playerItems[page * 4 + i].name == "Full Restore" and not(playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0):
+                            amountText = font.render(str(playerItems[page * 4 + i].amount), True, (0, 0, 0))
+                            if playerItems[page * 4 + i].amount <= 0 or playerItems[page * 4 + i].name == "Full Restore" and not(playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0):
                                 selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4) + 1, int((height / 7) * 2) + 1, (100, 40, 0), (100, 40, 0), playerItems[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
                             else:
                                 selectItemButton = button(int((width / 4) * i), int((height / 7) * 4), int(width / 4) + 1, int((height / 7) * 2) + 1, (255, 180, 0), (255, 255, 255), playerItems[(page * 4) + i].name, (0, 0, 0), width // 40, (0, 0, 0))
-                            if button.check(selectItemButton, mouseDown, screen) and playerItems[page * 4 + i].ammount > 0 and (playerItems[page * 4 + i].name != "Full Restore" or playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0):
+                            if button.check(selectItemButton, mouseDown, screen) and playerItems[page * 4 + i].amount > 0 and (playerItems[page * 4 + i].name != "Full Restore" or playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0):
                                 usedItem = playerItems[page * 4 + i].name
-                                playerItems[page * 4 + i].ammount -= 1
+                                playerItems[page * 4 + i].amount -= 1
                                 done = True
-                            screen.blit(ammountText, (int((width / 4) * (i + 1)) - ammountText.get_rect().width - 15, int((height / 7) * 4) + 15))
+                            screen.blit(amountText, (int((width / 4) * (i + 1)) - amountText.get_rect().width - 15, int((height / 7) * 4) + 15))
                     # checks whether the button to return to the main options is pressed
                     if button.check(buttonBack, mouseDown, screen):
                         done = True
@@ -352,8 +352,8 @@ def fight(enemy, player, screen):
                     elif usedItem == "Poison bottle":
                         poisonTurnsLeftEnemy = 5
                         scrollText("Poisoned for 5 turns", (255, 0, 255), "enemy", 30, 50)
-                    #the Immunifying elixir item
-                    elif usedItem == "Immunifying elixir":
+                    #the Immunizing elixir item
+                    elif usedItem == "Immunizing elixir":
                         immunityTurnsLeftPlayer = 3
                         scrollText("Immune for 3 turns", (100, 100, 255), "player", 30, 50)
                     #the Giantkiller item
@@ -442,7 +442,7 @@ def fight(enemy, player, screen):
                 usedItem = enemyItems[roll].name
                 #checks whether the enemy "should" use full restore
                 if usedItem != "Full Restore" or enemyCurrentHealth < enemy.maxHitpoints - 20:
-                    enemyItems[roll].ammount -= 1
+                    enemyItems[roll].amount -= 1
                     #the Full Restore item
                     if usedItem == "Full Restore":
                         healed = enemy.maxHitpoints - enemyCurrentHealth
@@ -459,8 +459,8 @@ def fight(enemy, player, screen):
                     elif usedItem == "Poison bottle":
                         poisonTurnsLeftPlayer = 5
                         scrollText("Poisoned for 5 turns", (255, 0, 255), "player", 30, 50)
-                    #the Immunifying elixir item
-                    elif usedItem == "Immunifying elixir":
+                    #the Immunizing elixir item
+                    elif usedItem == "Immunizing elixir":
                         immunityTurnsLeftEnemy = 3
                         scrollText("Immune for 3 turns", (100, 100, 255), "enemy", 30, 50)
                     #the Giantkiller item
