@@ -95,7 +95,7 @@ def Pause():
     buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,'white')
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,'white')
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
-    pygame.Surface.set_alpha(dimSurface, 150)
+    pygame.Surface.set_alpha(dimSurface, 100)
     pygame.Surface.blit(screen, dimSurface)
     textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
 
