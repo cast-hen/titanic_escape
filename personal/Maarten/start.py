@@ -40,7 +40,7 @@ def displayInfo(self):
     pygame.draw.rect(infoSurface, 'red', pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
 
     lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38, 38))
-    nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/nolife.png"), (38, 38))
+    nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life_empty.png"), (38, 38))
     for i in range(5):
         if self.lives >= i + 1:
             infoSurface.blit(lifeImage, (20 + 43 * i, 140))
