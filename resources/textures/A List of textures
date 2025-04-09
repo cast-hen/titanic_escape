@@ -1,12 +1,12 @@
 Hierin staat een lijst met welke textures we nodig hebben en de voortgang van het maken hiervan.
 Op volgorde van meest belangrijk naar minder belangrijk.
 
-Player texture:         Not done
+Player texture:         Done
         the texture of the player with different versions for standing still (1),
         going sideways (2) and in the air (3).
         Sideways can be flipped via pygame.transform.flip() to go other way.
 
-Enemy texture:          Doing by Maarten
+Enemy texture:          Done, possible to make more variants if needed.
         The texture of the enemies with a base version and then different attributes added to make
         different enemies.
         Example attributes: hat, moustache / beard, rank
