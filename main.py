@@ -36,7 +36,7 @@ player = character("bob", 5, pygame.transform.scale(pygame.image.load('resources
 while running:
     if state == "Menu":
         screen.fill('black')
-        game_manager.Reset()
+        game_manager.Set(25, -450, 450)
         player.lives, player.hitpoints, items = (5, 100, [])
         state, player.name = menu(player.name)
 

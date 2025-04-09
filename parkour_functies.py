@@ -138,9 +138,9 @@ enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image
 enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
 enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
 enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
+enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 100, 10,["punch"], [], 0, True)
 
 #All objects
-#Tijdelijke player objects, worden plaatjes
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
 player_Left = pygame.transform.flip(player_Right, True, False)
@@ -300,7 +300,7 @@ cube20_3 = Objects(272, 400, 1200, 257, 'black', 1, 0, 0, [20], "Collider")
 cube20_Enemy1 = Objects(519, cube20_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [20], enemyBoudewijn_1)
 cube20_Enemy2 = Objects(750, cube20_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [20], enemyRoderick_1)
 
-cube21_22_23_1 = Objects(-500, 600, 486, 267, 'black', 1, 0, 0, [21, 22, 23], "Collider")
+cube21_22_23_1 = Objects(-500, 600, 486, 267, 'black', 1, 0, 0, [21, 22, 23, 25, 26], "Collider")
 cube21_2 = Objects(-500, 0, 297, 329, 'black', 1, 0, 0, [21], "Collider")
 cube21_3 = Objects(-232, 0, 1600, 90, 'black', 1, 0, 0, [21], "Collider")
 cube21_4 = Objects(270, 470, 100, 445, 'black', 1, 0, 0, [21], "Collider")
@@ -337,6 +337,19 @@ cube24_11 = Objects(1000, 1000, 150, 150,'red', 1, 0, 0, [24],  MoveObject((1000
 
 cube24_12 = Objects(1238, 244, 127, 523,'black', 1, 0, 0, [24], "Collider")
 
+cube25_1 = Objects(238, 442, 569, 49,'black', 1, 0, 0, [25], "Collider")
+cube25_2 = Objects(-500, 0, 1900, 136,'black', 1, 0, 0, [25], "Collider")
+cube25_3 = Objects(1141, 296, 300, 500,'black', 1, 0, 0, [25], "Collider")
+
+cube25_4 = Objects(500, 0, 250, 250,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
+cube25_5 = Objects(400, -400, 250, 250,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
+cube25_6 = Objects(600, -800, 250, 250,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
+
+cube26_1 = Objects(-27, 500, 645, 367,'black', 1, 0, 0, [26], "Collider")
+cube26_2 = Objects(578, 420, 337, 447,'black', 1, 0, 0, [26], "Collider")
+cube26_3 = Objects(860, 452, 605, 415,'blue', 1, 0, 0, [26], "Collider")
+cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
+
 cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
@@ -362,7 +375,9 @@ platforms = [cube1_1, cube1_2, cube1_3, cube1_4, cube1_Enemy_test, cube1_Enemy1,
              cube21_22_23_1, cube21_2, cube21_3, cube21_4, cube21_5, cube21_6, cube21_7,
              cube22_1, cube22_2,cube22_3, cube22_4, cube22_5, cube22_6,
              cube23_1, cube23_2, cube23_3, cube23_4, cube23_Enemy1, cube23_Enemy2,
-             cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12, cube_RisingWater]
+             cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12,
+             cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6,
+             cube26_1, cube26_3, cube26_2, cube26_Enemy1, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -525,7 +540,7 @@ def parkour(player, game_manager):
             LevelGehaald()
             scene += 1
             player.lives = 5
-            cube_RisingWater.ypos = 900
+            cube_RisingWater.ypos = 850
         elif scene == 18:
             RespawnPos = (-440, 500)
             playerObject.draw(screen, CameraPosx)
@@ -547,8 +562,15 @@ def parkour(player, game_manager):
         elif scene == 24:
             RespawnPos = (-300, 600)
             playerObject.draw(screen, CameraPosx)
-
         elif scene == 25:
+            RespawnPos = (-300, 600)
+            playerObject.draw(screen, CameraPosx)
+        elif scene == 26:
+            RespawnPos = (-300, 600)
+            playerObject.draw(screen, CameraPosx)
+
+
+        elif scene == 27:
             eind(player.name)
             return "Menu"
 
@@ -560,19 +582,9 @@ def parkour(player, game_manager):
         # maakt de speler dood
         for Collider in Colliders:
             if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvisibilityFrames == 0:
-                print(playerObject.ypos)
-                print(playerObject.xpos)
 
-                if player.lives == 1:
-                    game_manager = Game_Manager(1, -90, 450)
-                    scene = 1
-                    playerObject.xpos = -90
-                    playerObject.ypos = 450
-                    print(scene)
-
-                else:
-                    playerObject.xpos = RespawnPos[0]
-                    playerObject.ypos = RespawnPos[1]
+                playerObject.xpos = RespawnPos[0]
+                playerObject.ypos = RespawnPos[1]
                 player.lives, state = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints
                 CollisionGlitch = False
