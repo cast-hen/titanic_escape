@@ -415,7 +415,7 @@ def fight(enemy, player, screen):
             #rolls whether the enemy should use an item and selects it
             if random.randint(0, 2) != 0 and len(enemyItems) > 0:
                 roll = random.randint(0, len(enemyItems) - 1)
-                if enemyItems[roll].ammount > 0:
+                if enemyItems[roll].amount > 0:
                     usedItem = enemyItems[roll].name
                 else:
                     usedItem = None
