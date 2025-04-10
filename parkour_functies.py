@@ -1,8 +1,6 @@
-from common import *
 from fighting_functions import *
 import pygame
 import random
-from pygame import RESIZABLE
 import time
 gravity = 0.6
 tick = 0

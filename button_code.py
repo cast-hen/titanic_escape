@@ -1,6 +1,5 @@
 import pygame
 import time
-# from common import textPrint
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 mainFont = 'resources/MinecraftTen-VGORe.ttf'

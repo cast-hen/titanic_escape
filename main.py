@@ -1,9 +1,6 @@
-from fighting_functions import *
 from parkour_functies import *
-from button_code import *
 from common import *
 import pygame
-import time
 
 pygame.init()
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
