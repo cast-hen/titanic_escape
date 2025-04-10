@@ -97,20 +97,20 @@ def fight(enemy, player, screen):
         #sets the blocked text to be scrolled
         font = pygame.font.Font(mainFont, 40)
         blockedText = font.render("blocked", True, (100, 100, 255))
+        blockedImage = pygame.transform.scale(pygame.image.load('resources/textures/move_block_sideProfile.png'),(120, 260))
         #sets the x value and rectangle position depending on the given location
         if location == "player":
             x = 400
-            blockedRect = pygame.Rect(400, 200, 30, 250)
         elif location == "enemy":
-            x = 900 - blockedText.get_rect().width
-            blockedRect = pygame.Rect(870, 200, 30, 250)
+            x = 900 - 120
+            blockedImage = pygame.transform.flip(blockedImage, True, False)
         #for loop where the text is scrolled upwards
         for i in range(0, 20):
             timeBegin = time.time()
             draw_scene()
-            pygame.draw.rect(screen, (100, 100, 255), blockedRect)
+            screen.blit(blockedImage, (x, 240))
             screen.blit(blockedText, (x, 150 - i))
-            pygame.display.update()
+            pygame.display.flip()
             waitTime = 0.01 - (time.time() - timeBegin)
             if waitTime > 0:
                 time.sleep(waitTime)
