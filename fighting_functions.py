@@ -241,7 +241,7 @@ def fight(enemy, player, screen):
                         if immunityTurnsLeftEnemy > 0:
                             blocked("enemy")
                         else:
-                            damage = int(5 * damageMultiplierPlayer)
+                            damage = int(8 * damageMultiplierPlayer)
                             healed = int(damage * (enemyCurrentHealth / enemy.maxHitpoints))
                             enemyCurrentHealth -= damage
                             scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
@@ -317,8 +317,11 @@ def fight(enemy, player, screen):
                             scrollText("poison cleared", (255, 0, 255), "player", 40, 40)
                     #the Bomb item
                     elif usedItem == "Bomb":
-                        enemyCurrentHealth -= 20
-                        scrollText("20", (255, 0, 0), "enemy", 80, 20)
+                        if immunityTurnsLeftEnemy > 0:
+                            blocked("enemy")
+                        else:
+                            enemyCurrentHealth -= 20
+                            scrollText("20", (255, 0, 0), "enemy", 80, 20)
                     #the Poison bottle item
                     elif usedItem == "Poison bottle":
                         poisonTurnsLeftEnemy = 5
@@ -424,8 +427,11 @@ def fight(enemy, player, screen):
                             scrollText("poison cleared", (255, 0, 255), "enemy", 40, 40)
                     #the Bomb item
                     elif usedItem == "Bomb":
-                        playerCurrentHealth -= 20
-                        scrollText("20", (255, 0, 0), "player", 80, 20)
+                        if immunityTurnsLeftPlayer > 0:
+                            blocked("player")
+                        else:
+                            playerCurrentHealth -= 20
+                            scrollText("20", (255, 0, 0), "player", 80, 20)
                     #the Poison bottle item
                     elif usedItem == "Poison bottle":
                         poisonTurnsLeftPlayer = 5
@@ -501,7 +507,7 @@ def fight(enemy, player, screen):
                 if immunityTurnsLeftPlayer > 0:
                     blocked("player")
                 else:
-                    damage = int(5 * damageMultiplierEnemy)
+                    damage = int(8 * damageMultiplierEnemy)
                     healed = damage * (playerCurrentHealth // player.maxHitpoints)
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)

@@ -18,8 +18,8 @@ punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('r
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times", pygame.image.load('resources/textures/move_comboPunch.png'))
 enrage = move("enrage", "Increases your damage on \n the next 3 turns", pygame.image.load('resources/textures/move_enrage.png'))
 poison = move("poison", "Poisons your opponent to \n take damage over time", pygame.image.load('resources/textures/move_poison.png'))
-lifeSteal = move("life steal", "Damages your opponent \n and gives you 30% \n back as health", pygame.image.load('resources/textures/move_lifeSteal.png'))
-block = move("block", "Blocks your opponents' \n next attack", pygame.image.load('resources/textures/move_block.png'))
+lifeSteal = move("life steal", "Damages your opponent \n and gives a percentage \n back as health", pygame.image.load('resources/textures/move_lifeSteal.png'))
+block = move("block", "Can block your opponents' \n next few attacks", pygame.image.load('resources/textures/move_block.png'))
 player = character("bob", 5, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100, 100, [punch, comboPunch], [
     item("Full Restore", 2),
     item("Bomb", 5),

@@ -1,4 +1,5 @@
 from common import *
+from fighting_functions import *
 import pygame
 import random
 from pygame import RESIZABLE
@@ -123,22 +124,33 @@ class MoveObject:
 
 #Enemies
 enemy_image_size = (86, 280)
-enemyBOB_1 = character("BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 100, 100, ["punch"], [], 0, True)
-enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyJANBOB_2 = character("JANBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBOBJAN_1 = character("BOBJAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBobbie_1 = character("Bobbie", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBoze_Janje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 100, 100,["punch"], [], 0, True)
+enemyBOB_1 = character("BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 100, 100, ["punch"], [], 0, True)
+enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 50, 50,["punch"], [], 0, True)
+enemyJANBOB_2 = character("JANBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 50, 50,["combo punch"], [], 0, True)
+enemyBOBJAN_1 = character("BOBJAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 60, 60,["punch"], [], 0, True)
+enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "combo punch", "poison"], [], 2, True)
+enemyBobbie_1 = character("Bobbie", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "punch", "poison"], [], 3, True)
+enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 80, 80,["punch", "enrage", "block"], [], 0, True)
+enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 70, 70,["punch", "punch", "block"], [], 1, True)
+enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 90, 90,["punch"], [], 2, True)
+enemyBoze_Janje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch"], [
+    item("Poison bottle", 2)
+], 2, True)
+enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
+    item("Bomb", 1)
+], 5, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "enrage"], [
+    item("Bomb", 1)
+], 2, True)
+enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "life steal", "block"], [], 5, True)
+enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 110, 110,["punch", "punch", "poison"], [], 3, True)
+enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
+    item("Bomb", 2)
+], 0, True)
+enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 150, 150,["punch", "combo punch", "enrage", "block"], [
+    item("Full Restore", 1),
+    item("Bomb", 2)
+], 3, True)
 
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
@@ -509,6 +521,7 @@ def parkour(player, game_manager):
             LevelGehaald()
             scene += 1
             player.lives = 5
+            player.hitpoints = player.maxHitpoints
 
         elif scene == 9:
             RespawnPos = (-340, 350)
@@ -540,6 +553,7 @@ def parkour(player, game_manager):
             LevelGehaald()
             scene += 1
             player.lives = 5
+            player.hitpoints = player.maxHitpoints
             cube_RisingWater.ypos = 850
         elif scene == 18:
             RespawnPos = (-440, 500)
