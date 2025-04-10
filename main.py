@@ -28,7 +28,7 @@ while running:
             playerName = player.name
         player = character(playerName, 5,
                            pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100,
-                           100, [devTestInstakill, block, punch, comboPunch], [
+                           100, [devTestInstakill, punch, comboPunch], [
                                item("Full Restore", 2),
                                item("Bomb", 5),
                                item("Poison bottle", 2),
