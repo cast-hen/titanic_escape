@@ -26,9 +26,6 @@ class move:
         """
         # Tekent de kaart op de achtergrond
         screen.blit(pygame.transform.scale(pygame.image.load("resources/textures/KaartCROP.png"), (288, 472)), (x - 144, y - 236))
-        # Tekent het plaatje als er voor die move een is
-        if not self.image == "":
-            screen.blit(self.image, (x, y))
         # Print de tekst op de kaart
         textPrint(self.description, 20, 'white', (x, y + 150))
         textPrint(self.name, 35, 'white', (x, y - 200))
