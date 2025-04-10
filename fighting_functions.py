@@ -164,7 +164,7 @@ def fight(enemy, player, screen):
                 #defining new variables
                 draw_scene()
                 done = False
-                pages = len(player.moveset) // 4
+                pages = (len(player.moveset) - 1) // 4
                 page = 0
                 move = None
                 #loop where a move is selected
@@ -266,7 +266,7 @@ def fight(enemy, player, screen):
             elif button.check(itemButton, mouseDown, screen) and len(player.items) > 0:
                 draw_scene()
                 done = False
-                pages = len(playerItems) // 4
+                pages = len(playerItems) - 1 // 4
                 page = 0
                 usedItem = None
                 # loop where an item can be selected
