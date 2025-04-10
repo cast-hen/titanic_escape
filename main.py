@@ -37,7 +37,18 @@ while running:
     if state == "Menu":
         screen.fill('black')
         game_manager.Set(1, 270, 450)
-        player.lives, player.hitpoints, items = (5, 100, [])
+        player.lives, player.hitpoints, player.items = (5, 100, [
+            item("Full Restore", 2),
+            item("Bomb", 5),
+            item("Poison bottle", 2),
+            item("Immunizing elixir", 3),
+            item("Giantkiller", 4),
+            item("Orb of absorption", 2)
+        ])
+        for i in range(len(enemyList)):
+            if not(enemyList[i] in platforms):
+                enemyList[i].type.alive = True
+                platforms.append(enemyList[i])
         state, player.name = menu(player.name)
 
     # Hoofd code:

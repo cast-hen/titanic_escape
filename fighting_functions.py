@@ -1,7 +1,3 @@
-import pygame
-import time
-import random
-from button_code import *
 from common import *
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
@@ -335,7 +331,7 @@ def fight(enemy, player, screen):
                         scrollText("Immune for 3 turns", (100, 100, 255), "player", 30, 50)
                     #the Giantkiller item
                     elif usedItem == "Giantkiller":
-                        damage = int(0.1 * enemy.maxHitpoints)
+                        damage = int(0.3 * enemy.maxHitpoints)
                         enemyCurrentHealth -= damage
                         scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                     #the Orb of absorption item
@@ -419,7 +415,10 @@ def fight(enemy, player, screen):
             #rolls whether the enemy should use an item and selects it
             if random.randint(0, 2) != 0 and len(enemyItems) > 0:
                 roll = random.randint(0, len(enemyItems) - 1)
-                usedItem = enemyItems[roll].name
+                if enemyItems[roll].ammount > 0:
+                    usedItem = enemyItems[roll].name
+                else:
+                    usedItem = None
                 #checks whether the enemy "should" use full restore
                 if usedItem != "Full Restore" or enemyCurrentHealth < enemy.maxHitpoints - 20:
                     enemyItems[roll].amount -= 1
@@ -448,7 +447,7 @@ def fight(enemy, player, screen):
                         scrollText("Immune for 3 turns", (100, 100, 255), "enemy", 30, 50)
                     #the Giantkiller item
                     elif usedItem == "Giantkiller":
-                        damage = int(0.1 * player.maxHitpoints)
+                        damage = int(0.3 * player.maxHitpoints)
                         playerCurrentHealth -= damage
                         scrollText(str(damage), (255, 0, 0), "player", 80, 20)
                     #the Orbs of absorption item

@@ -122,16 +122,14 @@ class MoveObject:
 
 #Enemies
 enemy_image_size = (86, 280)
-enemyBOB_1 = character("BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 100, 100, ["punch"], [], 0, True)
 enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 50, 50,["punch"], [], 0, True)
-enemyJANBOB_2 = character("JANBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 50, 50,["combo punch"], [], 0, True)
 enemyBOBJAN_1 = character("BOBJAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 60, 60,["punch"], [], 0, True)
 enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "combo punch", "poison"], [], 2, True)
 enemyBobbie_1 = character("Bobbie", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "punch", "poison"], [], 3, True)
 enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 80, 80,["punch", "enrage", "block"], [], 0, True)
 enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 70, 70,["punch", "punch", "block"], [], 1, True)
 enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 90, 90,["punch"], [], 2, True)
-enemyBoze_Janje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch"], [
+enemyBoze_Jantje_1 = character("Boze Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch"], [
     item("Poison bottle", 2)
 ], 2, True)
 enemyKwaardaardige_BOB_1 = character("Kwaadaardige BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
@@ -149,7 +147,6 @@ enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.imag
     item("Full Restore", 1),
     item("Bomb", 2)
 ], 3, True)
-
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
@@ -165,7 +162,6 @@ cube1_1 = Objects(-500, 500, 900, 1500, 'black', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'black', 1, 0, 0, [1], "Collider")
 cube1_3 = Objects(833, 428, 600, 2430, 'black', 1, 0, 0, [1], "Collider")
 cube1_4 = Objects(-550, 29, 250, 571, 'black', 1, 0, 0, [1], "Collider")
-cube1_Enemy_test = Objects(-200, cube1_1.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [1], enemyBOB_1)
 cube1_Enemy1 = Objects(1050, cube1_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [1], enemyJAN_1)
 
 cube2_1 = Objects(461, 581, 412, 500, 'black', 1, 0, 0, [2], "Collider")
@@ -264,7 +260,7 @@ cube14_2 = Objects(-500, 190, 2000, 250, 'black', 1, 0, 0, [14], "Collider")
 cube14_3 = Objects(-500, 0, 300, 350, 'black', 1, 0, 0, [14], "Collider")
 cube14_4 = Objects(1100, 0, 300, 350, 'black', 1, 0, 0, [14], "Collider")
 cube14_Enemy1 = Objects(69, cube14_15_1.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [14], enemyWillem_Henk_1)
-cube14_Enemy2 = Objects(880, cube14_15_1.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [14], enemyBoze_Janje_1)
+cube14_Enemy2 = Objects(880, cube14_15_1.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [14], enemyBoze_Jantje_1)
 
 cube14_5 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [14], MoveObject((400, -100), (400, 190), 4, 10, False, 500))
 cube14_6 = Objects(400, -500, 50, 50, 'red', 1, 0, 0, [14], MoveObject((400, -100), (400, 190), 4.5, 10, False, 500))
@@ -362,8 +358,10 @@ cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_past
 
 cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 
+enemyList = [cube1_Enemy1, cube3_Enemy1, cube4_Enemy1, cube6_Enemy1, cube9_Enemy1, cube10_Enemy1, cube14_Enemy1, cube14_Enemy2, cube16_Enemy1, cube20_Enemy1, cube20_Enemy2, cube23_Enemy1, cube23_Enemy2, cube26_Enemy1]
+
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
-platforms = [cube1_1, cube1_2, cube1_3, cube1_4, cube1_Enemy_test, cube1_Enemy1,
+platforms = [cube1_1, cube1_2, cube1_3, cube1_4, cube1_Enemy1,
              cube2_1, cube2_1, cube2_2, cube2_3, cube2_4, cube2_5,
              cube3_1, cube3_2, cube3_3, cube3_4, cube3_5, cube3_6, cube3_Enemy1,
              cube4_1, cube4_2, cube4_3, cube4_4, cube4_5, cube4_6, cube4_7, cube4_Enemy1,

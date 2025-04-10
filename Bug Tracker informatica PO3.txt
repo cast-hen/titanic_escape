@@ -20,7 +20,7 @@ left scene switch not working    status: unresolved
 Respawn death    status: unresolved
     Je kunt in de muur respawnen
 
-Enemies dont respawn     status: unresolved
+Enemies dont respawn     status: resolved - for loop als je switcht naar menu state die de "alive" status van alle enemies reset
     Als je de game hebt gewonnen / verloren spawnen de enemies niet terug
 
 Enemy tunnel glitch     status: works as intended (its not a bug, its a feature)
