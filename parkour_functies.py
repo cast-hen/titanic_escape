@@ -138,7 +138,7 @@ enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image
 enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
 enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
 enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 10, 10,["punch"], [], 0, True)
-enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 100, 10,["punch"], [], 0, True)
+enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 100, 100,["punch"], [], 0, True)
 
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
