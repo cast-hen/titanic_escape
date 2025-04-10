@@ -110,11 +110,14 @@ def fight(enemy, player, screen):
             blockedRect = pygame.Rect(870, 200, 30, 250)
         #for loop where the text is scrolled upwards
         for i in range(0, 20):
+            timeBegin = time.time()
             draw_scene()
             pygame.draw.rect(screen, (100, 100, 255), blockedRect)
             screen.blit(blockedText, (x, 150 - i))
             pygame.display.update()
-            time.sleep(0.01)
+            waitTime = 0.01 - (time.time() - timeBegin)
+            if waitTime > 0:
+                time.sleep(waitTime)
         time.sleep(0.5)
         draw_scene()
         pygame.display.update()
@@ -358,6 +361,9 @@ def fight(enemy, player, screen):
                     playerCurrentHealth += healed
                 scrollText(str(healed), (0, 255, 0), "player", 80, 20)
                 state = "turnEnemy"
+                if poisonTurnsLeftPlayer > 0:
+                    poisonTurnsLeftPlayer = 0
+                    scrollText("poison cleared", (255, 0, 255), "player", 40, 40)
             #the code for when the flee button is pressed
             elif button.check(fleeButton, mouseDown, screen):
                 #defining the variables
