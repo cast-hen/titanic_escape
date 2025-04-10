@@ -25,3 +25,6 @@ Enemies dont respawn     status: resolved - for loop als je switcht naar menu st
 
 Enemy tunnel glitch     status: works as intended (its not a bug, its a feature)
     Je kunt door sommige enemies heen tunnelen door meerdere malen op flee te drukken (je verplaats elke keer een paar pixels de enemy in)
+
+Massive enemy hitboxes    status: unresolved
+    De collision boxes van sommige enemies zijn veel groter dan de enemies zelf
