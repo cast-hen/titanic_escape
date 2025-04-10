@@ -10,8 +10,6 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 # image1 = pygame.transform.scale(pygame.image.load('resources/textures/titanic 3rd class interior backdrop.png').convert(), (pygame.display.get_window_size()))
 
-
-
 class Objects:
     def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, type):
         self.xpos = xpos

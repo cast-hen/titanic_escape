@@ -6,19 +6,12 @@ Format: <bugnaam> status: <status>
 (als je een bug hebt gefixt markeer hem dan also resolved, niet weghalen)
 <beschrijving>: langere beschrijving van de bug en een uitleg hoe je hem kan reproduceren
 
-Game over returnt niet naar begin     status: resolved - game_manager parameter toegeveogd aan parkour
-    Als je al je levens hebt verloren en daarna op "restart" drukt ga je niet helemaal naar het begin terug
-    maar blijf je in de scene waar je bent doodgegaan.
-
-Wall death glitch     status: unresolved
+Wall death glitch     status: unresolved    this will stay unfixed, it is not worth the time/effort.
     als je tegen een muur aan loopt is er een kans dat je zonder andere reden een leven verliest
 
 wall glitched frame    status: works as intended (its not a bug its a feature)
     als je recht in een muur loopt is er 1 frame waarin je op de muur teleporteert
     voordat je weer teruggaat naar waar je hoort te zijn
-
-scene switch deaths    status: resolved - movement stops after scene switch
-    als je naar bepaalde scenes wisselt kun je boven de void spawnen en meteen een leven verliezen
 
 left scene switch not working    status: unresolved
     Alsje je via de linker border naar de vorige scene switcht blijf je bij enkele scenes in dezelfde scene
@@ -30,5 +23,5 @@ Respawn death    status: unresolved
 Enemies dont respawn     status: unresolved
     Als je de game hebt gewonnen / verloren spawnen de enemies niet terug
 
-Enemy tunnel glitch     status: unresolved
+Enemy tunnel glitch     status: works as intended (its not a bug, its a feature)
     Je kunt door sommige enemies heen tunnelen door meerdere malen op flee te drukken (je verplaats elke keer een paar pixels de enemy in)
