@@ -454,8 +454,8 @@ def parkour(player, game_manager):
             playerObject.color = player_idle
         elif playerObject.xspeed < 0:
             looking = 'Left'
-            if tick < 10:
-                playerObject.color = player_Jump_Left
+            if tick < 8:
+                playerObject.color = player_Left
             else:
                 playerObject.color = player_idle_Left
         elif playerObject.xspeed > 0:
@@ -680,7 +680,7 @@ def parkour(player, game_manager):
             InvisibilityFrames -= 1
         if TransitionGlitch > 0:
             TransitionGlitch -= 1
-        if tick < 20:
+        if tick < 16:
             tick += 1
         else:
             tick = 0
