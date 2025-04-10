@@ -261,6 +261,9 @@ def fight(enemy, player, screen):
                                            "player", 30, 50)
                         else:
                             scrollText("Block Failed", (255, 0, 0), "player", 40, 20)
+                #Instakill move for testing purposes
+                    elif move == "devtest instakill":
+                        enemyCurrentHealth -= 1000
                     state = "turnEnemy"
             #the code for when the item button is pressed
             elif button.check(itemButton, mouseDown, screen) and len(player.items) > 0:

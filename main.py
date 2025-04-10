@@ -20,7 +20,7 @@ enrage = move("enrage", "Increases your damage on \n the next 3 turns", pygame.i
 poison = move("poison", "Poisons your opponent to \n take damage over time", pygame.image.load('resources/textures/move_poison.png'))
 lifeSteal = move("life steal", "Damages your opponent \n and gives a percentage \n back as health", pygame.image.load('resources/textures/move_lifeSteal.png'))
 block = move("block", "Can block your opponents' \n next few attacks", pygame.image.load('resources/textures/move_block.png'))
-player = character("bob", 5, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100, 100, [punch, comboPunch], [
+player = character("bob", 5, pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100, 100, [move("devtest instakill", "for developer purposes only", ''), punch, comboPunch], [
     item("Full Restore", 2),
     item("Bomb", 5),
     item("Poison bottle", 2),
