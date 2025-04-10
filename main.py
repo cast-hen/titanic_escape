@@ -42,7 +42,7 @@ while running:
             item("Bomb", 5),
             item("Poison bottle", 2),
             item("Immunizing elixir", 3),
-            item("Giantkiller", 4),
+            item("Giantkiller", 2),
             item("Orb of absorption", 2)
         ])
         for i in range(len(enemyList)):

@@ -143,7 +143,7 @@ enemyKleine_Karel_1 = character("Kleine Karel", 1, pygame.transform.scale(pygame
 enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
     item("Bomb", 2)
 ], 0, True)
-enemyBOSS_1 = character("KAPITEIN EDWARD", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 150, 150,["punch", "combo punch", "enrage", "block"], [
+enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block"], [
     item("Full Restore", 1),
     item("Bomb", 2)
 ], 3, True)
@@ -517,6 +517,7 @@ def parkour(player, game_manager):
             LevelGehaald()
             scene += 1
             player.lives = 5
+            player.maxHitpoints = 120
             player.hitpoints = player.maxHitpoints
 
         elif scene == 9:
@@ -549,6 +550,7 @@ def parkour(player, game_manager):
             LevelGehaald()
             scene += 1
             player.lives = 5
+            player.maxHitpoints = 150
             player.hitpoints = player.maxHitpoints
             cube_RisingWater.ypos = 850
         elif scene == 18:
