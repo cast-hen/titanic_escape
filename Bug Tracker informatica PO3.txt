@@ -29,3 +29,6 @@ Respawn death    status: unresolved
 
 Enemies dont respawn     status: unresolved
     Als je de game hebt gewonnen / verloren spawnen de enemies niet terug
+
+Enemy tunnel glitch     status: unresolved
+    Je kunt door sommige enemies heen tunnelen door meerdere malen op flee te drukken (je verplaats elke keer een paar pixels de enemy in)
