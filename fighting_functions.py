@@ -28,7 +28,7 @@ class move:
         screen.blit(pygame.transform.scale(pygame.image.load("resources/textures/KaartCROP.png"), (288, 472)), (x - 144, y - 236))
         # Print de tekst op de kaart
         textPrint(self.description, 20, 'white', (x, y + 150))
-        textPrint(self.name, 35, 'white', (x, y - 200))
+        textPrint(self.name, 35, 'white', (x, y - 200), outline=('black', 2))
         screen.blit(pygame.transform.scale(self.image, (160, 200)), (x - 80, y - 140))
 
 
