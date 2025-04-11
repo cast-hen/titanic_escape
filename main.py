@@ -23,7 +23,7 @@ playerName = "bob"
 while running:
     if state == "Menu":
         screen.fill('black')
-        game_manager.Set(1, 270, 450)
+        game_manager.Set(18, -130, 450)
         if playerName != "bob":
             playerName = player.name
         player = character(playerName, 5,

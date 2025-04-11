@@ -74,7 +74,7 @@ class Objects:
         if type(self.color) == pygame.Surface:
             screen.blit(self.color,(self.xpos - CameraPosx, self.ypos))
         elif type(self.type) == character:
-            screen.blit(self.type.image, (self.xpos - CameraPosx, self.ypos))
+            self.Rect = screen.blit(self.type.image, (self.xpos - CameraPosx, self.ypos))
         else:
             self.Rect = pygame.draw.rect(surface, self.color, (self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
@@ -137,7 +137,7 @@ enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image
     item("Bomb", 1)
 ], 2, True)
 enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "life steal", "block"], [], 5, True)
-enemyKleine_Karel_1 = character("Small Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 110, 110,["punch", "punch", "poison"], [], 3, True)
+enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 110, 110,["punch", "punch", "poison"], [], 3, True)
 enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
     item("Bomb", 2)
 ], 0, True)
@@ -345,9 +345,9 @@ cube25_1 = Objects(238, 442, 569, 49,'black', 1, 0, 0, [25], "Collider")
 cube25_2 = Objects(-500, 0, 1900, 136,'black', 1, 0, 0, [25], "Collider")
 cube25_3 = Objects(1141, 296, 300, 500,'black', 1, 0, 0, [25], "Collider")
 
-cube25_4 = Objects(500, 0, 250, 250,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
-cube25_5 = Objects(400, -400, 250, 250,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
-cube25_6 = Objects(600, -800, 250, 250,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
+cube25_4 = Objects(500, 0, 150, 150,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
+cube25_5 = Objects(400, -400, 150, 150,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
+cube25_6 = Objects(600, -800, 150, 150,'red', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
 
 cube26_1 = Objects(-27, 500, 645, 367,'black', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(578, 420, 337, 447,'black', 1, 0, 0, [26], "Collider")
@@ -621,16 +621,16 @@ def parkour(player, game_manager):
             CameraPosx = R_border - 500
 
         # linker scene transition
-        if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvisibilityFrames == 0:
-            playerObject.xpos = R_border + 700
-            CameraPosx = R_border - 500
-            playerObject.ypos -= 30
-            scene -= 1
-            keys = {"left": False, "right": False, "up": False}
-            CollisionGlitch = False
-            InvisibilityFrames = 25
+        #if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvisibilityFrames == 0:
+         #   playerObject.xpos = R_border + 700
+         #   CameraPosx = R_border - 500
+         #   playerObject.ypos -= 30
+         #   scene -= 1
+         #   keys = {"left": False, "right": False, "up": False}
+         #   CollisionGlitch = False
+         #   InvisibilityFrames = 25
         #rechter scene transition
-        elif playerObject.xpos > R_border + 800:
+        if playerObject.xpos > R_border + 800:
             TransitionGlitch = 5
             playerObject.xpos = -450
             playerObject.ypos -= 30

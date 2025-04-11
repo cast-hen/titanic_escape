@@ -13,11 +13,11 @@ wall glitched frame    status: works as intended (its not a bug its a feature)
     als je recht in een muur loopt is er 1 frame waarin je op de muur teleporteert
     voordat je weer teruggaat naar waar je hoort te zijn
 
-left scene switch not working    status: unresolved
+left scene switch not working    status: resolved - Linker scene transition verwijderd
     Alsje je via de linker border naar de vorige scene switcht blijf je bij enkele scenes in dezelfde scene
     (en soms in de muur). In elk geval bij scene 3 en 5 het geval
 
-Respawn death    status: unresolved
+Respawn death    status: resolved - zet positie voor eerste 5 frames gelijk aan spawnpoint
     Je kunt in de muur respawnen
 
 Enemies dont respawn     status: resolved - for loop als je switcht naar menu state die de "alive" status van alle enemies reset
@@ -26,5 +26,5 @@ Enemies dont respawn     status: resolved - for loop als je switcht naar menu st
 Enemy tunnel glitch     status: works as intended (its not a bug, its a feature)
     Je kunt door sommige enemies heen tunnelen door meerdere malen op flee te drukken (je verplaats elke keer een paar pixels de enemy in)
 
-Massive enemy hitboxes    status: unresolved
+Massive enemy hitboxes    status: resolved - collisions van enemies werken nu als nodig
     De collision boxes van sommige enemies zijn veel groter dan de enemies zelf
