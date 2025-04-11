@@ -93,13 +93,13 @@ class MoveObject:
         self.yDirection = self.EndPos[1] - self.StartPos[1]
         self.Direction = (self.xDirection / self.Speed, self.yDirection / self.Speed)
 
-    def Move(self, pos):
+    def Move(self, pos, Speed):
         if self.randomNumber == 0:
             self.randomNumber = random.randint(-self.Randomness, self.Randomness)
         if pos == self.StartPos:
             xDirection = self.EndPos[0] - self.StartPos[0]
             yDirection = self.EndPos[1] - self.StartPos[1]
-            self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
+            self.Direction = (xDirection / Speed, yDirection / Speed)
 
         if 8 > (self.EndPos[0] - pos[0] + self.randomNumber) + (self.EndPos[1] - pos[1]) > -8 :
             if self.Teleport:
@@ -108,7 +108,7 @@ class MoveObject:
                 self.StartPos = endpos
                 xDirection = self.EndPos[0] - self.StartPos[0]
                 yDirection = self.EndPos[1] - self.StartPos[1]
-                self.Direction = (xDirection / self.Speed, yDirection / self.Speed)
+                self.Direction = (xDirection / Speed, yDirection / Speed)
                 self.randomNumber = 0
 
             else:
@@ -355,7 +355,6 @@ cube26_3 = Objects(860, 452, 605, 415,'blue', 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
 cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
-
 enemyList = [cube1_Enemy1, cube3_Enemy1, cube4_Enemy1, cube6_Enemy1, cube9_Enemy1, cube10_Enemy1, cube14_Enemy1, cube14_Enemy2, cube16_Enemy1, cube20_Enemy1, cube20_Enemy2, cube23_Enemy1, cube23_Enemy2, cube26_Enemy1]
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
@@ -478,7 +477,10 @@ def parkour(player, game_manager):
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
                 if type(platform.type) == MoveObject:
-                    (platform.xpos, platform.ypos) = platform.type.Move((int(platform.xpos), int(platform.ypos)))
+                    if platform.type.StartPos == (800, 1000) and scene in [21, 22]:
+                        (platform.xpos, platform.ypos) = platform.type.Move((int(platform.xpos), int(platform.ypos)),100 / 0.2)
+
+                    (platform.xpos, platform.ypos) = platform.type.Move((int(platform.xpos), int(platform.ypos)), platform.type.Speed)
                 elif type(platform.type) == character:
                     if not platform.type.alive:
                         platforms.remove(platform)
