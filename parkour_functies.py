@@ -11,35 +11,37 @@ image_floor = pygame.transform.scale(pygame.image.load('resources/textures/backg
 image_wall = pygame.image.load('resources/textures/wall_temp.png').convert()
 
 class Objects:
-    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, type):
+    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
         self.height = height
-        if color == 'red' or color == 'blue':
-            self.color = color
-        else:
-            self.color = 'green'
+        self.color = color
         self.mass = mass
         self.xspeed = xspeed
         self.yspeed = yspeed
         self.Rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
         self.on_ground = False
         self.ObjectScene = ObjectScene
-        self.type = type
+        self.Type = Type
         self.surface = None
-        if color == "floor":
+
+        if self.color == "floor":
             self.surface = pygame.Surface((self.width, HEIGHT))
             self.surface.blit(image_floor, (0, self.ypos - 910))
-            self.paste_y = 0
         elif color == "wall":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
-            self.paste_y = self.ypos
         elif color == "floating":
-            pass
+            self.color = 'green'
         elif color == "pillar":
-            pass
+            self.color = 'green'
+        elif color == "water":
+            self.surface = pygame.Surface((2000, 750))
+            self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (2000, 750)))
+            self.surface.set_alpha(200)
+        elif not (self.color == 'red' or self.color == 'blue' or type(self.color) == pygame.Surface):
+            self.color = 'green'
 
     def update_pos(self, platforms, CameraPosx, scene):
         Collider = []
@@ -55,7 +57,7 @@ class Objects:
                         self.xpos = platform.xpos + platform.width
                     self.xspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                    Collider.append(platform.type)
+                    Collider.append(platform.Type)
 
         self.yspeed += self.mass * gravity
 
@@ -75,7 +77,7 @@ class Objects:
                         self.ypos = platform.ypos + platform.height
                         self.yspeed = 0
                     self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-                    Collider.append(platform.type)
+                    Collider.append(platform.Type)
 
 
 
@@ -85,18 +87,21 @@ class Objects:
             self.yspeed = 0
             self.on_ground = True
             self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
-            Collider.append(platform.type)
+            Collider.append(platform.Type)
         return Collider
 
     def draw(self, screen, CameraPosx):
-        if type(self.color) == pygame.Surface:
-            screen.blit(self.color,(self.xpos - CameraPosx, self.ypos))
-        elif type(self.type) == character:
-            self.Rect = screen.blit(self.type.image, (self.xpos - CameraPosx, self.ypos))
-        elif self.surface is not None:
-            screen.blit(self.surface, (self.xpos - CameraPosx, self.paste_y))
-            self.Rect = pygame.draw.rect(screen, (72, 37, 15), (self.xpos - CameraPosx, self.ypos, self.width, self.height), 1)
-        else:
+        if type(self.color) == pygame.Surface: #player
+            screen.blit(self.color, (self.xpos - CameraPosx, self.ypos))
+        elif type(self.Type) == character: #enemies
+            self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
+        elif self.surface is not None: #platforms
+            paste_y = self.ypos
+            if self.color == "floor":
+                paste_y = 0
+            screen.blit(self.surface, (self.xpos - CameraPosx, paste_y))
+            self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
+        else: #platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.color,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
 class MoveObject:
@@ -175,6 +180,9 @@ player_Jump_Left =  pygame.transform.flip(player_Jump_Right, True, False)
 player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
 player_idle_Left = pygame.transform.flip(player_idle, True, False)
 
+#No left border transition anymore? Then here rectangle to stop player going there.
+cube_LeftBorder = Objects(-500, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], "Collider")
+
 enemy_paste_height = 260 # height of enemy image, but with an overlap of 20.
 # For every enemy: ypos = ypos of cube it's standing on - enemy_paste_height
 cube1_1 = Objects(-300, 490, 700, 1500, 'floor', 1, 0, 0, [1], "Collider")
@@ -192,9 +200,8 @@ cube2_5 = Objects(344, 100, 213, 15, 'floating', 1, 0, 0, [2], "Collider")
 cube3_1 = Objects(564, 116, 3500, 2000, 'floor', 1, 0, 0, [3], "Collider")
 cube3_2 = Objects(-500, 530, 576, 500, 'floor', 1, 0, 0, [3], "Collider")
 cube3_3 = Objects(364, 420, 200, 500, 'floor', 1, 0, 0, [3], "Collider")
-#cube3_4 = Objects(365, 430, 313, 54, 'green', 1, 0, 0, [3], "Collider")
-cube3_5 = Objects(22, 200, 150, 54, 'floating', 1, 0, 0, [3], "Collider")
-cube3_6 = Objects(-417, 93, 150, 20, 'floating', 1, 0, 0, [3], "Collider")
+cube3_4 = Objects(22, 200, 150, 54, 'floating', 1, 0, 0, [3], "Collider")
+cube3_5 = Objects(-417, 93, 150, 20, 'floating', 1, 0, 0, [3], "Collider")
 cube3_Enemy1 = Objects(1040, cube3_1.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [3], enemyBOBJAN_1)
 
 cube4_1  = Objects(-500, 130, 218, 1000, 'floor', 1, 0, 0, [4], "Collider")
@@ -332,7 +339,7 @@ cube21_4 = Objects(270, 470, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_5 = Objects(650, 390, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_6 = Objects(1020, 450, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_7 = Objects(1241, 244, 200, 523,'floor', 1, 0, 0, [21], "Collider")
-#yippee
+#yippee - tot hier objects hernoemd
 cube22_1 = Objects(-500, 0, 392, 415,'floor', 1, 0, 0, [22], "Collider")
 cube22_2 = Objects(263, 406, 469, 361,'floor', 1, 0, 0, [22], "Collider")
 cube22_3 = Objects(920, 406, 100, 500,'floor', 1, 0, 0, [22], "Collider")
@@ -375,13 +382,14 @@ cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'blue', 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
-cube_RisingWater = Objects(-500, 800, 2000, 1000, 'blue', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
+cube_RisingWater = Objects(-500, 800, 2000, 1000, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 enemyList = [cube1_Enemy1, cube3_Enemy1, cube4_Enemy1, cube6_Enemy1, cube9_Enemy1, cube10_Enemy1, cube14_Enemy1, cube14_Enemy2, cube16_Enemy1, cube20_Enemy1, cube20_Enemy2, cube23_Enemy1, cube23_Enemy2, cube26_Enemy1]
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
-platforms = [cube1_1, cube1_2, cube1_3, cube1_4, cube1_Enemy1,
+platforms = [cube_LeftBorder,
+             cube1_1, cube1_2, cube1_3, cube1_4, cube1_Enemy1,
              cube2_1, cube2_1, cube2_2, cube2_3, cube2_4, cube2_5,
-             cube3_1, cube3_2, cube3_3, cube3_5, cube3_6, cube3_Enemy1, #cube3_4,
+             cube3_1, cube3_2, cube3_3, cube3_4, cube3_5, cube3_Enemy1,
              cube4_1, cube4_2, cube4_3, cube4_4, cube4_5, cube4_6, cube4_7, cube4_Enemy1,
              cube5_1, cube5_2, cube5_3, cube5_4, cube5_5,
              cube6_1, cube6_2, cube6_3, cube6_Enemy1,
@@ -497,13 +505,13 @@ def parkour(player, game_manager):
         for platform in platforms:
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
-                if type(platform.type) == MoveObject:
-                    if platform.type.StartPos == (800, 1000) and scene in [21, 22]:
-                        (platform.xpos, platform.ypos) = platform.type.Move((int(platform.xpos), int(platform.ypos)),100 / 0.2)
+                if type(platform.Type) == MoveObject:
+                    if platform.Type.StartPos == (800, 1000) and scene in [21, 22]:
+                        (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)),100 / 0.2)
 
-                    (platform.xpos, platform.ypos) = platform.type.Move((int(platform.xpos), int(platform.ypos)), platform.type.Speed)
-                elif type(platform.type) == character:
-                    if not platform.type.alive:
+                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
+                elif type(platform.Type) == character:
+                    if not platform.Type.alive:
                         platforms.remove(platform)
         if scene == 1:
             RespawnPos = (270, 450)
