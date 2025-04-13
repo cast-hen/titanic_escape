@@ -8,7 +8,9 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 image_background = pygame.transform.scale(pygame.image.load('resources/textures/wall_temp.png').convert(), (1866, 3732))
 image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background.png').convert(), (2560, 1720))
+image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background3D.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/wall_temp.png').convert()
+texture_overlap = 30
 
 class Objects:
     def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
@@ -27,8 +29,11 @@ class Objects:
         self.surface = None
 
         if self.color == "floor":
-            self.surface = pygame.Surface((self.width, HEIGHT))
+            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
             self.surface.blit(image_floor, (0, self.ypos - 910))
+        elif self.color == "floor3D":
+            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
+            self.surface.blit(image_floor3D, (0, self.ypos - 910))
         elif color == "wall":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
@@ -97,9 +102,9 @@ class Objects:
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
             paste_y = self.ypos
-            if self.color == "floor":
+            if self.color == "floor" or self.color == "floor3D":
                 paste_y = 0
-            screen.blit(self.surface, (self.xpos - CameraPosx, paste_y))
+            screen.blit(self.surface, (self.xpos - CameraPosx - texture_overlap, paste_y - texture_overlap))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
         else: #platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.color,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
@@ -183,17 +188,17 @@ player_idle_Left = pygame.transform.flip(player_idle, True, False)
 #No left border transition anymore? Then here rectangle to stop player going there.
 cube_LeftBorder = Objects(-500, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], "Collider")
 
-enemy_paste_height = 260 # height of enemy image, but with an overlap of 20.
+enemy_paste_height = enemy_image_size[1] # height of enemy image. Used for placement
 # For every enemy: ypos = ypos of cube it's standing on - enemy_paste_height
 cube1_1 = Objects(-300, 490, 700, 1500, 'floor', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 570, 950, 'floor', 1, 0, 0, [1], "Collider")
-cube1_3 = Objects(833, 428, 600, 2430, 'floor', 1, 0, 0, [1], "Collider")
+cube1_3 = Objects(833, 428, 600, 2430, 'floor3D', 1, 0, 0, [1], "Collider")
 cube1_4 = Objects(-500, 170, 200, 768-160, 'wall', 1, 0, 0, [1], "Collider")
 cube1_Enemy1 = Objects(1050, cube1_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [1], enemyJAN_1)
 
-cube2_1 = Objects(461, 581, 412, 500, 'floor', 1, 0, 0, [2], "Collider")
+cube2_1 = Objects(461, 581, 412, 500, 'floor3D', 1, 0, 0, [2], "Collider")
 cube2_2 = Objects(-500, 428, 687, 500, 'floor', 1, 0, 0, [2], "Collider")
-cube2_3 = Objects(1109, 481, 350, 500, 'floor', 1, 0, 0, [2], "Collider")
+cube2_3 = Objects(1109, 481, 350, 500, 'floor3D', 1, 0, 0, [2], "Collider")
 cube2_4 = Objects(700, 300, 131, 58, 'floating', 1, 0, 0, [2], "Collider")
 cube2_5 = Objects(344, 100, 213, 15, 'floating', 1, 0, 0, [2], "Collider")
 
@@ -339,7 +344,7 @@ cube21_4 = Objects(270, 470, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_5 = Objects(650, 390, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_6 = Objects(1020, 450, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_7 = Objects(1241, 244, 200, 523,'floor', 1, 0, 0, [21], "Collider")
-#yippee - tot hier objects hernoemd
+#yippee - tot hier objects.color hernoemd en rect aangepast
 cube22_1 = Objects(-500, 0, 392, 415,'floor', 1, 0, 0, [22], "Collider")
 cube22_2 = Objects(263, 406, 469, 361,'floor', 1, 0, 0, [22], "Collider")
 cube22_3 = Objects(920, 406, 100, 500,'floor', 1, 0, 0, [22], "Collider")
@@ -387,7 +392,7 @@ enemyList = [cube1_Enemy1, cube3_Enemy1, cube4_Enemy1, cube6_Enemy1, cube9_Enemy
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
 platforms = [cube_LeftBorder,
-             cube1_1, cube1_2, cube1_3, cube1_4, cube1_Enemy1,
+             cube1_2, cube1_1, cube1_3, cube1_4, cube1_Enemy1,
              cube2_1, cube2_1, cube2_2, cube2_3, cube2_4, cube2_5,
              cube3_1, cube3_2, cube3_3, cube3_4, cube3_5, cube3_Enemy1,
              cube4_1, cube4_2, cube4_3, cube4_4, cube4_5, cube4_6, cube4_7, cube4_Enemy1,
