@@ -6,8 +6,8 @@ gravity = 0.6
 tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
-image_background = pygame.transform.scale(pygame.image.load('resources/textures/background.png').convert(), (2560, 1125))
-image_floor = pygame.transform.scale(pygame.image.load('resources/textures/floor.png').convert(), (2560, 820))
+image_background = pygame.transform.scale(pygame.image.load('resources/textures/wall_temp.png').convert(), (1866, 3732))
+image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/wall_temp.png').convert()
 
 class Objects:
@@ -29,11 +29,13 @@ class Objects:
         self.type = type
         self.surface = None
         if color == "floor":
-            self.surface = pygame.Surface((self.width, self.height))
-            self.surface.blit(image_floor, (0, 0))
+            self.surface = pygame.Surface((self.width, HEIGHT))
+            self.surface.blit(image_floor, (0, self.ypos - 910))
+            self.paste_y = 0
         elif color == "wall":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
+            self.paste_y = self.ypos
         elif color == "floating":
             pass
         elif color == "pillar":
@@ -92,7 +94,7 @@ class Objects:
         elif type(self.type) == character:
             self.Rect = screen.blit(self.type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None:
-            screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
+            screen.blit(self.surface, (self.xpos - CameraPosx, self.paste_y))
             self.Rect = pygame.draw.rect(screen, (72, 37, 15), (self.xpos - CameraPosx, self.ypos, self.width, self.height), 1)
         else:
             self.Rect = pygame.draw.rect(screen, self.color,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
