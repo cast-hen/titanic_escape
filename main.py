@@ -38,7 +38,7 @@ while running:
                            ], 5, True)
         for i in range(len(enemyList)):
             if not(enemyList[i] in platforms):
-                enemyList[i].type.alive = True
+                enemyList[i].Type.alive = True
                 platforms.append(enemyList[i])
         state, player.name = menu(player.name)
         playerName = player.name
