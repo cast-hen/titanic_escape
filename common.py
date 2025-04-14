@@ -64,7 +64,7 @@ def menu(name):
     buttonPlaying = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
-    textPrint("Titanic Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
+    textPrint("Titanic: Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
 
     textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 2))
     index, name = waitForInput([buttonPlaying, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40, ('black', 2)))
@@ -99,8 +99,8 @@ def game_over(lives, state=None):
     """
     lives -= 1
     screen.fill('red')
+    dead = False
     if lives == 0:
-
         textPrint("Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
         textPrint("Play again?", 50, 'white', (WIDTH / 2, HEIGHT / 2))
         buttonYes = button(WIDTH / 2 - 150, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
@@ -109,6 +109,8 @@ def game_over(lives, state=None):
         index = waitForInput([buttonYes, buttonNo])
         possibleStates = ["Playing", "Menu"]
         state = possibleStates[index]
+        if index == 0:
+            dead = True
         lives = 5
     else:
         textPrint("You died", 100, 'white', (WIDTH / 2, HEIGHT / 2))
@@ -118,7 +120,7 @@ def game_over(lives, state=None):
         textPrint(message, 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
         pygame.display.flip()
         time.sleep(2)
-    return lives, state
+    return lives, state, dead
 
 
 def LevelGehaald():

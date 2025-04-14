@@ -50,10 +50,12 @@ while running:
             encounter = state
             result, player.hitpoints, player.items = fight(encounter, player, screen)
             if result == "loss":
-                player.lives, state = game_over(player.lives)
+                player.lives, state, dead = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints
                 if state is None:
                     state = "Playing"
+                if dead:
+                    state = "dead"
             elif result == "win":
                 encounter.alive = False
                 allMovesList = [devTestInstakill, punch, comboPunch, enrage, poison, lifeSteal, block]
@@ -72,6 +74,23 @@ while running:
 
     elif state == "quit":
         running = False
+
+    elif state == "dead":
+        state = "Playing"
+        game_manager.Reset()
+        player.moveset = [devTestInstakill, punch, comboPunch]
+        player.items = [
+            item("Full Restore", 2),
+            item("Bomb", 5),
+            item("Poison bottle", 2),
+            item("Immunizing elixir", 3),
+            item("Giantkiller", 4),
+            item("Orb of absorption", 2)
+        ]
+        for i in range(len(enemyList)):
+            if not (enemyList[i] in platforms):
+                enemyList[i].Type.alive = True
+                platforms.append(enemyList[i])
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

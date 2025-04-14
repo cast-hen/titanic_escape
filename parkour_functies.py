@@ -1,7 +1,6 @@
 from fighting_functions import *
 import pygame
 import random
-import time
 gravity = 0.6
 tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
@@ -14,6 +13,10 @@ image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/bac
 #image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 texture_overlap = 30
+
+punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
+comboPunch = move("combo punch", "Hits the opponent a \n random number of times", pygame.image.load('resources/textures/move_comboPunch.png'))
+devTestInstakill = move("devtest instakill", "for developer purposes only", '')
 
 class Objects:
     def __init__(self, xpos, ypos, width, height, texture_type, mass, xspeed, yspeed, ObjectScene, Type):
@@ -623,11 +626,13 @@ def parkour(player, game_manager):
 
                 playerObject.xpos = RespawnPos[0]
                 playerObject.ypos = RespawnPos[1]
-                player.lives, state = game_over(player.lives)
+                player.lives, state, dead = game_over(player.lives)
                 player.hitpoints = player.maxHitpoints
                 CollisionGlitch = False
                 InvisibilityFrames += 50
                 TransitionGlitch = 5
+                if dead:
+                    return "dead"
 
                 cube_RisingWater.ypos = 800
                 if state is not None:
