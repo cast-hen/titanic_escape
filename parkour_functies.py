@@ -12,6 +12,7 @@ image_floor = pygame.transform.scale(pygame.image.load('resources/textures/backg
 image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
 #image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
+image_fallingBlock = pygame.image.load('resources/textures/Falling_Debris.png')
 texture_overlap = 30
 
 punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
@@ -44,6 +45,9 @@ class Objects:
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
             self.surface.set_alpha(200)
+        elif texture_type == "Falling Block":
+            self.surface = pygame.Surface((self.width, self.height))
+            self.surface.blit(pygame.transform.scale(image_fallingBlock, (self.width, self.height)))
         elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
             self.texture_type = 'green'
 
@@ -237,16 +241,16 @@ cube9_4 = Objects(650, 500, 375, 280, 'floor', 1, 0, 0, [9], "Collider")
 cube9_5 = Objects(1025, 280, 400, 500, 'floor', 1, 0, 0, [9], "Collider")
 cube9_Enemy1 = Objects(825, cube9_4.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [9], enemyWillem_1)
 
-cube9_6 = Objects(460, 0, 60, 60, 'red', 1, 0, 0, [9], MoveObject((460, -100), (460, 2000), 0.5, 10, False, 100))
-cube9_7 = Objects(1050, 600, 60, 60, 'red', 1, 0, 0, [9], MoveObject((1050, -100), (1050, 2000), 0.4, 10, False, 100))
-cube9_8 = Objects(150, 300, 60, 60, 'red', 1, 0, 0, [9], MoveObject((150, -100), (150, 2000), 0.6, 10, False, 100))
+cube9_6 = Objects(460, 0, 60, 60, 'Falling Block', 1, 0, 0, [9], MoveObject((460, -100), (460, 2000), 0.5, 10, False, 100))
+cube9_7 = Objects(1050, 600, 60, 60, 'Falling Block', 1, 0, 0, [9], MoveObject((1050, -100), (1050, 2000), 0.4, 10, False, 100))
+cube9_8 = Objects(150, 300, 60, 60, 'Falling Block', 1, 0, 0, [9], MoveObject((150, -100), (150, 2000), 0.6, 10, False, 100))
 
 cube10_1 = Objects(-500, 285, 400, 600, 'floor', 1, 0, 0, [10], "Collider")
 cube10_2 = Objects(216, 400, 475, 370, 'floor', 1, 0, 0, [10], "Collider")
 cube10_3 = Objects(1050, 500, 350, 300, 'floor', 1, 0, 0, [10], "Collider")
 cube10_Enemy1 = Objects(485, cube10_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [10], enemyAlexander_1)
 
-cube10_4 = Objects(0, -100, 60, 60, 'red', 1, 0, 0, [10], MoveObject((0, -100), (0, 2000), 1, 10, False, 0))
+cube10_4 = Objects(0, -100, 60, 60, 'Falling Block', 1, 0, 0, [10], MoveObject((0, -100), (0, 2000), 1, 10, False, 0))
 cube10_5 = Objects(50, -250, 60, 60, 'red', 1, 0, 0, [10], MoveObject((50, -100), (50, 2000), 1, 10, False, 0))
 cube10_6 = Objects(790, -100, 150, 150, 'red', 1, 0, 0, [10], MoveObject((790, -100), (790, 2000), 0.8, 10, False, 0))
 cube10_7 = Objects(800, 1000, 150, 150, 'red', 1, 0, 0, [10], MoveObject((790, -100), (790, 2000), 0.8, 10, False, 0))
