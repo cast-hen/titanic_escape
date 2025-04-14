@@ -31,9 +31,12 @@ class Objects:
         self.Type = Type
         self.surface = None
 
-        if self.texture_type == "floor" or self.texture_type == "floor3D" or texture_type == "wall" or self.texture_type == "pillar":
+        if self.texture_type == "floor" or self.texture_type == "floor3D" or self.texture_type == "pillar":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(image_floor, (0, 0))
+        elif texture_type == "wall":
+            self.surface = pygame.Surface((self.width, self.height))
+            self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
         elif texture_type == "water":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
