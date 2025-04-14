@@ -103,7 +103,7 @@ class Objects:
 
     def draw(self, screen, CameraPosx):
         if type(self.texture_type) == pygame.Surface: #player, wall
-            screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
+            self.Rect = screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.texture_type == "Falling Block":
