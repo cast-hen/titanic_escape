@@ -179,7 +179,7 @@ player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_i
 player_idle_Left = pygame.transform.flip(player_idle, True, False)
 
 #No left border transition anymore? Then here rectangle to stop player going there.
-cube_LeftBorder = Objects(-500, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], "Collider")
+cube_LeftBorder = Objects(-501, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], "Collider")
 
 enemy_paste_height = enemy_image_size[1] # height of enemy image. Used for placement
 # For every enemy: ypos = ypos of cube it's standing on - enemy_paste_height
