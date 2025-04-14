@@ -8,10 +8,10 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
 #Textures
-image_background = pygame.transform.scale(pygame.image.load('resources/textures/wall_temp.png').convert(), (1866, 3732))
-image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background.png').convert(), (2560, 1720))
-image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV2.png').convert(), (2560, 1720))
-image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
+image_background = pygame.transform.scale(pygame.image.load('resources/textures/background_ceilingWallV1.png').convert(), (2560, 1125))
+image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
+image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
+#image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 texture_overlap = 30
 
@@ -31,19 +31,9 @@ class Objects:
         self.Type = Type
         self.surface = None
 
-        if self.texture_type == "floor":
-            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
-            self.surface.blit(image_floor3D, (0, self.ypos - 910))
-        elif self.texture_type == "floor3D":
-            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
-            self.surface.blit(image_floor3D, (0, self.ypos - 910))
-        elif texture_type == "wall":
-            self.texture_type = pygame.transform.scale(image_wall, (self.width, self.height))
-        elif texture_type == "floating":
-            self.texture_type = 'green'
-        elif texture_type == "pillar":
-            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
-            self.surface.blit(image_pillar, (0, self.ypos - 910))
+        if self.texture_type == "floor" or self.texture_type == "floor3D" or texture_type == "wall" or self.texture_type == "pillar":
+            self.surface = pygame.Surface((self.width, self.height))
+            self.surface.blit(image_floor, (0, 0))
         elif texture_type == "water":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
@@ -104,10 +94,7 @@ class Objects:
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
-            paste_y = self.ypos
-            if self.texture_type == "floor" or self.texture_type == "floor3D":
-                paste_y = 0
-            screen.blit(self.surface, (self.xpos - CameraPosx - texture_overlap, paste_y - texture_overlap))
+            screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
         else: #platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
