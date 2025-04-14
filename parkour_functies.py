@@ -47,11 +47,10 @@ class Objects:
             self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
             self.surface.set_alpha(200)
         elif texture_type == "Falling Block":
-            self.surface = pygame.Surface((self.width, self.height))
             if random.randint(0, 1) == 1:
-                self.surface.blit(pygame.transform.scale(image_fallingBlock1, (self.width, self.height)))
+                self.texture_type = pygame.transform.scale(image_fallingBlock1, (self.width, self.height))
             else:
-                self.surface.blit(pygame.transform.scale(image_fallingBlock2, (self.width, self.height)))
+                self.texture_type = pygame.transform.scale(image_fallingBlock2, (self.width, self.height))
         elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
             self.texture_type = 'green'
 
