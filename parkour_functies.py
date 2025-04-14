@@ -12,7 +12,8 @@ image_floor = pygame.transform.scale(pygame.image.load('resources/textures/backg
 image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
 #image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
-image_fallingBlock = pygame.image.load('resources/textures/background_wall.png')
+image_fallingBlock1 = pygame.image.load('resources/textures/background_wall.png')
+image_fallingBlock2 = pygame.image.load('resources/textures/background_wall.png')
 texture_overlap = 30
 
 punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
@@ -47,7 +48,10 @@ class Objects:
             self.surface.set_alpha(200)
         elif texture_type == "Falling Block":
             self.surface = pygame.Surface((self.width, self.height))
-            self.surface.blit(pygame.transform.scale(image_fallingBlock, (self.width, self.height)))
+            if random.randint(0, 1) == 1:
+                self.surface.blit(pygame.transform.scale(image_fallingBlock1, (self.width, self.height)))
+            else:
+                self.surface.blit(pygame.transform.scale(image_fallingBlock2, (self.width, self.height)))
         elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
             self.texture_type = 'green'
 
