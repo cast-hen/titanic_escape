@@ -13,7 +13,7 @@ image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/bac
 #image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png')
-image_fallingBlock2 = pygame.image.load('resources/textures/background_wall.png')
+image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
 texture_overlap = 30
 
 punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
@@ -52,7 +52,7 @@ class Objects:
             else:
                 self.texture_type = pygame.transform.scale(image_fallingBlock2, (self.width, self.height))
         elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
-            self.texture_type = 'green'
+            self.texture_type = (180, 80, 0)
 
     def update_pos(self, platforms, CameraPosx, scene):
         Collider = []
