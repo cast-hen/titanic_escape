@@ -12,7 +12,7 @@ image_floor = pygame.transform.scale(pygame.image.load('resources/textures/backg
 image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
 #image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
-image_fallingBlock1 = pygame.image.load('resources/textures/background_wall.png')
+image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris.png')
 image_fallingBlock2 = pygame.image.load('resources/textures/background_wall.png')
 texture_overlap = 30
 
