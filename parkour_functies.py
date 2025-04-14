@@ -106,6 +106,9 @@ class Objects:
             screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
+        elif self.texture_type == "Falling Block":
+            print('ye')
+            screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
             screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
