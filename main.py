@@ -28,7 +28,7 @@ while running:
             playerName = player.name
         player = character(playerName, 5,
                            pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100,
-                           100, [devTestInstakill, punch, comboPunch], [
+                           100, [punch, comboPunch], [
                                item("Full Restore", 2),
                                item("Bomb", 5),
                                item("Poison bottle", 2),
@@ -58,7 +58,7 @@ while running:
                     state = "dead"
             elif result == "win":
                 encounter.alive = False
-                allMovesList = [devTestInstakill, punch, comboPunch, enrage, poison, lifeSteal, block]
+                allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
                 newMove = chooseNewAttack(allMovesList, player)
                 if newMove is not None:
                     if newMove != "Menu":
@@ -78,7 +78,7 @@ while running:
     elif state == "dead":
         state = "Playing"
         game_manager.Reset()
-        player.moveset = [devTestInstakill, punch, comboPunch]
+        player.moveset = [punch, comboPunch]
         player.items = [
             item("Full Restore", 2),
             item("Bomb", 5),
