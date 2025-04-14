@@ -553,7 +553,7 @@ def parkour(player, game_manager):
             playerObject.draw(screen, CameraPosx)
 
         elif scene == 8:
-            LevelGehaald()
+            LevelComplete()
             scene += 1
             player.lives = 5
             player.maxHitpoints = 120
@@ -586,7 +586,7 @@ def parkour(player, game_manager):
             RespawnPos = (-440, 600)
             playerObject.draw(screen, CameraPosx)
         elif scene == 17:
-            LevelGehaald()
+            LevelComplete()
             scene += 1
             player.lives = 5
             player.maxHitpoints = 150

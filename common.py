@@ -123,14 +123,14 @@ def game_over(lives, state=None):
     return lives, state, dead
 
 
-def LevelGehaald():
+def LevelComplete():
     """
     Shows the level complete screen and moves on to the next level
     :return none:
     """
     screen.fill((0, 0, 0))
-    textPrint("Level gehaald", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-    textPrint("alle levens zijn hersteld", 100, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
+    textPrint("Level Completed", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+    textPrint("all lives have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
     pygame.display.update()
     time.sleep(3)
 

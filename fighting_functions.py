@@ -336,21 +336,27 @@ def fight(enemy, player, screen):
                         scrollText("Immune for 3 turns", (100, 100, 255), "player", 30, 50)
                     #the Giantkiller item
                     elif usedItem == "Giantkiller":
-                        damage = int(0.3 * enemy.maxHitpoints)
-                        enemyCurrentHealth -= damage
-                        scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
+                        if immunityTurnsLeftEnemy > 0:
+                            blocked("enemy")
+                        else:
+                            damage = int(0.3 * enemy.maxHitpoints)
+                            enemyCurrentHealth -= damage
+                            scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
                     #the Orb of absorption item
                     elif usedItem == "Orb of absorption":
-                        damage = int(30 * (enemyCurrentHealth / enemy.maxHitpoints))
-                        enemyCurrentHealth -= damage
-                        scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
-                        healed = int(0.5 * damage)
-                        if playerCurrentHealth + healed > player.maxHitpoints:
-                            healed = player.maxHitpoints - playerCurrentHealth
-                            playerCurrentHealth = player.maxHitpoints
+                        if immunityTurnsLeftEnemy > 0:
+                            blocked("enemy")
                         else:
-                            playerCurrentHealth += healed
-                        scrollText(str(healed), (0, 255, 0), "player", 80, 20)
+                            damage = int(30 * (enemyCurrentHealth / enemy.maxHitpoints))
+                            enemyCurrentHealth -= damage
+                            scrollText(str(damage), (255, 0, 0), "enemy", 80, 20)
+                            healed = int(0.5 * damage)
+                            if playerCurrentHealth + healed > player.maxHitpoints:
+                                healed = player.maxHitpoints - playerCurrentHealth
+                                playerCurrentHealth = player.maxHitpoints
+                            else:
+                                playerCurrentHealth += healed
+                            scrollText(str(healed), (0, 255, 0), "player", 80, 20)
             #the code for when the heal button is pressed
             elif button.check(healButton, mouseDown, screen) and (playerCurrentHealth < player.maxHitpoints or poisonTurnsLeftPlayer > 0) and playerHeals > 0:
                 playerHeals -= 1
@@ -452,21 +458,27 @@ def fight(enemy, player, screen):
                         scrollText("Immune for 3 turns", (100, 100, 255), "enemy", 30, 50)
                     #the Giantkiller item
                     elif usedItem == "Giantkiller":
-                        damage = int(0.3 * player.maxHitpoints)
-                        playerCurrentHealth -= damage
-                        scrollText(str(damage), (255, 0, 0), "player", 80, 20)
+                        if immunityTurnsLeftPlayer > 0:
+                            blocked("player")
+                        else:
+                            damage = int(0.3 * player.maxHitpoints)
+                            playerCurrentHealth -= damage
+                            scrollText(str(damage), (255, 0, 0), "player", 80, 20)
                     #the Orbs of absorption item
                     elif usedItem == "Orb of absorption":
-                        damage = int(30 * (playerCurrentHealth / player.maxHitpoints))
-                        playerCurrentHealth -= damage
-                        scrollText(str(damage), (255, 0, 0), "player", 80, 20)
-                        healed = int(0.5 * damage)
-                        if enemyCurrentHealth + healed > enemy.maxHitpoints:
-                            healed = enemy.maxHitpoints - enemyCurrentHealth
-                            enemyCurrentHealth = enemy.maxHitpoints
+                        if immunityTurnsLeftPlayer > 0:
+                            blocked("player")
                         else:
-                            enemyCurrentHealth += healed
-                        scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
+                            damage = int(30 * (playerCurrentHealth / player.maxHitpoints))
+                            playerCurrentHealth -= damage
+                            scrollText(str(damage), (255, 0, 0), "player", 80, 20)
+                            healed = int(0.5 * damage)
+                            if enemyCurrentHealth + healed > enemy.maxHitpoints:
+                                healed = enemy.maxHitpoints - enemyCurrentHealth
+                                enemyCurrentHealth = enemy.maxHitpoints
+                            else:
+                                enemyCurrentHealth += healed
+                            scrollText(str(healed), (0, 255, 0), "enemy", 80, 20)
                     time.sleep(0.5)
             #loop where a move is selected
             while not selected:
@@ -518,7 +530,7 @@ def fight(enemy, player, screen):
                     blocked("player")
                 else:
                     damage = int(8 * damageMultiplierEnemy)
-                    healed = damage * (playerCurrentHealth // player.maxHitpoints)
+                    healed = int(damage * (playerCurrentHealth / player.maxHitpoints))
                     playerCurrentHealth -= damage
                     scrollText(str(damage), (255, 0, 0), "player", 80, 20)
                     if enemyCurrentHealth + healed > enemy.hitpoints:
