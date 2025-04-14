@@ -6,19 +6,22 @@ gravity = 0.6
 tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
+
+#Textures
 image_background = pygame.transform.scale(pygame.image.load('resources/textures/wall_temp.png').convert(), (1866, 3732))
 image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background.png').convert(), (2560, 1720))
-image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background3D.png').convert(), (2560, 1720))
-image_wall = pygame.image.load('resources/textures/wall_temp.png').convert()
+image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV2.png').convert(), (2560, 1720))
+image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
+image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 texture_overlap = 30
 
 class Objects:
-    def __init__(self, xpos, ypos, width, height, color, mass, xspeed, yspeed, ObjectScene, Type):
+    def __init__(self, xpos, ypos, width, height, texture_type, mass, xspeed, yspeed, ObjectScene, Type):
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
         self.height = height
-        self.color = color
+        self.texture_type = texture_type
         self.mass = mass
         self.xspeed = xspeed
         self.yspeed = yspeed
@@ -28,25 +31,25 @@ class Objects:
         self.Type = Type
         self.surface = None
 
-        if self.color == "floor":
-            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
-            self.surface.blit(image_floor, (0, self.ypos - 910))
-        elif self.color == "floor3D":
+        if self.texture_type == "floor":
             self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
             self.surface.blit(image_floor3D, (0, self.ypos - 910))
-        elif color == "wall":
+        elif self.texture_type == "floor3D":
+            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
+            self.surface.blit(image_floor3D, (0, self.ypos - 910))
+        elif texture_type == "wall":
+            self.texture_type = pygame.transform.scale(image_wall, (self.width, self.height))
+        elif texture_type == "floating":
+            self.texture_type = 'green'
+        elif texture_type == "pillar":
+            self.surface = pygame.Surface((self.width + texture_overlap, HEIGHT + texture_overlap))
+            self.surface.blit(image_pillar, (0, self.ypos - 910))
+        elif texture_type == "water":
             self.surface = pygame.Surface((self.width, self.height))
-            self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
-        elif color == "floating":
-            self.color = 'green'
-        elif color == "pillar":
-            self.color = 'green'
-        elif color == "water":
-            self.surface = pygame.Surface((2000, 750))
-            self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (2000, 750)))
+            self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
             self.surface.set_alpha(200)
-        elif not (self.color == 'red' or self.color == 'blue' or type(self.color) == pygame.Surface):
-            self.color = 'green'
+        elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
+            self.texture_type = 'green'
 
     def update_pos(self, platforms, CameraPosx, scene):
         Collider = []
@@ -96,18 +99,18 @@ class Objects:
         return Collider
 
     def draw(self, screen, CameraPosx):
-        if type(self.color) == pygame.Surface: #player
-            screen.blit(self.color, (self.xpos - CameraPosx, self.ypos))
+        if type(self.texture_type) == pygame.Surface: #player, wall
+            screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
             paste_y = self.ypos
-            if self.color == "floor" or self.color == "floor3D":
+            if self.texture_type == "floor" or self.texture_type == "floor3D":
                 paste_y = 0
             screen.blit(self.surface, (self.xpos - CameraPosx - texture_overlap, paste_y - texture_overlap))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
         else: #platforms with no texture
-            self.Rect = pygame.draw.rect(screen, self.color,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
+            self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
@@ -344,7 +347,7 @@ cube21_4 = Objects(270, 470, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_5 = Objects(650, 390, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_6 = Objects(1020, 450, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_7 = Objects(1241, 244, 200, 523,'floor', 1, 0, 0, [21], "Collider")
-#yippee - tot hier objects.color hernoemd en rect aangepast
+#yippee - tot hier objects.texture_type hernoemd en rect aangepast
 cube22_1 = Objects(-500, 0, 392, 415,'floor', 1, 0, 0, [22], "Collider")
 cube22_2 = Objects(263, 406, 469, 361,'floor', 1, 0, 0, [22], "Collider")
 cube22_3 = Objects(920, 406, 100, 500,'floor', 1, 0, 0, [22], "Collider")
@@ -387,7 +390,7 @@ cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'blue', 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
-cube_RisingWater = Objects(-500, 800, 2000, 1000, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
+cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 enemyList = [cube1_Enemy1, cube3_Enemy1, cube4_Enemy1, cube6_Enemy1, cube9_Enemy1, cube10_Enemy1, cube14_Enemy1, cube14_Enemy2, cube16_Enemy1, cube20_Enemy1, cube20_Enemy2, cube23_Enemy1, cube23_Enemy2, cube26_Enemy1]
 
 # voeg hier nieuwe platformen to zodat ze collision krijgen.
@@ -484,25 +487,25 @@ def parkour(player, game_manager):
             CollisionGlitch = True
 
         if playerObject.yspeed != 0 and playerObject.xspeed < 0:
-            playerObject.color = player_Jump_Left
+            playerObject.texture_type = player_Jump_Left
         elif playerObject.yspeed != 0 and playerObject.xspeed > 0:
-            playerObject.color = player_Jump_Right
+            playerObject.texture_type = player_Jump_Right
         elif playerObject.on_ground == True and playerObject.xspeed == 0 and looking == 'Left':
-            playerObject.color = player_idle_Left
+            playerObject.texture_type = player_idle_Left
         elif playerObject.on_ground == True and playerObject.xspeed == 0 and looking == 'Right':
-            playerObject.color = player_idle
+            playerObject.texture_type = player_idle
         elif playerObject.xspeed < 0:
             looking = 'Left'
             if tick < 8:
-                playerObject.color = player_Left
+                playerObject.texture_type = player_Left
             else:
-                playerObject.color = player_idle_Left
+                playerObject.texture_type = player_idle_Left
         elif playerObject.xspeed > 0:
             looking = "Right"
             if tick < 10:
-                playerObject.color = player_Right
+                playerObject.texture_type = player_Right
             else:
-                playerObject.color = player_idle
+                playerObject.texture_type = player_idle
 
 
         #spawnt alle objects
