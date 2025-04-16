@@ -58,7 +58,7 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, 'red', pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
         textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
         textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
-        textPrint(Text, 70, 'black', (700, 100))
+        textPrint(Text, 70, 'black', (700, 100), outline=('white', 2))
 
     def scrollText(text, colour, location, size, scrollTime, Fight_Text):
         """
@@ -662,7 +662,7 @@ def chooseNewAttack(allMovesList, player):
             options[i].displayMove(WIDTH/2 + 328 * (i - 1), HEIGHT/2 - 50)
             buttonList.append(button(WIDTH/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
         # Loop waarin gekeken wordt welke knop wordt ingedrukt
-        textPrint("CHOOSE A NEW ATTACK", 50, 'black', (700, 50))
+        textPrint("CHOOSE A NEW ATTACK", 50, 'black', (700, 50) , outline=('white', 2))
         while True:
             index = waitForInput(buttonList, True)
             if index == -1:

@@ -8,13 +8,16 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 #Textures
 image_background = pygame.transform.scale(pygame.image.load('resources/textures/background_ceilingWallV1.png').convert(), (2560, 1125))
-image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
-image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
-#image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
+image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820)) # delete?
+image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV3.png').convert(), (2560, 810))
+image_floor3D_right = pygame.transform.scale(pygame.image.load('resources/textures/background_floor_right3D.png'), (70, 810))
+image_floor3D_right_2 = pygame.transform.scale(pygame.image.load('resources/textures/background_floor_right3D_2.png'), (70, 30))
+image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 810))
+image_pillar_right = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar_right3D.png'), (70, 810))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png')
 image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
-texture_overlap = 30
+texture_y_overlap = 30
 
 punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times", pygame.image.load('resources/textures/move_comboPunch.png'))
@@ -36,9 +39,12 @@ class Objects:
         self.Type = Type
         self.surface = None
 
-        if self.texture_type == "floor" or self.texture_type == "floor3D" or self.texture_type == "pillar":
-            self.surface = pygame.Surface((self.width, self.height))
-            self.surface.blit(image_floor, (0, 0))
+        if self.texture_type == "floor" or self.texture_type == "floor3D":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_floor3D, (0, 0))
+        elif self.texture_type == "pillar":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_pillar, (0, 0))
         elif texture_type == "wall":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
@@ -106,14 +112,22 @@ class Objects:
             self.Rect = screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
-        elif self.texture_type == "Falling Block":
-            print('ye')
-            screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
-            screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos))
+            if self.texture_type == "wall":
+                screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
+            else:
+                screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos - texture_y_overlap))
+                if self.texture_type == "floor" or self.texture_type == "floor3D" or self.texture_type == "pillar":
+                    screen.blit(image_floor3D_right_2, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
         else: #platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
+
+    def draw_3D_extension(self, screen, CameraPosx):
+        if self.texture_type == "floor" or self.texture_type == "floor3D":
+            screen.blit(image_floor3D_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+        elif self.texture_type == "pillar":
+            screen.blit(image_pillar_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
@@ -198,9 +212,9 @@ cube_LeftBorder = Objects(-501, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 
 enemy_paste_height = enemy_image_size[1] # height of enemy image. Used for placement
 # For every enemy: ypos = ypos of cube it's standing on - enemy_paste_height
 cube1_1 = Objects(-300, 490, 700, 1500, 'floor', 1, 0, 0, [1], "Collider")
-cube1_2 = Objects(400, 580, 570, 950, 'floor', 1, 0, 0, [1], "Collider")
+cube1_2 = Objects(400, 580, 433, 950, 'floor', 1, 0, 0, [1], "Collider")
 cube1_3 = Objects(833, 428, 600, 2430, 'floor3D', 1, 0, 0, [1], "Collider")
-cube1_4 = Objects(-500, 170, 200, 768-160, 'wall', 1, 0, 0, [1], "Collider")
+cube1_4 = Objects(-500, 170, 200, 600, 'wall', 1, 0, 0, [1], "Collider")
 cube1_Enemy1 = Objects(1050, cube1_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [1], enemyJAN_1)
 
 cube2_1 = Objects(461, 581, 412, 500, 'floor3D', 1, 0, 0, [2], "Collider")
@@ -623,6 +637,10 @@ def parkour(player, game_manager):
             eind(player.name)
             return "Menu"
 
+        # Draws the extended 3D part of the platforms
+        for platform in platforms:
+            if scene in platform.ObjectScene:
+                platform.draw_3D_extension(screen, CameraPosx)
 
         player.displayInfo()
 
