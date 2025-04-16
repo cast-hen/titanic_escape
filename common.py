@@ -90,23 +90,21 @@ def Pause():
     possibleStates = [None, "Menu", None]
     return possibleStates[index]
 
-def got_hurt(lives, state=None):
+def got_hurt(hitpoints, state=None):
     """
     Shows the Got hurt screen
-    :param lives: the amount of lives left of the player
+    :param hitpoints: the amount of hitpoints left of the player
     :param state : The state of the game
-    :return: lives, state
+    :return: hitpoints, state
     """
-    lives -= 30
+    hitpoints -= 30
     screen.fill('brown')
-    dead = False
 
-    textPrint("You go hurt", 100, 'white', (WIDTH / 2, HEIGHT / 2))
-    textPrint("You have " + str(lives) + " hitpoints left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
-    message = "You have " + str(lives) + " lives left"
+    textPrint("You got hurt", 100, 'white', (WIDTH / 2, HEIGHT / 2))
+    textPrint("You have " + str(hitpoints) + " hitpoints left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
     pygame.display.flip()
     time.sleep(2)
-    return lives, state, dead
+    return hitpoints, state, False
 
 
 def game_over(lives, state=None):

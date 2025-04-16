@@ -58,7 +58,8 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, 'red', pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
         textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
         textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
-        textPrint(Text, 70, 'black', (700, 100), outline=('white', 2))
+        #draws the text on the top of the screen
+        textPrint(Text, 70, 'black', (width / 2, 100), outline=('white', 2))
 
     def scrollText(text, colour, location, size, scrollTime, Fight_Text):
         """
@@ -68,6 +69,7 @@ def fight(enemy, player, screen):
         location: the location of the text as a string with 2 options: "player" or "enemy"
         size: "the size of the text as an integer"
         scrollTime: the amount of time the text will scroll for as an integer
+        Fight_Text: the text at the top middle of the screen
         return: none
         """
         #sets the text to be scrolled
