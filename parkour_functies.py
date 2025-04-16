@@ -174,15 +174,15 @@ enemyKwaardaardige_BOB_1 = character("Vicious BOB", 1, pygame.transform.scale(py
 enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["life steal"], [
     item("Bomb", 1)
 ], 2, True, False)
-enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 70, 70,["punch", "life steal", "block"], [], 5, True, False)
-enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 80, 80,["combo punch", "life steal", "poison"], [], 3, True, False)
+enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 70, 70,["punch", "life steal", "block"], [], 2, True, False)
+enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 80, 80,["combo punch", "life steal", "poison"], [], 1, True, False)
 enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["life steal", "enrage", "block", "punch"], [
     item("Bomb", 2)
 ], 0, True, True)
 enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block", "life steal"], [
     item("Full Restore", 1),
     item("Bomb", 2)
-], 3, True, False)
+], 2, True, False)
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
@@ -391,7 +391,7 @@ cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObje
 
 cube26_1 = Objects(-27, 500, 645, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
-cube26_3 = Objects(860, 452, 605, 415,'blue', 1, 0, 0, [26], "Collider")
+cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
 cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
@@ -553,7 +553,6 @@ def parkour(player, game_manager):
         elif scene == 8:
             LevelComplete()
             scene += 1
-            player.lives = 5
             player.maxHitpoints = 120
             player.hitpoints = player.maxHitpoints
 
@@ -586,7 +585,6 @@ def parkour(player, game_manager):
         elif scene == 17:
             LevelComplete()
             scene += 1
-            player.lives = 5
             player.maxHitpoints = 150
             player.hitpoints = player.maxHitpoints
             cube_RisingWater.ypos = 850
@@ -634,8 +632,11 @@ def parkour(player, game_manager):
 
                 playerObject.xpos = RespawnPos[0]
                 playerObject.ypos = RespawnPos[1]
-                player.lives, state, dead = game_over(player.lives)
-                player.hitpoints = player.maxHitpoints
+                if player.hitpoints <= 30:
+                    player.lives, state, dead = game_over(player.lives)
+                    player.hitpoints = player.maxHitpoints
+                else:
+                    player.hitpoints, state, dead = got_hurt(player.hitpoints)
                 CollisionGlitch = False
                 InvisibilityFrames += 50
                 TransitionGlitch = 5
