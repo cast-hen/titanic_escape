@@ -35,7 +35,7 @@ while running:
                                item("Immunizing elixir", 3),
                                item("Giantkiller", 4),
                                item("Orb of absorption", 2)
-                           ], 5, True)
+                           ], 5, True, False)
         for i in range(len(enemyList)):
             if not(enemyList[i] in platforms):
                 enemyList[i].Type.alive = True
@@ -59,13 +59,16 @@ while running:
             elif result == "win":
                 encounter.alive = False
                 allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
-                newMove = chooseNewAttack(allMovesList, player)
-                if newMove is not None:
-                    if newMove != "Menu":
-                        player.moveset.append(newMove)
-                        state = "Playing"
+                if encounter.NewMove == True:
+                    newMove = chooseNewAttack(allMovesList, player)
+                    if newMove is not None:
+                        if newMove != "Menu":
+                            player.moveset.append(newMove)
+                            state = "Playing"
+                        else:
+                            state = newMove
                     else:
-                        state = newMove
+                        state = "Playing"
                 else:
                     state = "Playing"
             else:

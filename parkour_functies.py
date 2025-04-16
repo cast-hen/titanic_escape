@@ -157,31 +157,32 @@ class MoveObject:
 
 #Enemies
 enemy_image_size = (86, 280)
-enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True)
-enemyBOBJAN_1 = character("HENDRIK-JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 40, 60,["punch"], [], 0, True)
-enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 40, 80,["punch", "combo punch", "poison"], [], 2, True)
-enemyBobbie_1 = character("Bobby", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 80,["punch", "punch", "poison"], [], 3, True)
-enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 80, 80,["punch", "enrage", "block"], [], 0, True)
-enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 70, 70,["punch", "punch", "block"], [], 1, True)
-enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 90, 90,["punch"], [], 2, True)
-enemyBoze_Jantje_1 = character("Angry Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch"], [
+enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True, True)
+enemyBOBJAN_1 = character("HENDRIK-JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 30, 30,["combo punch"], [], 0, True, False)
+enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 30, 30,["punch", "poison"], [], 0, True, False)
+enemyBobbie_1 = character("Bobby", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 50, 50,["punch", "combo punch", "poison"], [], 1, True, True)
+
+enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "punch", "enrage"], [], 0, True, False)
+enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "combo punch", "block"], [], 1, True, False)
+enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["enrage", "combo punch", "poison"], [], 0, True, False)
+enemyBoze_Jantje_1 = character("Angry Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["block", "poison", "punch"], [
     item("Poison bottle", 2)
-], 2, True)
-enemyKwaardaardige_BOB_1 = character("Vicious BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
+], 2, True, False)
+enemyKwaardaardige_BOB_1 = character("Vicious BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 75, 75,["punch", "enrage", "block"], [
     item("Bomb", 1)
-], 5, True)
-enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "enrage"], [
+], 5, True, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["life steal"], [
     item("Bomb", 1)
-], 2, True)
-enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "life steal", "block"], [], 5, True)
-enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 110, 110,["punch", "punch", "poison"], [], 3, True)
-enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
+], 2, True, False)
+enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 70, 70,["punch", "life steal", "block"], [], 5, True, False)
+enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 80, 80,["combo punch", "life steal", "poison"], [], 3, True, False)
+enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["life steal", "enrage", "block", "punch"], [
     item("Bomb", 2)
-], 0, True)
-enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block"], [
+], 0, True, True)
+enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block", "life steal"], [
     item("Full Restore", 1),
     item("Bomb", 2)
-], 3, True)
+], 3, True, False)
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
@@ -267,14 +268,14 @@ cube11_3 = Objects(285, 480, 540, 290, 'floor', 1, 0, 0, [11], "Collider")
 cube11_4 = Objects(825, 520, 560, 250, 'floor', 1, 0, 0, [11], "Collider")
 
 cube11_12_1 = Objects(335, 0, 150, 350, 'wall', 1, 0, 0, [11, 12], "Collider")
-cube11_12_2 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.63, 10, False, 200))
-cube11_12_3 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.73, 10, False, 200))
-cube11_12_4 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.5, 10, False, 200))
+cube11_12_2 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.63, 10, False, 150))
+cube11_12_3 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.73, 10, False, 150))
+cube11_12_4 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.5, 10, False, 150))
 cube11_12_5 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.8, 10, False, 400))
 cube11_12_6 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.75, 10, False, 400))
 cube11_12_7 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.7, 10, False, 400))
 cube11_12_8 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.55, 10, False, 400))
-cube11_12_9 = Objects(900, 1000, 50, 50, 'Falling', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.65, 10, False, 400))
+cube11_12_9 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.65, 10, False, 400))
 
 cube12_1 = Objects(-500, 530, 250, 300, 'floor', 1, 0, 0, [12], "Collider")
 cube12_2 = Objects(285, 480, 320, 380, 'floor', 1, 0, 0, [12], "Collider")
@@ -517,9 +518,6 @@ def parkour(player, game_manager):
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
                 if type(platform.Type) == MoveObject:
-                    if platform.Type.StartPos == (800, 1000) and scene in [21, 22]:
-                        (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)),100 / 0.2)
-
                     (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
                 elif type(platform.Type) == character:
                     if not platform.Type.alive:

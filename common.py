@@ -7,7 +7,7 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 image = pygame.transform.scale(pygame.image.load("resources/textures/titanic 3rd class interior backdrop.png"), (pygame.display.get_window_size())).convert()
 
 class character:
-    def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive):
+    def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive, NewMove):
         self.name = name
         self.lives = lives
         self.image = image
@@ -17,6 +17,7 @@ class character:
         self.items = items
         self.heals = heals
         self.alive = alive
+        self.NewMove = NewMove
 
 
     def displayInfo(self):
