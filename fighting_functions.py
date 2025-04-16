@@ -150,7 +150,6 @@ def fight(enemy, player, screen):
     enemyItems = enemy.items
     fighting = True
     state = "turnPlayer"
-    Fight_Text = "TESTETSTTETS"
     draw_scene("")
     #the main fighting loop
     while fighting:
@@ -172,7 +171,6 @@ def fight(enemy, player, screen):
             if button.check(attackButton, mouseDown, screen):
                 #defining new variables
                 draw_scene("Select your attack")
-                Fight_Text = "Select your attack"
                 done = False
                 pages = (len(player.moveset) - 1) // 4
                 page = 0
@@ -189,12 +187,10 @@ def fight(enemy, player, screen):
                         if button.check(buttonNextPage, mouseDown, screen):
                             page += 1
                             draw_scene("Select your attack")
-                            Fight_Text = "Select your attack"
                     if page > 0:
                         if button.check(buttonPrevPage, mouseDown, screen):
                             page -= 1
                             draw_scene("Select your attack")
-                            Fight_Text = "Select your attack"
                     #for loop drawing the buttons and checking if theyre pressed
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
@@ -452,8 +448,8 @@ def fight(enemy, player, screen):
                 roll = random.randint(0, len(enemyItems) - 1)
                 if enemyItems[roll].amount > 0:
                     usedItem = enemyItems[roll].name
-                    draw_scene("The enemy used an item: " + usedItem)
-                    Fight_Text = "The enemy used an item: " + usedItem
+                    draw_scene("They used an item: " + usedItem)
+                    Fight_Text = "They used an item: " + usedItem
                     pygame.display.update()
                 else:
                     usedItem = None
@@ -518,8 +514,8 @@ def fight(enemy, player, screen):
                 if (move != "heal" or enemyCurrentHealth < enemy.hitpoints and enemyHeals > 0) and (move!= "block" or enemyBlocks > 0):
                     selected = True
             #the punch move
-            draw_scene("The enemy used " + move)
-            Fight_Text = "The enemy used " + move
+            draw_scene("They used " + move)
+            Fight_Text = "They used " + move
             pygame.display.update()
             time.sleep(0.5)
             if move == "punch":

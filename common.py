@@ -147,7 +147,7 @@ def LevelComplete():
     """
     screen.fill((0, 0, 0))
     textPrint("Level Completed", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-    textPrint("all lives have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
+    textPrint("all hitpoints have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
     pygame.display.update()
     time.sleep(3)
 
