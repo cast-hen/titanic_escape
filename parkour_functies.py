@@ -17,6 +17,7 @@ image_pillar_right = pygame.transform.scale(pygame.image.load('resources/texture
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png')
 image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
+image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/Lifeboat.png'), (605, 415))
 texture_y_overlap = 30
 
 punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
@@ -57,7 +58,7 @@ class Objects:
                 self.texture_type = pygame.transform.scale(image_fallingBlock1, (self.width, self.height))
             else:
                 self.texture_type = pygame.transform.scale(image_fallingBlock2, (self.width, self.height))
-        elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
+        elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface or self.texture_type == "lifeboat"):
             self.texture_type = (180, 80, 0)
 
     def update_pos(self, platforms, CameraPosx, scene):
@@ -67,7 +68,7 @@ class Objects:
 
         for platform in platforms:
             if scene in platform.ObjectScene:
-                if self.Rect.colliderect(platform.Rect):
+                if self.Rect.colliderect(platform.Rect) and platform.Type != "Noncollider":
                     if self.xspeed > 0:
                         self.xpos = platform.xpos - self.width
                     elif self.xspeed < 0:
@@ -85,7 +86,7 @@ class Objects:
         # platformcollision
         for platform in platforms:
             if scene in platform.ObjectScene:
-                if self.Rect.colliderect(platform.Rect):
+                if self.Rect.colliderect(platform.Rect) and platform.Type != "Noncollider":
                     if self.yspeed > 0:  # Falling
                         self.ypos = platform.ypos - self.height
                         self.yspeed = 0
@@ -120,7 +121,7 @@ class Objects:
                 if self.texture_type == "floor" or self.texture_type == "floor3D" or self.texture_type == "pillar":
                     screen.blit(image_floor3D_right_2, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
-        else: #platforms with no texture
+        elif self.texture_type != "lifeboat": #platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
     def draw_3D_extension(self, screen, CameraPosx):
@@ -128,6 +129,8 @@ class Objects:
             screen.blit(image_floor3D_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
         elif self.texture_type == "pillar":
             screen.blit(image_pillar_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+        elif self.texture_type == "lifeboat":
+            screen.blit(image_lifeboat, (self.xpos - CameraPosx, self.ypos))
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
@@ -405,7 +408,8 @@ cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObje
 
 cube26_1 = Objects(-27, 500, 645, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
-cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
+cube26_3 = Objects(900, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
+cube26_4 = Objects(960, 390, 605, 415, "lifeboat", 1, 0, 0, [26], "Noncollider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
 cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
@@ -437,7 +441,7 @@ platforms = [cube_LeftBorder,
              cube23_1, cube23_2, cube23_3, cube23_4, cube23_Enemy1, cube23_Enemy2,
              cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12,
              cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6,
-             cube26_1, cube26_3, cube26_2, cube26_Enemy1, cube_RisingWater]
+             cube26_1, cube26_2, cube26_3, cube26_4, cube26_Enemy1, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()

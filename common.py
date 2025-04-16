@@ -50,7 +50,7 @@ class Game_Manager:
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Reset(self):
-        self.Set(1, -130, 450)
+        self.Set(26, -130, 450)
 
 
 game_manager = Game_Manager(1, -90, 450)
