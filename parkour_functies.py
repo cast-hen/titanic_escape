@@ -618,7 +618,7 @@ def parkour(player, game_manager):
             scene += 1
             player.maxHitpoints = 150
             player.hitpoints = player.maxHitpoints
-            player.heals = 5
+            player.heals = 8
             cube_RisingWater.ypos = 850
         elif scene == 18:
             RespawnPos = (-440, 500)

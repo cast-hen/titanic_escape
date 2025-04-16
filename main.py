@@ -35,7 +35,7 @@ while running:
                                item("Immunizing elixir", 3),
                                item("Giantkiller", 4),
                                item("Orb of absorption", 2)
-                           ], 1, True, False)
+                           ], 3, True, False)
         for i in range(len(enemyList)):
             if not(enemyList[i] in platforms):
                 enemyList[i].Type.alive = True
