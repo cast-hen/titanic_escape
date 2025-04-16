@@ -30,11 +30,11 @@ while running:
                            pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100,
                            100, [punch, comboPunch], [
                                item("Full Restore", 2),
-                               item("Bomb", 5),
+                               item("Bomb", 3),
                                item("Poison bottle", 2),
-                               item("Immunizing elixir", 3),
-                               item("Giantkiller", 4),
-                               item("Orb of absorption", 2)
+                               item("Immunizing elixir", 2),
+                               item("Giantkiller", 2),
+                               item("Orb of absorption", 1)
                            ], 3, True, False)
         for i in range(len(enemyList)):
             if not(enemyList[i] in platforms):
