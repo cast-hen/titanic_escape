@@ -2,6 +2,8 @@ from button_code import *
 from firework_function import *
 import pygame
 import time
+import random
+
 gravity = 0.6
 tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
@@ -26,6 +28,49 @@ image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png'
 image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
 image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/Lifeboat.png'), (605, 415))
 texture_y_overlap = 30
+
+
+class MoveObject:
+    def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
+        self.StartPos = StartPos
+        self.EndPos = EndPos
+        self.Speed = 100 / Speed
+        self.WaitTime = WaitTime
+        self.Teleport = Teleport
+        self.Randomness = Randomness
+
+        self.randomNumber = 0
+
+        self.xDirection = self.EndPos[0] - self.StartPos[0]
+        self.yDirection = self.EndPos[1] - self.StartPos[1]
+        self.Direction = (self.xDirection / self.Speed, self.yDirection / self.Speed)
+
+    def Move(self, pos, Speed):
+        if self.randomNumber == 0:
+            self.randomNumber = random.randint(-self.Randomness, self.Randomness)
+        if pos == self.StartPos:
+            xDirection = self.EndPos[0] - self.StartPos[0]
+            yDirection = self.EndPos[1] - self.StartPos[1]
+            self.Direction = (xDirection / Speed, yDirection / Speed)
+
+        if 8 > (self.EndPos[0] - pos[0] + self.randomNumber) + (self.EndPos[1] - pos[1]) > -8 :
+            if self.Teleport:
+                endpos = self.EndPos
+                self.EndPos = self.StartPos
+                self.StartPos = endpos
+                xDirection = self.EndPos[0] - self.StartPos[0]
+                yDirection = self.EndPos[1] - self.StartPos[1]
+                self.Direction = (xDirection / Speed, yDirection / Speed)
+                self.randomNumber = 0
+
+            else:
+                self.randomNumber = random.randint(-self.Randomness, self.Randomness)
+                pos = (self.StartPos[0]  + self.randomNumber, self.StartPos[1])
+
+        TargetPos = pos[0] + self.Direction[0], pos[1] + self.Direction[1]
+        return TargetPos
+
+
 
 class Objects:
     def __init__(self, xpos, ypos, width, height, texture_type, mass, xspeed, yspeed, ObjectScene, Type):
@@ -74,7 +119,8 @@ class Objects:
         elif texture_type == "water":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
-            self.surface.set_alpha(200)
+            if type(self.Type) == MoveObject:
+                self.surface.set_alpha(200)
         elif texture_type == "Falling Block":
             if random.randint(0, 1) == 1:
                 self.texture_type = pygame.transform.scale(image_fallingBlock1, (self.width, self.height))
@@ -176,6 +222,7 @@ class Objects:
             screen.blit(surface, (self.xpos - CameraPosx, self.ypos - texture_y_overlap))
         elif self.texture_type == "lifeboat":
             screen.blit(image_lifeboat, (self.xpos - CameraPosx, self.ypos))
+
 
 
 class character:

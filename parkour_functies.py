@@ -10,47 +10,6 @@ punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('r
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times", pygame.image.load('resources/textures/move_comboPunch.png'))
 devTestInstakill = move("devtest instakill", "for developer purposes only", '')
 
-
-class MoveObject:
-    def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
-        self.StartPos = StartPos
-        self.EndPos = EndPos
-        self.Speed = 100 / Speed
-        self.WaitTime = WaitTime
-        self.Teleport = Teleport
-        self.Randomness = Randomness
-
-        self.randomNumber = 0
-
-        self.xDirection = self.EndPos[0] - self.StartPos[0]
-        self.yDirection = self.EndPos[1] - self.StartPos[1]
-        self.Direction = (self.xDirection / self.Speed, self.yDirection / self.Speed)
-
-    def Move(self, pos, Speed):
-        if self.randomNumber == 0:
-            self.randomNumber = random.randint(-self.Randomness, self.Randomness)
-        if pos == self.StartPos:
-            xDirection = self.EndPos[0] - self.StartPos[0]
-            yDirection = self.EndPos[1] - self.StartPos[1]
-            self.Direction = (xDirection / Speed, yDirection / Speed)
-
-        if 8 > (self.EndPos[0] - pos[0] + self.randomNumber) + (self.EndPos[1] - pos[1]) > -8 :
-            if self.Teleport:
-                endpos = self.EndPos
-                self.EndPos = self.StartPos
-                self.StartPos = endpos
-                xDirection = self.EndPos[0] - self.StartPos[0]
-                yDirection = self.EndPos[1] - self.StartPos[1]
-                self.Direction = (xDirection / Speed, yDirection / Speed)
-                self.randomNumber = 0
-
-            else:
-                self.randomNumber = random.randint(-self.Randomness, self.Randomness)
-                pos = (self.StartPos[0]  + self.randomNumber, self.StartPos[1])
-
-        TargetPos = pos[0] + self.Direction[0], pos[1] + self.Direction[1]
-        return TargetPos
-
 #Enemies
 enemy_image_size = (86, 280)
 enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True, True)
