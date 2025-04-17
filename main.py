@@ -43,10 +43,11 @@ while running:
                 platforms.append(enemyList[i])
         state, player.name = menu(player.name)
         playerName = player.name
+        startTime = time.time()
 
     # Hoofd code:
     elif state == "Playing":
-        state = parkour(player, game_manager)
+        state = parkour(player, game_manager, startTime)
         if type(state) == character:
             encounter = state
             result, player.hitpoints, player.items = fight(encounter, player, screen)
