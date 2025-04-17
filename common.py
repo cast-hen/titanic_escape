@@ -118,7 +118,7 @@ class Objects:
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
-            if self.texture_type == "wall":
+            if self.texture_type == "wall" or self.texture_type == "water":
                 screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
             else:
                 screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos - texture_y_overlap))
@@ -185,7 +185,7 @@ class Game_Manager:
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Reset(self):
-        self.Set(1, -130, 450)
+        self.Set(26, -130, 450)
 
 
 game_manager = Game_Manager(1, -90, 450)
