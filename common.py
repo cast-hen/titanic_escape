@@ -26,6 +26,21 @@ texture_y_overlap = 30
 
 class Objects:
     def __init__(self, xpos, ypos, width, height, texture_type, mass, xspeed, yspeed, ObjectScene, Type):
+        """
+        Create an object
+        :param xpos: the x position - int
+        :param ypos: the y position - int
+        :param width: the width of the object - int
+        :param height: the height of the object - int
+        :param texture_type: the texture type that needs to render - string
+        :param mass: change how fast the player falls - float
+        :param xspeed: the speed in x direction - int
+        :param yspeed: the speed in y direction - int
+        :param ObjectScene: the scene the object appeares in - int
+        :param Type: The type of block - string or object type
+        :return: None
+        """
+
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -66,6 +81,13 @@ class Objects:
             self.texture_type = (180, 80, 0)
 
     def update_pos(self, platforms, CameraPosx, scene):
+        """
+        updates the position of all objects based on the camera position
+        :param platforms: a list of all the platforms - list[platforms]
+        :param CamerPosx: the position of the camera - int
+        :param scene: the current scene. - int
+        :return: The object the player collided with - object
+        """
         Collider = []
         self.xpos += self.xspeed
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
@@ -113,6 +135,12 @@ class Objects:
         return Collider
 
     def draw(self, screen, CameraPosx):
+        """
+        draws the scene
+        :param CamerPosx: the position of the camera - int
+        :param screen: the screen everything gets drawn on - int
+        :return: None
+        """
         if type(self.texture_type) == pygame.Surface: #player, wall
             self.Rect = screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
         elif type(self.Type) == character: #enemies
@@ -128,6 +156,12 @@ class Objects:
             self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
     def draw_3D_extension(self, screen, CameraPosx):
+        """
+        Gives all objects a texture
+        :param CamerPosx: the position of the camera - int
+        :param screen: The scene everything gets drawn. - int
+        :return: The object the player collided with - object
+        """
         if self.texture_type == "floor" or self.texture_type == "floor3D":
             screen.blit(image_floor3D_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
         elif self.texture_type == "pillar":
@@ -142,7 +176,22 @@ class Objects:
 
 
 class character:
+
     def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive, NewMove):
+        """
+        updates the position of all objects based on the camera position
+        :param name:The name of the character - string
+        :param lives: The amount of lives of the character - int
+        :param image: The image that gets drawn at the place of the character - image
+        :param hitpoints: The amount of hitpoints of the character - int
+        :param maxHitpoints: The maximum hitpoints a character can have - int
+        :param moveset: The moveset of the character - list[strings]
+        :param items: The items the character has - list[strings]
+        :param heals: The amount of times this character can heal - int
+        :param alive: Wether the character is alive - bool
+        :param newMove: Wehter you get a new move after defeating this enemy - bool
+        :return: None
+        """
         self.name = name
         self.lives = lives
         self.image = image
@@ -177,6 +226,14 @@ class character:
 
 class Game_Manager:
     def __init__(self, scene, Player_posx, Player_posy):
+        """
+        Makes the game manager that stores important variables
+        :param scene: the current scene - int
+        :param Player_posx: The current x position of the player - int
+        :param Player_posy: The current y position of the player - int
+
+        :return the pressed button (Start, Quit)
+        """
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
