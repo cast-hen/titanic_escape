@@ -2,10 +2,144 @@ from button_code import *
 from firework_function import *
 import pygame
 import time
+gravity = 0.6
+tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
-image_floor = pygame.transform.scale(pygame.image.load("resources/textures/background_floor.png"), (2560, 810)).convert()
-image_background = pygame.transform.scale(pygame.image.load("resources/textures/background_ceilingWallV1.png"), (2560, 1125)).convert()
+
+#Textures
+image_background = pygame.transform.scale(pygame.image.load('resources/textures/background_ceilingWallV1.png').convert(), (2560, 1125))
+image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floor.png').convert(), (2525, 810))
+image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV3.png').convert(), (2560, 810))
+image_floor3D_right = pygame.transform.scale(pygame.image.load('resources/textures/background_floor_right3D.png'), (70, 810))
+image_floor3D_right_2 = pygame.transform.scale(pygame.image.load('resources/textures/background_floor_right3D_2.png'), (70, 30))
+image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 810))
+image_pillar_right = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar_right3D.png'), (70, 810))
+image_floating = pygame.transform.scale(pygame.image.load('resources/textures/background_floating.png').convert(), (1600, 175))
+image_floating_right = pygame.transform.scale(pygame.image.load('resources/textures/background_floating_right3D.png'), (70, 175))
+image_floating_ridge = pygame.transform.scale(pygame.image.load('resources/textures/background_floating_ridge.png'), (1600, 10))
+image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
+image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png')
+image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
+image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/Lifeboat.png'), (605, 415))
+texture_y_overlap = 30
+
+class Objects:
+    def __init__(self, xpos, ypos, width, height, texture_type, mass, xspeed, yspeed, ObjectScene, Type):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.width = width
+        self.height = height
+        self.texture_type = texture_type
+        self.mass = mass
+        self.xspeed = xspeed
+        self.yspeed = yspeed
+        self.Rect = pygame.Rect(self.xpos, self.ypos, self.width, self.height)
+        self.on_ground = False
+        self.ObjectScene = ObjectScene
+        self.Type = Type
+        self.surface = None
+
+        if self.texture_type == "floor3D" or self.texture_type == "floor":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_floor3D, (0, 0))
+        elif self.texture_type == "pillar":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_pillar, (0, 0))
+        elif self.texture_type == "floating":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_floating, (0, 0))
+            self.surface.blit(image_floating_ridge, (0, self.height + texture_y_overlap - 10))
+        elif texture_type == "wall":
+            self.surface = pygame.Surface((self.width, self.height))
+            self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
+        elif texture_type == "water":
+            self.surface = pygame.Surface((self.width, self.height))
+            self.surface.blit(pygame.transform.scale(pygame.image.load('resources/textures/water.png').convert(), (self.width, self.height)))
+            self.surface.set_alpha(200)
+        elif texture_type == "Falling Block":
+            if random.randint(0, 1) == 1:
+                self.texture_type = pygame.transform.scale(image_fallingBlock1, (self.width, self.height))
+            else:
+                self.texture_type = pygame.transform.scale(image_fallingBlock2, (self.width, self.height))
+        elif not (self.texture_type == 'red' or self.texture_type == 'blue' or self.texture_type == "lifeboat" or type(self.texture_type) == pygame.Surface):
+            self.texture_type = (180, 80, 0)
+
+    def update_pos(self, platforms, CameraPosx, scene):
+        Collider = []
+        self.xpos += self.xspeed
+        self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+
+        for platform in platforms:
+            if scene in platform.ObjectScene:
+                if self.Rect.colliderect(platform.Rect) and platform.Type != "NonCollider":
+                    if self.xspeed > 0:
+                        self.xpos = platform.xpos - self.width
+                    elif self.xspeed < 0:
+                        self.xpos = platform.xpos + platform.width
+                    self.xspeed = 0
+                    self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+                    Collider.append(platform.Type)
+
+        self.yspeed += self.mass * gravity
+
+        self.ypos += self.yspeed
+        self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+        self.on_ground = False
+
+        # platformcollision
+        for platform in platforms:
+            if scene in platform.ObjectScene:
+                if self.Rect.colliderect(platform.Rect) and platform.Type != "NonCollider":
+                    if self.yspeed > 0:  # Falling
+                        self.ypos = platform.ypos - self.height
+                        self.yspeed = 0
+                        self.on_ground = True
+                    elif self.yspeed < 0:  # Hitting ceiling
+                        self.ypos = platform.ypos + platform.height
+                        self.yspeed = 0
+                    self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+                    Collider.append(platform.Type)
+
+
+
+        # wall en floor collision
+        if self.ypos + self.height >= HEIGHT - 4:
+            self.ypos = HEIGHT - self.height - 4
+            self.yspeed = 0
+            self.on_ground = True
+            self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
+            Collider.append(platform.Type)
+        return Collider
+
+    def draw(self, screen, CameraPosx):
+        if type(self.texture_type) == pygame.Surface: #player, wall
+            self.Rect = screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
+        elif type(self.Type) == character: #enemies
+            self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
+        elif self.surface is not None: #platforms
+            if self.texture_type == "wall":
+                screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
+            else:
+                screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos - texture_y_overlap))
+                screen.blit(image_floor3D_right_2, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+            self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
+        elif self.texture_type != "lifeboat": #platforms with no texture
+            self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
+
+    def draw_3D_extension(self, screen, CameraPosx):
+        if self.texture_type == "floor" or self.texture_type == "floor3D":
+            screen.blit(image_floor3D_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+        elif self.texture_type == "pillar":
+            screen.blit(image_pillar_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+        elif self.texture_type == "floating":
+            surface = pygame.Surface((self.width + 40, self.height + texture_y_overlap - 10)).convert_alpha()
+            surface.fill((0, 0, 0, 0))
+            surface.blit(image_floating_right, (self.width - 30, 0))
+            screen.blit(surface, (self.xpos - CameraPosx, self.ypos - texture_y_overlap))
+        elif self.texture_type == "lifeboat":
+            screen.blit(image_lifeboat, (self.xpos - CameraPosx, self.ypos))
+
 
 class character:
     def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive, NewMove):

@@ -43,7 +43,10 @@ def fight(enemy, player, screen):
         """
         #draws the background
         screen.blit(image_background, (0, 0))
-        screen.blit(image_floor, (0, (height / 20) * 11))
+        mouse_pillar.draw(screen, 0)
+        mouse_pillar.draw_3D_extension(screen, 0)
+        enemy_pillar.draw(screen, 0)
+        enemy_pillar.draw_3D_extension(screen, 0)
         #draws the player and the enemy
         screen.blit(player.image, (250 - (player.image.width / 2), height / 5 * 3 - player.image.height - 10))
         enemy_image = pygame.transform.scale(enemy.image, (129, 420))
@@ -124,8 +127,8 @@ def fight(enemy, player, screen):
     #defining the variables before the fight starts
     width = screen.get_width()
     height = screen.get_height()
-    image_background = pygame.transform.scale(pygame.image.load('resources/textures/background_ceilingWallV1.png').convert(), (2560, 1125))
-    image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(),(9216, 2952))
+    mouse_pillar = Objects(125, 400, 250, 500, "pillar", 1, 0, 0, [], "")
+    enemy_pillar = Objects(925, 600, 250, 500, "pillar", 1, 0, 0, [], "")
     attackButton = button(0, (height / 5) * 3, width / 2 + 1, height/5 + 1, (255, 180, 0), (255, 255, 255), "Attack", (0, 0, 0), width // 12, (0, 0, 0))
     itemButton = button(0, (height / 5) * 4, width / 2 + 1, height / 5 + 1, (255, 180, 0), (255, 255, 255), "Use item",(0, 0, 0), width // 12, (0, 0, 0))
     fleeButton = button(width / 2, (height / 5) * 4, width / 2 + 1, height / 5 + 1, (255, 80, 0), (255, 255, 255), "Flee", (0, 0, 0), width // 12,  (0, 0, 0))
