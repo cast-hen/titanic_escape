@@ -421,7 +421,7 @@ cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObje
 cube26_1 = Objects(-27, 500, 645, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
-cube26_4 = Objects(900, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
+cube26_4 = Objects(940, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
 cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
