@@ -19,13 +19,13 @@ poison = move("poison", "Poisons your opponent to \n take damage over time", pyg
 lifeSteal = move("life steal", "Damages your opponent \n and gives a percentage \n back as health", pygame.image.load('resources/textures/move_lifeSteal.png'))
 block = move("block", "Can block your opponents' \n next few attacks", pygame.image.load('resources/textures/move_block.png'))
 devTestInstakill = move("devtest instakill", "for developer purposes only", '')
-playerName = "bob"
+playerName = "Rat"
 
 while running:
     if state == "Menu":
         screen.fill('black')
         game_manager.Reset()
-        if playerName != "bob":
+        if playerName != "Rat":
             playerName = player.name
         player = character(playerName, 5,
                            pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100,
