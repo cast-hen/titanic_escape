@@ -369,7 +369,12 @@ def parkour(player, game_manager):
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
         #screen.fill((135, 206, 250))
-        screen.blit(image_background, (-CameraPosx - 500, 0))
+        if not scene == 26:
+            screen.blit(image_background, (-CameraPosx - 500, 0))
+        else:
+            screen.blit(image_landscape, (-CameraPosx - 500, 0))
+            screen.blit(image_landscape_mirror, (-CameraPosx + 866, 0))
+
         Colliders = playerObject.update_pos(platforms, CameraPosx, scene)
 
         #Collision glitch fix
