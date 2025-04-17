@@ -233,13 +233,33 @@ def got_hurt(hitpoints, state=None):
     :param state : The state of the game
     :return: hitpoints, state
     """
+    def draw_screen(y):
+        screen.fill('brown')
+        screen.blit(headText, headTextPos)
+        screen.blit(subText, subTextPos)
+        screen.blit(rat_texture, (100, y))
+        pygame.display.update()
+    headFont = pygame.font.Font(mainFont, 100)
+    subFont = pygame.font.Font(mainFont, 40)
+    headText = headFont.render("You got hurt", True, (255, 255, 255))
+    subText = subFont.render("You have " + str(hitpoints) + " hitpoints left", True, (255, 255, 255))
+    headTextRect = headText.get_rect()
+    headTextRect.center = (WIDTH / 2, HEIGHT / 2 - 100)
+    headTextPos = headTextRect.topleft
+    subTextRect = subText.get_rect()
+    subTextRect.center = (WIDTH / 2, HEIGHT / 2)
+    subTextPos = subTextRect.topleft
+    rat_texture = pygame.transform.flip(pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (200, 80)), False, True)
+    y = -50
+    for i in range(0, screen.get_height() // 2 + 50):
+        beginTime = time.time()
+        draw_screen(y)
+        y += 2
+        waitTime = 0.00025 - (time.time() - beginTime)
+        if waitTime > 0:
+            time.sleep(waitTime)
+    time.sleep(1)
     hitpoints -= 30
-    screen.fill('brown')
-
-    textPrint("You got hurt", 100, 'white', (WIDTH / 2, HEIGHT / 2))
-    textPrint("You have " + str(hitpoints) + " hitpoints left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
-    pygame.display.flip()
-    time.sleep(2)
     return hitpoints, state, False
 
 
