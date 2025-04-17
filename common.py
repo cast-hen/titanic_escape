@@ -242,6 +242,8 @@ def got_hurt(hitpoints, state=None):
         pygame.draw.rect(screen, (255, 255, 255), (205, y - 110, 10, 100))
         pygame.draw.rect(screen, (255, 255, 255), (260, y - 80, 10, 70))
         pygame.display.update()
+
+    hitpoints -= 30
     headFont = pygame.font.Font(mainFont, 100)
     subFont = pygame.font.Font(mainFont, 40)
     headText = headFont.render("You got hurt", True, (255, 255, 255))
@@ -261,7 +263,6 @@ def got_hurt(hitpoints, state=None):
         waitTime = 0.005 - (time.time() - beginTime)
         if waitTime > 0:
             time.sleep(waitTime)
-    hitpoints -= 30
     return hitpoints, state, False
 
 
