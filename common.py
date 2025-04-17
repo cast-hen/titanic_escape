@@ -7,7 +7,7 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 image = pygame.transform.scale(pygame.image.load("resources/textures/titanic 3rd class interior backdrop.png"), (pygame.display.get_window_size())).convert()
 
 class character:
-    def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive):
+    def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive, NewMove):
         self.name = name
         self.lives = lives
         self.image = image
@@ -17,6 +17,7 @@ class character:
         self.items = items
         self.heals = heals
         self.alive = alive
+        self.NewMove = NewMove
 
 
     def displayInfo(self):
@@ -89,6 +90,22 @@ def Pause():
     possibleStates = [None, "Menu", None]
     return possibleStates[index]
 
+def got_hurt(hitpoints, state=None):
+    """
+    Shows the Got hurt screen
+    :param hitpoints: the amount of hitpoints left of the player
+    :param state : The state of the game
+    :return: hitpoints, state
+    """
+    hitpoints -= 30
+    screen.fill('brown')
+
+    textPrint("You got hurt", 100, 'white', (WIDTH / 2, HEIGHT / 2))
+    textPrint("You have " + str(hitpoints) + " hitpoints left", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
+    pygame.display.flip()
+    time.sleep(2)
+    return hitpoints, state, False
+
 
 def game_over(lives, state=None):
     """
@@ -130,7 +147,7 @@ def LevelComplete():
     """
     screen.fill((0, 0, 0))
     textPrint("Level Completed", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-    textPrint("all lives have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
+    textPrint("all hitpoints have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
     pygame.display.update()
     time.sleep(3)
 

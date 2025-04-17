@@ -8,13 +8,20 @@ WIDTH, HEIGHT = pygame.display.get_window_size()
 
 #Textures
 image_background = pygame.transform.scale(pygame.image.load('resources/textures/background_ceilingWallV1.png').convert(), (2560, 1125))
-image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
-image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV1.png').convert(), (2560, 820))
-#image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 1720))
+#image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floor.png').convert(), (2525, 810))
+image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV3.png').convert(), (2560, 810))
+image_floor3D_right = pygame.transform.scale(pygame.image.load('resources/textures/background_floor_right3D.png'), (70, 810))
+image_floor3D_right_2 = pygame.transform.scale(pygame.image.load('resources/textures/background_floor_right3D_2.png'), (70, 30))
+image_pillar = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar.png').convert(), (2560, 810))
+image_pillar_right = pygame.transform.scale(pygame.image.load('resources/textures/background_pillar_right3D.png'), (70, 810))
+image_floating = pygame.transform.scale(pygame.image.load('resources/textures/background_floating.png').convert(), (1600, 175))
+image_floating_right = pygame.transform.scale(pygame.image.load('resources/textures/background_floating_right3D.png'), (70, 175))
+image_floating_ridge = pygame.transform.scale(pygame.image.load('resources/textures/background_floating_ridge.png'), (1600, 10))
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png')
 image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
-texture_overlap = 30
+image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/Lifeboat.png'), (605, 415))
+texture_y_overlap = 30
 
 punch = move("punch", "Hits the opponent \n for 10 damage", pygame.image.load('resources/textures/move_punch.png'))
 comboPunch = move("combo punch", "Hits the opponent a \n random number of times", pygame.image.load('resources/textures/move_comboPunch.png'))
@@ -36,9 +43,16 @@ class Objects:
         self.Type = Type
         self.surface = None
 
-        if self.texture_type == "floor" or self.texture_type == "floor3D" or self.texture_type == "pillar":
-            self.surface = pygame.Surface((self.width, self.height))
-            self.surface.blit(image_floor, (0, 0))
+        if self.texture_type == "floor3D" or self.texture_type == "floor":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_floor3D, (0, 0))
+        elif self.texture_type == "pillar":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_pillar, (0, 0))
+        elif self.texture_type == "floating":
+            self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
+            self.surface.blit(image_floating, (0, 0))
+            self.surface.blit(image_floating_ridge, (0, self.height + texture_y_overlap - 10))
         elif texture_type == "wall":
             self.surface = pygame.Surface((self.width, self.height))
             self.surface.blit(pygame.transform.scale(image_wall, (self.width, self.height)), (0, 0))
@@ -51,7 +65,7 @@ class Objects:
                 self.texture_type = pygame.transform.scale(image_fallingBlock1, (self.width, self.height))
             else:
                 self.texture_type = pygame.transform.scale(image_fallingBlock2, (self.width, self.height))
-        elif not (self.texture_type == 'red' or self.texture_type == 'blue' or type(self.texture_type) == pygame.Surface):
+        elif not (self.texture_type == 'red' or self.texture_type == 'blue' or self.texture_type == "lifeboat" or type(self.texture_type) == pygame.Surface):
             self.texture_type = (180, 80, 0)
 
     def update_pos(self, platforms, CameraPosx, scene):
@@ -61,7 +75,7 @@ class Objects:
 
         for platform in platforms:
             if scene in platform.ObjectScene:
-                if self.Rect.colliderect(platform.Rect):
+                if self.Rect.colliderect(platform.Rect) and platform.Type != "NonCollider":
                     if self.xspeed > 0:
                         self.xpos = platform.xpos - self.width
                     elif self.xspeed < 0:
@@ -79,7 +93,7 @@ class Objects:
         # platformcollision
         for platform in platforms:
             if scene in platform.ObjectScene:
-                if self.Rect.colliderect(platform.Rect):
+                if self.Rect.colliderect(platform.Rect) and platform.Type != "NonCollider":
                     if self.yspeed > 0:  # Falling
                         self.ypos = platform.ypos - self.height
                         self.yspeed = 0
@@ -106,14 +120,29 @@ class Objects:
             self.Rect = screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
-        elif self.texture_type == "Falling Block":
-            print('ye')
-            screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
-            screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos))
+            if self.texture_type == "wall":
+                screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
+            else:
+                screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos - texture_y_overlap))
+                screen.blit(image_floor3D_right_2, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
-        else: #platforms with no texture
+        elif self.texture_type != "lifeboat": #platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
+
+    def draw_3D_extension(self, screen, CameraPosx):
+        if self.texture_type == "floor" or self.texture_type == "floor3D":
+            screen.blit(image_floor3D_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+        elif self.texture_type == "pillar":
+            screen.blit(image_pillar_right, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
+        elif self.texture_type == "floating":
+            surface = pygame.Surface((self.width + 40, self.height + texture_y_overlap - 10)).convert_alpha()
+            surface.fill((0, 0, 0, 0))
+            surface.blit(image_floating_right, (self.width - 30, 0))
+            screen.blit(surface, (self.xpos - CameraPosx, self.ypos - texture_y_overlap))
+        elif self.texture_type == "lifeboat":
+            screen.blit(image_lifeboat, (self.xpos - CameraPosx, self.ypos))
+
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
@@ -157,31 +186,32 @@ class MoveObject:
 
 #Enemies
 enemy_image_size = (86, 280)
-enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True)
-enemyBOBJAN_1 = character("HENDRIK-JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 40, 60,["punch"], [], 0, True)
-enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 40, 80,["punch", "combo punch", "poison"], [], 2, True)
-enemyBobbie_1 = character("Bobby", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 80,["punch", "punch", "poison"], [], 3, True)
-enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 80, 80,["punch", "enrage", "block"], [], 0, True)
-enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 70, 70,["punch", "punch", "block"], [], 1, True)
-enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 90, 90,["punch"], [], 2, True)
-enemyBoze_Jantje_1 = character("Angry Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch"], [
+enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True, True)
+enemyBOBJAN_1 = character("HENDRIK-JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 30, 30,["combo punch"], [], 0, True, False)
+enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 30, 30,["punch", "poison"], [], 0, True, False)
+enemyBobbie_1 = character("Bobby", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 50, 50,["punch", "combo punch", "poison"], [], 1, True, True)
+
+enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "punch", "enrage"], [], 0, True, False)
+enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "combo punch", "block"], [], 1, True, False)
+enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["enrage", "combo punch", "poison"], [], 0, True, False)
+enemyBoze_Jantje_1 = character("Angry Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["block", "poison", "punch"], [
     item("Poison bottle", 2)
-], 2, True)
-enemyKwaardaardige_BOB_1 = character("Vicious BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
+], 2, True, False)
+enemyKwaardaardige_BOB_1 = character("Vicious BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 75, 75,["punch", "enrage", "block"], [
     item("Bomb", 1)
-], 5, True)
-enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 80, 80,["punch", "enrage"], [
+], 5, True, True)
+enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["life steal"], [
     item("Bomb", 1)
-], 2, True)
-enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 100, 100,["punch", "life steal", "block"], [], 5, True)
-enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 110, 110,["punch", "punch", "poison"], [], 3, True)
-enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["punch", "enrage", "block"], [
+], 2, True, False)
+enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 70, 70,["punch", "life steal", "block"], [], 2, True, False)
+enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 80, 80,["combo punch", "life steal", "poison"], [], 1, True, False)
+enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["life steal", "enrage", "block", "punch"], [
     item("Bomb", 2)
-], 0, True)
-enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block"], [
+], 0, True, True)
+enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block", "life steal"], [
     item("Full Restore", 1),
     item("Bomb", 2)
-], 3, True)
+], 2, True, False)
 #All objects
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
@@ -197,9 +227,9 @@ cube_LeftBorder = Objects(-501, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 
 enemy_paste_height = enemy_image_size[1] # height of enemy image. Used for placement
 # For every enemy: ypos = ypos of cube it's standing on - enemy_paste_height
 cube1_1 = Objects(-300, 490, 700, 1500, 'floor', 1, 0, 0, [1], "Collider")
-cube1_2 = Objects(400, 580, 570, 950, 'floor', 1, 0, 0, [1], "Collider")
+cube1_2 = Objects(400, 580, 433, 950, 'floor', 1, 0, 0, [1], "Collider")
 cube1_3 = Objects(833, 428, 600, 2430, 'floor3D', 1, 0, 0, [1], "Collider")
-cube1_4 = Objects(-500, 170, 200, 768-160, 'wall', 1, 0, 0, [1], "Collider")
+cube1_4 = Objects(-500, 170, 240, 600, 'wall', 1, 0, 0, [1], "Collider")
 cube1_Enemy1 = Objects(1050, cube1_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [1], enemyJAN_1)
 
 cube2_1 = Objects(461, 581, 412, 500, 'floor3D', 1, 0, 0, [2], "Collider")
@@ -267,14 +297,14 @@ cube11_3 = Objects(285, 480, 540, 290, 'floor', 1, 0, 0, [11], "Collider")
 cube11_4 = Objects(825, 520, 560, 250, 'floor', 1, 0, 0, [11], "Collider")
 
 cube11_12_1 = Objects(335, 0, 150, 350, 'wall', 1, 0, 0, [11, 12], "Collider")
-cube11_12_2 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.63, 10, False, 200))
-cube11_12_3 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.73, 10, False, 200))
-cube11_12_4 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.5, 10, False, 200))
+cube11_12_2 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.63, 10, False, 150))
+cube11_12_3 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.73, 10, False, 150))
+cube11_12_4 = Objects(-100, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((-100, -100), (-100, 2000), 0.5, 10, False, 150))
 cube11_12_5 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.8, 10, False, 400))
 cube11_12_6 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.75, 10, False, 400))
 cube11_12_7 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.7, 10, False, 400))
 cube11_12_8 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.55, 10, False, 400))
-cube11_12_9 = Objects(900, 1000, 50, 50, 'Falling', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.65, 10, False, 400))
+cube11_12_9 = Objects(900, 1000, 50, 50, 'Falling Block', 1, 0, 0, [11, 12], MoveObject((900, -100), (900, 2000), 0.65, 10, False, 400))
 
 cube12_1 = Objects(-500, 530, 250, 300, 'floor', 1, 0, 0, [12], "Collider")
 cube12_2 = Objects(285, 480, 320, 380, 'floor', 1, 0, 0, [12], "Collider")
@@ -390,7 +420,8 @@ cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObje
 
 cube26_1 = Objects(-27, 500, 645, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
-cube26_3 = Objects(860, 452, 605, 415,'blue', 1, 0, 0, [26], "Collider")
+cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
+cube26_4 = Objects(900, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
 cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
@@ -422,7 +453,7 @@ platforms = [cube_LeftBorder,
              cube23_1, cube23_2, cube23_3, cube23_4, cube23_Enemy1, cube23_Enemy2,
              cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12,
              cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6,
-             cube26_1, cube26_3, cube26_2, cube26_Enemy1, cube_RisingWater]
+             cube26_1, cube26_3, cube26_4, cube26_2, cube26_Enemy1, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -517,9 +548,6 @@ def parkour(player, game_manager):
             if scene in platform.ObjectScene:
                 platform.draw(screen, CameraPosx)
                 if type(platform.Type) == MoveObject:
-                    if platform.Type.StartPos == (800, 1000) and scene in [21, 22]:
-                        (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)),100 / 0.2)
-
                     (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
                 elif type(platform.Type) == character:
                     if not platform.Type.alive:
@@ -555,9 +583,9 @@ def parkour(player, game_manager):
         elif scene == 8:
             LevelComplete()
             scene += 1
-            player.lives = 5
             player.maxHitpoints = 120
             player.hitpoints = player.maxHitpoints
+            player.heals = 5
 
         elif scene == 9:
             RespawnPos = (-340, 350)
@@ -588,9 +616,9 @@ def parkour(player, game_manager):
         elif scene == 17:
             LevelComplete()
             scene += 1
-            player.lives = 5
             player.maxHitpoints = 150
             player.hitpoints = player.maxHitpoints
+            player.heals = 8
             cube_RisingWater.ypos = 850
         elif scene == 18:
             RespawnPos = (-440, 500)
@@ -625,6 +653,10 @@ def parkour(player, game_manager):
             eind(player.name)
             return "Menu"
 
+        # Draws the extended 3D part of the platforms
+        for platform in platforms:
+            if scene in platform.ObjectScene:
+                platform.draw_3D_extension(screen, CameraPosx)
 
         player.displayInfo()
 
@@ -636,8 +668,11 @@ def parkour(player, game_manager):
 
                 playerObject.xpos = RespawnPos[0]
                 playerObject.ypos = RespawnPos[1]
-                player.lives, state, dead = game_over(player.lives)
-                player.hitpoints = player.maxHitpoints
+                if player.hitpoints <= 30:
+                    player.lives, state, dead = game_over(player.lives)
+                    player.hitpoints = player.maxHitpoints
+                else:
+                    player.hitpoints, state, dead = got_hurt(player.hitpoints)
                 CollisionGlitch = False
                 InvisibilityFrames += 50
                 TransitionGlitch = 5

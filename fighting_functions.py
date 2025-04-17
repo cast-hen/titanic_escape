@@ -58,7 +58,8 @@ def fight(enemy, player, screen):
         pygame.draw.rect(screen, 'red', pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
         textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
         textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
-        textPrint(Text, 100, 'black', (700, 100))
+        #draws the text on the top of the screen
+        textPrint(Text, 70, 'black', (width / 2, 100), outline=('white', 2))
 
     def scrollText(text, colour, location, size, scrollTime, Fight_Text):
         """
@@ -68,6 +69,7 @@ def fight(enemy, player, screen):
         location: the location of the text as a string with 2 options: "player" or "enemy"
         size: "the size of the text as an integer"
         scrollTime: the amount of time the text will scroll for as an integer
+        Fight_Text: the text at the top middle of the screen
         return: none
         """
         #sets the text to be scrolled
@@ -117,7 +119,7 @@ def fight(enemy, player, screen):
             if waitTime > 0:
                 time.sleep(waitTime)
         time.sleep(0.5)
-        draw_scene("")
+        draw_scene("The attack was blocked")
         pygame.display.update()
     #defining the variables before the fight starts
     width = screen.get_width()
@@ -148,7 +150,6 @@ def fight(enemy, player, screen):
     enemyItems = enemy.items
     fighting = True
     state = "turnPlayer"
-    Fight_Text = "TESTETSTTETS"
     draw_scene("")
     #the main fighting loop
     while fighting:
@@ -170,7 +171,6 @@ def fight(enemy, player, screen):
             if button.check(attackButton, mouseDown, screen):
                 #defining new variables
                 draw_scene("Select your attack")
-                Fight_Text = "Select your attack"
                 done = False
                 pages = (len(player.moveset) - 1) // 4
                 page = 0
@@ -187,12 +187,10 @@ def fight(enemy, player, screen):
                         if button.check(buttonNextPage, mouseDown, screen):
                             page += 1
                             draw_scene("Select your attack")
-                            Fight_Text = "Select your attack"
                     if page > 0:
                         if button.check(buttonPrevPage, mouseDown, screen):
                             page -= 1
                             draw_scene("Select your attack")
-                            Fight_Text = "Select your attack"
                     #for loop drawing the buttons and checking if theyre pressed
                     for i in range(0, 4):
                         if (page * 4) + i < len(player.moveset):
@@ -442,13 +440,17 @@ def fight(enemy, player, screen):
         elif state == "turnEnemy":
             draw_scene("The enemy's turn")
             Fight_Text = "The enemy's turn"
-            time.sleep(0.5)
+            pygame.display.update()
+            time.sleep(1)
             selected = False
             #rolls whether the enemy should use an item and selects it
             if random.randint(0, 2) != 0 and len(enemyItems) > 0:
                 roll = random.randint(0, len(enemyItems) - 1)
                 if enemyItems[roll].amount > 0:
                     usedItem = enemyItems[roll].name
+                    draw_scene("They used an item: " + usedItem)
+                    Fight_Text = "They used an item: " + usedItem
+                    pygame.display.update()
                 else:
                     usedItem = None
                 #checks whether the enemy "should" use full restore
@@ -512,8 +514,9 @@ def fight(enemy, player, screen):
                 if (move != "heal" or enemyCurrentHealth < enemy.hitpoints and enemyHeals > 0) and (move!= "block" or enemyBlocks > 0):
                     selected = True
             #the punch move
-            draw_scene("The enemy used " + move)
-            Fight_Text = "The enemy used " + move
+            draw_scene("They used " + move)
+            Fight_Text = "They used " + move
+            pygame.display.update()
             time.sleep(0.5)
             if move == "punch":
                 if immunityTurnsLeftPlayer > 0:
@@ -618,7 +621,14 @@ def fight(enemy, player, screen):
         time.sleep(0.01)
         pygame.display.update()
     #returning the values if the fight is over
-    time.sleep(2)
+    if result == "loss":
+        draw_scene("You lost")
+        pygame.display.update()
+        time.sleep(2)
+    elif result == "win":
+        draw_scene("You won!")
+        pygame.display.update()
+        time.sleep(2)
     return result, playerCurrentHealth, playerItems
 
 def chooseNewAttack(allMovesList, player):
@@ -650,6 +660,7 @@ def chooseNewAttack(allMovesList, player):
             options[i].displayMove(WIDTH/2 + 328 * (i - 1), HEIGHT/2 - 50)
             buttonList.append(button(WIDTH/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
         # Loop waarin gekeken wordt welke knop wordt ingedrukt
+        textPrint("CHOOSE A NEW ATTACK", 50, 'black', (700, 50) , outline=('white', 2))
         while True:
             index = waitForInput(buttonList, True)
             if index == -1:
