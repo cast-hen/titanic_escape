@@ -422,6 +422,7 @@ cube26_1 = Objects(-27, 500, 645, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
 cube26_4 = Objects(940, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
+cube26_5 = Objects(940, 430, 10, 20, None, 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
 cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
@@ -453,7 +454,7 @@ platforms = [cube_LeftBorder,
              cube23_1, cube23_2, cube23_3, cube23_4, cube23_Enemy1, cube23_Enemy2,
              cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12,
              cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6,
-             cube26_1, cube26_3, cube26_4, cube26_2, cube26_Enemy1, cube_RisingWater]
+             cube26_1, cube26_3, cube26_4, cube26_2, cube26_5, cube26_Enemy1, cube_RisingWater]
 
 # Other contstants
 clock = pygame.time.Clock()
