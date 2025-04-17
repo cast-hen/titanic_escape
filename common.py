@@ -390,6 +390,12 @@ def eind(name):
 
 
 def Afstand(pos1, pos2):
+    """
+    calculates distance between 2 points
+    :param pos1: The first point - (int, int)
+    :param pos2: The secont point - (int, int)
+    :return The distance between the points
+    """
     x_afstand = pos2[0] - pos1[0]
     y_afstand = pos2[1] - pos1[1]
     if x_afstand < 0:
