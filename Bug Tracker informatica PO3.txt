@@ -6,10 +6,10 @@ Format: <bugnaam> status: <status>
 (als je een bug hebt gefixt markeer hem dan also resolved, niet weghalen)
 <beschrijving>: langere beschrijving van de bug en een uitleg hoe je hem kan reproduceren
 
-Wall death glitch     status: unresolved    this will stay unfixed, it is not worth the time/effort.
+Wall death glitch     status: resolved - you stub your toe sometimes ig.
     als je tegen een muur aan loopt is er een kans dat je zonder andere reden een leven verliest
 
-wall glitched frame    status: works as intended (its not a bug its a feature)
+wall glitched frame    status: resovled - moslty works
     als je recht in een muur loopt is er 1 frame waarin je op de muur teleporteert
     voordat je weer teruggaat naar waar je hoort te zijn
 
@@ -23,7 +23,7 @@ Respawn death    status: resolved - zet positie voor eerste 5 frames gelijk aan 
 Enemies dont respawn     status: resolved - for loop als je switcht naar menu state die de "alive" status van alle enemies reset
     Als je de game hebt gewonnen / verloren spawnen de enemies niet terug
 
-Enemy tunnel glitch     status: works as intended (its not a bug, its a feature)
+Enemy tunnel glitch     status: works as intended (its not a bug, its a feature(quantum tunneling))
     Je kunt door sommige enemies heen tunnelen door meerdere malen op flee te drukken (je verplaats elke keer een paar pixels de enemy in)
 
 Massive enemy hitboxes    status: resolved - collisions van enemies werken nu als nodig
