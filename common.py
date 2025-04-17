@@ -84,7 +84,7 @@ class Objects:
         """
         updates the position of all objects based on the camera position
         :param platforms: a list of all the platforms - list[platforms]
-        :param CamerPosx: the position of the camera - int
+        :param CameraPosx: the position of the camera - int
         :param scene: the current scene. - int
         :return: The object the player collided with - object
         """
