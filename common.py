@@ -418,7 +418,7 @@ def LevelComplete():
     time.sleep(3)
 
 
-def eind(name):
+def end(name, startTime):
     """
     Shows the credit screen and waits until the menu button is pressed.
     :return possibleStates[index]:
@@ -432,6 +432,8 @@ def eind(name):
     textPrint("escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100), outline=('black', 7))
     textPrint("Berend Sulman, Branko Opdam,", 40, 'white',(WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
     textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',(WIDTH / 2, HEIGHT / 2 + 50), outline=('black', 2))
+    finalTime = round((time.time() - startTime), 2)
+    textPrint("You finished in "+ str(finalTime) + " seconds", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300), outline=('black', 2))
 
     index = waitForInput([buttonMenu])
     possibleStates = ["Menu"]

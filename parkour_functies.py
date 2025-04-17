@@ -288,7 +288,7 @@ fps = 60
 jump_height = -25
 speed = 11
 
-def parkour(player, game_manager):
+def parkour(player, game_manager, startTime):
     """
     The entire code of the platforming part of the game
     :param player: The active player
@@ -483,7 +483,7 @@ def parkour(player, game_manager):
 
 
         elif scene == 27:
-            eind(player.name)
+            end(player.name, startTime)
             return "Menu"
 
         # Draws the extended 3D part of the platforms
