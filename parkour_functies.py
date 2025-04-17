@@ -248,27 +248,27 @@ cube21_5 = Objects(650, 390, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_6 = Objects(1020, 450, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_7 = Objects(1241, 244, 200, 523,'floor', 1, 0, 0, [21], "Collider")
 #yippee - tot hier objects.texture_type hernoemd en rect aangepast
-cube22_1 = Objects(-500, 0, 392, 415,'floor', 1, 0, 0, [22], "Collider")
+cube22_1 = Objects(-500, 0, 392, 415,'wall', 1, 0, 0, [22], "Collider")
 cube22_2 = Objects(263, 406, 469, 361,'floor', 1, 0, 0, [22], "Collider")
-cube22_3 = Objects(920, 406, 100, 500,'floor', 1, 0, 0, [22], "Collider")
+cube22_3 = Objects(920, 406, 100, 500,'pillar', 1, 0, 0, [22], "Collider")
 cube22_4 = Objects(1200, 406, 300, 500,'floor', 1, 0, 0, [22], "Collider")
-cube22_5 = Objects(263, 0, 1500, 300,'floor', 1, 0, 0, [22], "Collider")
-cube22_6 = Objects(-170, 0, 488, 117,'floor', 1, 0, 0, [22], "Collider")
+cube22_5 = Objects(263, 0, 1500, 300,'wall', 1, 0, 0, [22], "Collider")
+cube22_6 = Objects(-170, 0, 488, 117,'wall', 1, 0, 0, [22], "Collider")
 
-cube23_1 = Objects(-500, 0, 3000, 400,'floor', 1, 0, 0, [23], "Collider")
-cube23_2 = Objects(224, 659, 400, 30,'floor', 1, 0, 0, [23], "Collider")
-cube23_3 = Objects(870, 700, 500, 30,'floor', 1, 0, 0, [23], "Collider")
-cube23_4 = Objects(400, 379, 1000, 93,'floor', 1, 0, 0, [23], "Collider")
+cube23_1 = Objects(-500, 0, 3000, 400,'wall', 1, 0, 0, [23], "Collider")
+cube23_2 = Objects(224, 659, 400, 300,'floor', 1, 0, 0, [23], "Collider")
+cube23_3 = Objects(870, 700, 500, 300,'pillar', 1, 0, 0, [23], "Collider")
+cube23_4 = Objects(400, 400, 1000, 65,'wall', 1, 0, 0, [23], "Collider")
 cube23_Enemy1 = Objects(493, cube23_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [23], enemyKleine_Karel_1)
 cube23_Enemy2 = Objects(1128, cube23_3.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [23], enemyIni_Mini_1)
 
-cube24_1 = Objects(-500, 700, 500, 30,'floor', 1, 0, 0, [24], "Collider")
-cube24_2 = Objects(-500, 0, 218, 491,'floor', 1, 0, 0, [24], "Collider")
-cube24_3 = Objects(-303, 0, 1700, 70,'floor', 1, 0, 0, [24], "Collider")
-cube24_4 = Objects(114, 617, 150, 20,'floor', 1, 0, 0, [24], "Collider")
-cube24_5 = Objects(750, 500, 150, 20,'floor', 1, 0, 0, [24], "Collider")
-cube24_6 = Objects(410, 450, 150, 20,'floor', 1, 0, 0, [24], "Collider")
-cube24_7 = Objects(1000, 330, 150, 20,'floor', 1, 0, 0, [24], "Collider")
+cube24_1 = Objects(-500, 700, 500, 80,'pillar', 1, 0, 0, [24], "Collider")
+cube24_2 = Objects(-500, 0, 218, 491,'wall', 1, 0, 0, [24], "Collider")
+cube24_3 = Objects(-303, 0, 1700, 70,'wall', 1, 0, 0, [24], "Collider")
+cube24_4 = Objects(114, 617, 150, 20,'floating', 1, 0, 0, [24], "Collider")
+cube24_5 = Objects(750, 500, 150, 20,'floating', 1, 0, 0, [24], "Collider")
+cube24_6 = Objects(410, 450, 150, 20,'floating', 1, 0, 0, [24], "Collider")
+cube24_7 = Objects(1000, 330, 150, 20,'floating', 1, 0, 0, [24], "Collider")
 
 cube24_8 = Objects(114, -400, 150, 150,'Falling Block', 1, 0, 0, [24],  MoveObject((114, -400), (114, 2500), 0.7, 10, False, 0))
 cube24_9 = Objects(750, -400, 150, 150,'Falling Block', 1, 0, 0, [24],  MoveObject((750, -400), (750, 2500), 0.7, 10, False, 0))
@@ -277,16 +277,16 @@ cube24_11 = Objects(1000, 1000, 150, 150,'Falling Block', 1, 0, 0, [24],  MoveOb
 
 cube24_12 = Objects(1238, 244, 127, 523,'floor', 1, 0, 0, [24], "Collider")
 
-cube25_1 = Objects(238, 442, 569, 49,'floor', 1, 0, 0, [25], "Collider")
-cube25_2 = Objects(-500, 0, 1900, 136,'floor', 1, 0, 0, [25], "Collider")
+cube25_1 = Objects(238, 442, 569, 49,'floating', 1, 0, 0, [25], "Collider")
+cube25_2 = Objects(-500, 0, 1900, 136,'wall', 1, 0, 0, [25], "Collider")
 cube25_3 = Objects(1141, 296, 300, 500,'floor', 1, 0, 0, [25], "Collider")
 
 cube25_4 = Objects(500, 0, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
 cube25_5 = Objects(400, -400, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
 cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObject((500, -400), (500, 1200), 0.6, 10, False, 200))
 
-cube26_1 = Objects(-27, 500, 645, 367,'floor', 1, 0, 0, [26], "Collider")
-cube26_2 = Objects(578, 420, 337, 447,'floor', 1, 0, 0, [26], "Collider")
+cube26_1 = Objects(-14, 500, 614, 367,'floor', 1, 0, 0, [26], "Collider")
+cube26_2 = Objects(600, 420, 260, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
 cube26_4 = Objects(940, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
 cube26_5 = Objects(940, 430, 10, 20, None, 1, 0, 0, [26], "Collider")
@@ -317,7 +317,7 @@ platforms = [cube_LeftBorder,
              cube19_20_1, cube19_2, cube19_3, cube19_4, cube19_5, cube19_6, cube19_7, cube19_8,
              cube20_1, cube20_2, cube20_3, cube20_Enemy1, cube20_Enemy2,
              cube21_22_23_1, cube21_2, cube21_3, cube21_4, cube21_5, cube21_6, cube21_7,
-             cube22_1, cube22_2,cube22_3, cube22_4, cube22_5, cube22_6,
+             cube22_1, cube22_2,cube22_3, cube22_4, cube22_5, #cube22_6,
              cube23_1, cube23_2, cube23_3, cube23_4, cube23_Enemy1, cube23_Enemy2,
              cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12,
              cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6,
@@ -414,7 +414,7 @@ def parkour(player, game_manager):
         #spawnt alle objects
 
         for platform in platforms:
-            if scene in platform.ObjectScene:
+            if scene in platform.ObjectScene and not platform.texture_type == "water":
                 platform.draw(screen, CameraPosx)
                 if type(platform.Type) == MoveObject:
                     (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
@@ -524,8 +524,13 @@ def parkour(player, game_manager):
 
         # Draws the extended 3D part of the platforms
         for platform in platforms:
-            if scene in platform.ObjectScene:
+            if scene in platform.ObjectScene and not platform.texture_type == "water":
                 platform.draw_3D_extension(screen, CameraPosx)
+            if scene in platform.ObjectScene and platform.texture_type == "water":
+                platform.draw(screen, CameraPosx)
+                if type(platform.Type) == MoveObject:
+                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
+
 
         player.displayInfo()
 

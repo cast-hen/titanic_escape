@@ -146,7 +146,7 @@ class Objects:
         elif type(self.Type) == character: #enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
         elif self.surface is not None: #platforms
-            if self.texture_type == "wall":
+            if self.texture_type == "wall" or self.texture_type == "water":
                 screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
             else:
                 screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos - texture_y_overlap))
@@ -295,7 +295,12 @@ def got_hurt(hitpoints, state=None):
         screen.blit(headText, headTextPos)
         screen.blit(subText, subTextPos)
         screen.blit(rat_texture, (100, y))
+        pygame.draw.rect(screen, (255, 255, 255), (150, y - 80, 10, 70))
+        pygame.draw.rect(screen, (255, 255, 255), (205, y - 110, 10, 100))
+        pygame.draw.rect(screen, (255, 255, 255), (260, y - 80, 10, 70))
         pygame.display.update()
+
+    hitpoints -= 30
     headFont = pygame.font.Font(mainFont, 100)
     subFont = pygame.font.Font(mainFont, 40)
     headText = headFont.render("You got hurt", True, (255, 255, 255))
@@ -308,15 +313,13 @@ def got_hurt(hitpoints, state=None):
     subTextPos = subTextRect.topleft
     rat_texture = pygame.transform.flip(pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (200, 80)), False, True)
     y = -50
-    for i in range(0, screen.get_height() // 2 + 50):
+    for i in range(0, screen.get_height() // 2 + 100):
         beginTime = time.time()
         draw_screen(y)
         y += 2
-        waitTime = 0.00025 - (time.time() - beginTime)
+        waitTime = 0.005 - (time.time() - beginTime)
         if waitTime > 0:
             time.sleep(waitTime)
-    time.sleep(1)
-    hitpoints -= 30
     return hitpoints, state, False
 
 
