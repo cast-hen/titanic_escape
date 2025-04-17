@@ -238,21 +238,10 @@ class Game_Manager:
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Set(self, scene, Player_posx, Player_posy):
-        """
-        changes the Game manager
-        :param scene: the scene it get changed to- int
-        :param Player_posx: the x position it get changed to - int
-        :param Player_posy: the y position it get changed to - int
-        :return None
-        """
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Reset(self):
-        """
-        Resets the game manager to its start phase
-        :return None
-        """
         self.Set(1, -130, 450)
 
 
@@ -401,12 +390,6 @@ def eind(name):
 
 
 def Afstand(pos1, pos2):
-    """
-    caculates the distance between 2 points
-    :param pos1: the first position - (int, int)
-    :param pos2: the second position - (int, int)
-    :return The distance between the points
-    """
     x_afstand = pos2[0] - pos1[0]
     y_afstand = pos2[1] - pos1[1]
     if x_afstand < 0:
