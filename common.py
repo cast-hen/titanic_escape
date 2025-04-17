@@ -8,6 +8,9 @@ screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
 #Textures
+image_landscape = pygame.transform.scale(pygame.image.load('resources/textures/nighty_landscape.jpg').convert(), (1366, 1558))
+image_landscape_mirror = pygame.transform.flip(image_landscape, True, False)
+
 image_background = pygame.transform.scale(pygame.image.load('resources/textures/background_ceilingWallV1.png').convert(), (2560, 1125))
 image_floor = pygame.transform.scale(pygame.image.load('resources/textures/background_floor.png').convert(), (2525, 810))
 image_floor3D = pygame.transform.scale(pygame.image.load('resources/textures/background_floorV3.png').convert(), (2560, 810))
@@ -375,14 +378,13 @@ def eind(name):
     """
     screen.fill('black')
     fireworkWord("Thanks for playing", 120)
+    screen.blit(image_landscape)
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
-    textPrint(name, 100, 'white', (WIDTH / 2, HEIGHT / 2 - 220))
-    textPrint("escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-    textPrint("Berend Sulman, Branko Opdam,", 40, 'white',
-              (WIDTH / 2, HEIGHT / 2 - 20))
-    textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',
-              (WIDTH / 2, HEIGHT / 2 + 50))
+    textPrint(name, 100, 'white', (WIDTH / 2, HEIGHT / 2 - 220) , outline=('black', 7))
+    textPrint("escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100), outline=('black', 7))
+    textPrint("Berend Sulman, Branko Opdam,", 40, 'white',(WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
+    textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',(WIDTH / 2, HEIGHT / 2 + 50), outline=('black', 2))
 
     index = waitForInput([buttonMenu])
     possibleStates = ["Menu"]
@@ -390,12 +392,6 @@ def eind(name):
 
 
 def Afstand(pos1, pos2):
-    """
-    calculates distance between 2 points
-    :param pos1: The first point - (int, int)
-    :param pos2: The secont point - (int, int)
-    :return The distance between the points
-    """
     x_afstand = pos2[0] - pos1[0]
     y_afstand = pos2[1] - pos1[1]
     if x_afstand < 0:
