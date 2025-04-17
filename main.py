@@ -3,6 +3,7 @@ from common import *
 import pygame
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 running = True

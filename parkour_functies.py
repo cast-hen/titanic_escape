@@ -471,7 +471,6 @@ def parkour(player, game_manager):
     tick = 0
     running = True
     scene = game_manager.scene
-
     mouseDown = False
     CameraPosx = 0
     RespawnPos = (-900, 450)
@@ -481,7 +480,9 @@ def parkour(player, game_manager):
     CollisionGlitch = True
     TransitionGlitch = 0
     InvisibilityFrames = 5
-
+    pygame.mixer.stop()
+    pygame.mixer.music.load("resources/sound/parjour song.wav")
+    pygame.mixer.music.play(-1)
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
 
