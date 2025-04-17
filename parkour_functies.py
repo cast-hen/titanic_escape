@@ -12,29 +12,29 @@ devTestInstakill = move("devtest instakill", "for developer purposes only", '')
 
 #Enemies
 enemy_image_size = (86, 280)
-enemyJAN_1 = character("JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True, True)
-enemyBOBJAN_1 = character("HENDRIK-JAN", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 30, 30,["combo punch"], [], 0, True, False)
-enemyBOBBOBBOB_1 = character("BOBBOBBOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 30, 30,["punch", "poison"], [], 0, True, False)
-enemyBobbie_1 = character("Bobby", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 50, 50,["punch", "combo punch", "poison"], [], 1, True, True)
+enemyJAN_1 = character("Robert John Adams", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 25, 50,["punch"], [], 0, True, True)
+enemyBOBJAN_1 = character("Alfred Samuel Allsop", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl0.png'), enemy_image_size), 30, 30,["combo punch"], [], 0, True, False)
+enemyBOBBOBBOB_1 = character("Ernest Owen Abbott", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 30, 30,["punch", "poison"], [], 0, True, False)
+enemyBobbie_1 = character("Percy Snowden Ahier", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 50, 50,["punch", "combo punch", "poison"], [], 1, True, True)
 
-enemyWillem_1 = character("Willem", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "punch", "enrage"], [], 0, True, False)
-enemyAlexander_1 = character("Alexander", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "combo punch", "block"], [], 1, True, False)
-enemyWillem_Henk_1 = character("Willem-Henk", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["enrage", "combo punch", "poison"], [], 0, True, False)
-enemyBoze_Jantje_1 = character("Angry Jantje", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["block", "poison", "punch"], [
+enemyWillem_1 = character("Henry Allen", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "punch", "enrage"], [], 0, True, False)
+enemyAlexander_1 = character("Charles Edward Andrews", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl1.png'), enemy_image_size), 50, 50,["punch", "combo punch", "block"], [], 1, True, False)
+enemyWillem_Henk_1 = character("Anthony Abbing", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["enrage", "combo punch", "poison"], [], 0, True, False)
+enemyBoze_Jantje_1 = character("William Thomas Abrams", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["block", "poison", "punch"], [
     item("Poison bottle", 2)
 ], 2, True, False)
-enemyKwaardaardige_BOB_1 = character("Vicious BOB", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 75, 75,["punch", "enrage", "block"], [
+enemyKwaardaardige_BOB_1 = character("Ernest Edward Archer", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 75, 75,["punch", "enrage", "block"], [
     item("Bomb", 1)
 ], 5, True, True)
-enemyBoudewijn_1 = character("Boudewijn", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["life steal"], [
+enemyBoudewijn_1 = character("John Anderson", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl2.png'), enemy_image_size), 60, 60,["life steal"], [
     item("Bomb", 1)
 ], 2, True, False)
-enemyRoderick_1 = character("Roderick", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 70, 70,["punch", "life steal", "block"], [], 2, True, False)
-enemyKleine_Karel_1 = character("Little Karel", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 80, 80,["combo punch", "life steal", "poison"], [], 1, True, False)
-enemyIni_Mini_1 = character("Ini Mini", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["life steal", "enrage", "block", "punch"], [
+enemyRoderick_1 = character("Frank Richard Allsop", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 70, 70,["punch", "life steal", "block"], [], 2, True, False)
+enemyKleine_Karel_1 = character("Joseph Groves Boxhall", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl3.png'), enemy_image_size), 80, 80,["combo punch", "life steal", "poison"], [], 1, True, False)
+enemyIni_Mini_1 = character("Robert Spencer Allen", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl4.png'), enemy_image_size), 100, 100,["life steal", "enrage", "block", "punch"], [
     item("Bomb", 2)
 ], 0, True, True)
-enemyBOSS_1 = character("Captain Edward", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block", "life steal"], [
+enemyBOSS_1 = character("Captain Edward Smith", 1, pygame.transform.scale(pygame.image.load('resources/textures/enemy_lvl5.png'), enemy_image_size), 200, 150,["punch", "combo punch", "enrage", "block", "life steal"], [
     item("Full Restore", 1),
     item("Bomb", 2)
 ], 2, True, False)
