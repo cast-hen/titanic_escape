@@ -23,13 +23,11 @@ playerName = "Rat"
 
 while running:
     if state == "Menu":
-        screen.fill('black')
-        game_manager.Reset()
         if playerName != "Rat":
             playerName = player.name
         player = character(playerName, 5,
                            pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100,
-                           100, [punch, comboPunch], [
+                           100, [devTestInstakill, comboPunch], [
                                item("Full Restore", 2),
                                item("Bomb", 3),
                                item("Poison bottle", 2),
@@ -43,11 +41,11 @@ while running:
                 platforms.append(enemyList[i])
         state, player.name = menu(player.name)
         playerName = player.name
-        startTime = time.time()
+        game_manager.Reset()
 
     # Hoofd code:
     elif state == "Playing":
-        state = parkour(player, game_manager, startTime)
+        state = parkour(player, game_manager)
         if type(state) == character:
             encounter = state
             result, player.hitpoints, player.items = fight(encounter, player, screen)
@@ -61,7 +59,7 @@ while running:
             elif result == "win":
                 encounter.alive = False
                 allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
-                if encounter.NewMove == True:
+                if encounter.NewMove:
                     newMove = chooseNewAttack(allMovesList, player)
                     if newMove is not None:
                         if newMove != "Menu":

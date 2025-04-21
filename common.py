@@ -29,6 +29,9 @@ image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png'
 image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/Lifeboat.png'), (605, 415))
 texture_y_overlap = 30
 
+lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
+nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life_empty.png"), (38, 38))
+
 
 class MoveObject:
     def __init__(self, StartPos, EndPos, Speed, WaitTime, Teleport, Randomness):
@@ -254,67 +257,133 @@ class character:
         self.NewMove = NewMove
 
 
-    def displayInfo(self):
+    def displayInfo(self, campos):
         """
         Displays the info of the character on screen. Info consist of name, hitpoints and lives.
         :return Nothing
         """
+        # Left section
         pygame.draw.rect(screen, 'black', pygame.Rect(20, 65, 210, 60))
         pygame.draw.rect(screen, 'red', pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
 
-        lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
-        nolifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life_empty.png"), (38, 38))
+        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
+        textPrint(self.name, 40, 'black', (125, 45), outline=('white', 2))
+
+        # Drawing the lives of the player in hearts
         for i in range(5):
             if self.lives >= i + 1:
                 screen.blit(lifeImage, (20 + 43 * i, 140))
             else:
                 screen.blit(nolifeImage, (20 + 43 * i, 140))
 
-        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        textPrint(self.name, 40, 'black', (125, 45), outline=('white', 2))
+
+        # Right section
+        textPrint("Level " + str(game_manager.level), 20, 'black', (WIDTH - 125, 25), outline=('white', 1))
+        pygame.draw.rect(screen, 'black', pygame.Rect(WIDTH - 20 - 204, 33, 204, 20))
+
+        progress_current_scene = (game_manager.Player_posx + 500) / 1866
+        finished_scenes = game_manager.scene - 1
+        if game_manager.level == 2:
+            finished_scenes -= 8
+        elif game_manager.level == 3:
+            finished_scenes -= 17
+        number_of_scenes_in_level = [7, 8, 9]
+        progress_level = (finished_scenes + progress_current_scene) / number_of_scenes_in_level[game_manager.level - 1]
+
+        pygame.draw.rect(screen, 'green', pygame.Rect(WIDTH - 22 - 200, 35, 200 * progress_level, 16))
+
+
 
 
 class Game_Manager:
-    def __init__(self, scene, Player_posx, Player_posy):
+    def __init__(self, level, scene, Player_posx, Player_posy, playTime):
         """
         Makes the game manager that stores important variables
         :param scene: the current scene - int
         :param Player_posx: The current x position of the player - int
         :param Player_posy: The current y position of the player - int
-
-        :return the pressed button (Start, Quit)
         """
+        self.level = level
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
-    def Set(self, scene, Player_posx, Player_posy):
+        self.playTime = playTime
+    def Set(self, level, scene, Player_posx, Player_posy):
+        self.level = level
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Reset(self):
-        self.Set(1, -130, 450)
+        self.__init__(1, 1, -130, 450, time.time())
 
 
-game_manager = Game_Manager(1, -90, 450)
+game_manager = Game_Manager(1,1, -130, 450, time.time())
 
 def menu(name):
     """
     Shows the menu screen
     :return the pressed button (Start, Quit)
     """
-    screen.fill('black')
-    screen.blit(image_background, (0, 0))
-    screen.blit(image_floor, (0, 490))
+    def draw_scene():
+        screen.blit(image_background, (0, 0))
+        screen.blit(image_floor, (0, 490))
+        textPrint("Titanic: Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
+
+        for i in range(len(buttonList)):
+            if button.check(buttonList[i], mouseDown, screen):
+                if possibleStates[i] == "typing":
+                    return True
+                else:
+                    return possibleStates[i], name
+
     buttonPlaying = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
     buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
-    textPrint("Titanic: Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
+    buttonList = [buttonPlaying, buttonQuit, buttonName]
+    possibleStates = ["Playing", "quit", "typing"]
+    textCenter = (WIDTH // 5, HEIGHT // 2)
+    typing = False
+    cursor_time = time.time()
+    cursor_draw = False
+    while True:
+        mouseDown = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseDown = True
+            elif event.type == pygame.KEYDOWN and typing:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
+                    typing = False
+                elif event.key == pygame.K_BACKSPACE:
+                    name = name[:-1]
+            elif event.type == pygame.TEXTINPUT and typing:
+                if len(name) <= 10:
+                    name += event.text
+                else:
+                    returned_value = draw_scene()
+                    if returned_value is not None:
+                        return returned_value
+                    textPrint("Too long!", 40, 'red', textCenter, outline=('black', 3))
+                    pygame.display.flip()
+                    time.sleep(1)
 
-    textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 2))
-    index, name = waitForInput([buttonPlaying, buttonQuit], typeInfo=(buttonName, name, (WIDTH // 5, HEIGHT // 2), 40, ('black', 2)))
-    possibleStates = ["Playing", "quit"]
-    return possibleStates[index], name
+        returned_value = draw_scene()
+        if type(returned_value) == bool:
+            typing = not typing
 
+        elif returned_value is not None:
+            return returned_value
+
+        textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 3))
+
+        # Drawing the flashing cursor.
+        if typing and time.time() - cursor_time > 0.8:
+            cursor_time = time.time()
+            cursor_draw = not cursor_draw
+        if typing and cursor_draw:
+            rect = textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), return_rect=True)
+            pygame.draw.line(screen, 'black', (textCenter[0] + rect.width / 2 + 8, textCenter[1] - rect.height / 2 - 2),(textCenter[0] + rect.width / 2 + 8, textCenter[1] + rect.height / 2 - 3), 9)
+            pygame.draw.line(screen, 'white', (textCenter[0] + rect.width / 2 + 8, textCenter[1] - rect.height / 2),(textCenter[0] + rect.width / 2 + 8, textCenter[1] + rect.height / 2 - 6), 3)
+        pygame.display.flip()
 
 
 def Pause():
@@ -322,6 +391,7 @@ def Pause():
     Pauses the game until the player selects an option
     :return the state the player should now be in
     """
+    pauseTime = time.time()
     buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,'white')
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,'white')
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
@@ -329,9 +399,14 @@ def Pause():
     pygame.Surface.blit(screen, dimSurface)
     textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
 
+    currentTime = round((time.time() - game_manager.playTime), 2)
+    textPrint(str(currentTime) + " seconds playing", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300))
+
     index = waitForInput([buttonResume, buttonMenu], True)
     possibleStates = [None, "Menu", None]
+    game_manager.playTime += time.time() - pauseTime
     return possibleStates[index]
+
 
 def got_hurt(hitpoints, state=None):
     """
@@ -418,7 +493,7 @@ def LevelComplete():
     time.sleep(3)
 
 
-def end(name, startTime):
+def end(name):
     """
     Shows the credit screen and waits until the menu button is pressed.
     :return possibleStates[index]:
@@ -432,7 +507,7 @@ def end(name, startTime):
     textPrint("escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100), outline=('black', 7))
     textPrint("Berend Sulman, Branko Opdam,", 40, 'white',(WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
     textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',(WIDTH / 2, HEIGHT / 2 + 50), outline=('black', 2))
-    finalTime = round((time.time() - startTime), 2)
+    finalTime = round((time.time() - game_manager.playTime), 2)
     textPrint("You finished in "+ str(finalTime) + " seconds", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300), outline=('black', 2))
 
     index = waitForInput([buttonMenu])

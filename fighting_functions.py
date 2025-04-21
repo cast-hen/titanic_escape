@@ -156,7 +156,7 @@ def fight(enemy, player, screen):
     draw_scene("")
     pygame.mixer.stop()
     song2 = pygame.mixer.music.load("resources/sound/battle_theme.mp3")
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.play(-1)
     #the main fighting loop
     while fighting:
         draw_scene("Its your turn")
@@ -646,28 +646,25 @@ def chooseNewAttack(allMovesList, player):
     allMoves = allMovesList
     # Tekent de 3 opties als kaarten
     if len(allMoves) != len(player.moveset):
-        screen.fill((100, 100, 100))
         options = []
         for i in range(3):
-            selected = False
-            while not selected:
-                selected = True
+            while True:
                 move = random.randint(0, len(allMoves) - 1)
-                for i in range(len(player.moveset)):
-                    if allMoves[move] == player.moveset[i]:
-                        selected = False
-                if selected:
-                    options.append(allMoves[move])
-                    allMoves.pop(move)
-                if len(allMoves) == len(player.moveset):
-                    selected = True
+                if not allMoves[move] in player.moveset or len(allMoves) == len(player.moveset):
+                    break
+            options.append(allMoves[move])
+            allMoves.pop(move)
+
         buttonList = []
         for i in range(len(options)):
-            options[i].displayMove(WIDTH/2 + 328 * (i - 1), HEIGHT/2 - 50)
             buttonList.append(button(WIDTH/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
+
         # Loop waarin gekeken wordt welke knop wordt ingedrukt
-        textPrint("CHOOSE A NEW ATTACK", 50, 'black', (700, 50) , outline=('white', 2))
         while True:
+            screen.fill((100, 100, 100))
+            textPrint("CHOOSE A NEW ATTACK", 50, 'black', (700, 50), outline=('white', 2))
+            for i in range(len(options)):
+                options[i].displayMove(WIDTH / 2 + 328 * (i - 1), HEIGHT / 2 - 50)
             index = waitForInput(buttonList, True)
             if index == -1:
                 if Pause() == "Menu":
