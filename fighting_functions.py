@@ -155,8 +155,8 @@ def fight(enemy, player, screen):
     state = "turnPlayer"
     draw_scene("")
     pygame.mixer.stop()
-    song2 = pygame.mixer.music.load("resources/sound/battle_theme.mp3")
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.load("resources/sound/battle_theme.mp3")
+    pygame.mixer.music.play(-1)
     #the main fighting loop
     while fighting:
         draw_scene("Its your turn")
@@ -637,7 +637,7 @@ def fight(enemy, player, screen):
         time.sleep(2)
     return result, playerCurrentHealth, playerItems
 
-def chooseNewAttack(allMovesList, player):
+def chooseNewAttack(allMovesList, player, background_surface):
     """
     Displays 3 moves the player can choose from to add to their deck
     :param options: list of 3 moves the player can choose from
@@ -657,14 +657,17 @@ def chooseNewAttack(allMovesList, player):
 
         buttonList = []
         for i in range(len(options)):
-            buttonList.append(button(WIDTH/2 + 328 * (i - 1) - 105, 590, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
+            buttonList.append(button(WIDTH/2 + 328 * (i - 1) - 105, 620, 210, 80, (0, 0, 255), (255, 0, 0), "Choose", 'white', 50, 'white'))
 
+        dimSurface = pygame.Surface((WIDTH, HEIGHT))
+        pygame.Surface.set_alpha(dimSurface, 100)
         # Loop waarin gekeken wordt welke knop wordt ingedrukt
         while True:
-            screen.fill((100, 100, 100))
-            textPrint(screen,"CHOOSE A NEW ATTACK", 50, 'black', (700, 50), outline=('white', 2))
+            screen.blit(background_surface)
+            pygame.Surface.blit(screen, dimSurface)
+            textPrint(screen,"CHOOSE A NEW ATTACK", 50, 'black', (700, 80), outline=('white', 2))
             for i in range(len(options)):
-                options[i].displayMove(WIDTH / 2 + 328 * (i - 1), HEIGHT / 2 - 50)
+                options[i].displayMove(WIDTH / 2 + 328 * (i - 1), HEIGHT / 2 - 20)
             index = waitForInput(buttonList, True)
             if index == -1:
                 if Pause() == "Menu":

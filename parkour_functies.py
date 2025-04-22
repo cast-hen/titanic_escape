@@ -309,7 +309,6 @@ def parkour(player, game_manager):
     RespawnPos = RespawnPos_list[scene - 1]
 
     CameraPosx = -500
-    #RespawnPos = (-900, 450)
     playerObject.xpos = game_manager.Player_posx + 20
     playerObject.ypos = game_manager.Player_posy
     pos1 = (0, 0)
@@ -318,7 +317,7 @@ def parkour(player, game_manager):
     InvincibilityFrames = 5
     pygame.mixer.stop()
     pygame.mixer.music.load("resources/sound/parjour song.wav")
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(-1)
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
 
@@ -406,7 +405,7 @@ def parkour(player, game_manager):
                 platform.xpos, platform.ypos = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
 
         # Draws the info of the player (upper corners).
-        player.displayInfo(CameraPosx)
+        player.displayInfo(level, scene)
 
 
         if scene == 8:

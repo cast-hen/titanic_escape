@@ -257,7 +257,7 @@ class character:
         self.NewMove = NewMove
 
 
-    def displayInfo(self, campos):
+    def displayInfo(self, level, scene):
         """
         Displays the info of the character on screen. Info consist of name, hitpoints and lives.
         :return Nothing
@@ -278,19 +278,19 @@ class character:
 
 
         # Right section
-        textPrint(screen,"Level " + str(game_manager.level), 20, 'black', (WIDTH - 125, 25), outline=('white', 1))
-        pygame.draw.rect(screen, 'black', pygame.Rect(WIDTH - 20 - 204, 33, 204, 20))
+        textPrint(screen,"Level " + str(level), 20, 'black', (WIDTH - 125, 25), outline=('white', 1))
+        pygame.draw.rect(screen, 'black', pygame.Rect(WIDTH - 224, 33, 204, 20))
 
         progress_current_scene = (game_manager.Player_posx + 500) / 1866
-        finished_scenes = game_manager.scene - 1
-        if game_manager.level == 2:
+        finished_scenes = scene - 1
+        if level == 2:
             finished_scenes -= 8
-        elif game_manager.level == 3:
+        elif level == 3:
             finished_scenes -= 17
         number_of_scenes_in_level = [7, 8, 9]
-        progress_level = (finished_scenes + progress_current_scene) / number_of_scenes_in_level[game_manager.level - 1]
+        progress_level = (finished_scenes + progress_current_scene) / number_of_scenes_in_level[level - 1]
 
-        pygame.draw.rect(screen, 'green', pygame.Rect(WIDTH - 22 - 200, 35, 200 * progress_level, 16))
+        pygame.draw.rect(screen, 'green', pygame.Rect(WIDTH - 222, 35, 200 * progress_level, 16))
 
 
 

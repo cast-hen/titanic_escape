@@ -48,6 +48,7 @@ while running:
         state = parkour(player, game_manager)
         if type(state) == character:
             encounter = state
+            parkour_screen = screen.copy()
             result, player.hitpoints, player.items = fight(encounter, player, screen)
             if result == "loss":
                 player.lives, state, dead = game_over(player.lives)
@@ -60,7 +61,7 @@ while running:
                 encounter.alive = False
                 allMovesList = [punch, comboPunch, enrage, poison, lifeSteal, block]
                 if encounter.NewMove:
-                    newMove = chooseNewAttack(allMovesList, player)
+                    newMove = chooseNewAttack(allMovesList, player, parkour_screen)
                     if newMove is not None:
                         if newMove != "Menu":
                             player.moveset.append(newMove)
