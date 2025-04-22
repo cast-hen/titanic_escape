@@ -365,7 +365,6 @@ def tutorial():
     # Waiting for pressing of the menu button
     buttonMenu = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "Menu", 'white', 45, 'white')
     waitForInput([buttonMenu])
-    screen.fill('black')
 
 
 def menu(name):
@@ -385,9 +384,28 @@ def menu(name):
 
     def story():
         screen.blit(image_landscape, (0, 0))
-        storyText = "Yippee"
-        textPrint(screen,storyText, 40, 'white', (WIDTH / 2, HEIGHT / 2), outline=('black', 2))
-        buttonMenu = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "Menu", 'white', 45,'white')
+        textPrint(screen, "The rats of the Titanic", 60, 'white', (WIDTH / 2, 150), outline=('black', 5))
+        storyText = ("in the year of 1912, on the 15th of april, the inevitable happened.\n"
+                     "The titanic sank to the bottom of the ocean. A lot of people drowned,\n"
+                     "only some were rescued. However worst of all, none of the rats abort\n"
+                     "the Titanic survived. Whilst the ship was falling apart, roofs coming\n"
+                     "down and water filling up the ship, most of the rats scrambled to get\n"
+                     "to high ground. Only one singular rat was smart enough to make a sprint\n "
+                     "to the lifeboats, sadly the crew stopped this rat. This is where our\n"
+                     "game comes in, you will be playing as the one smart rat and fighting\n"
+                     "your way to the lifeboat.")
+        activatingText = "Do you have what it takes?"
+        textPrint(screen,storyText, 35, 'white', (WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
+        textPrint(screen, activatingText, 45, 'red', (WIDTH / 2, HEIGHT / 2 + 180), outline=('black', 2))
+
+        disclaimerText = ("This game was made as a tribute to the terrible event\n"
+                          "of 15 april 1912. This game is fiction, it is not\n"
+                          "intended to mock the disaster in any way.\n"
+                          "We respect the victims and the heroes of that horrific night\n"
+                          "and trust the players will do the same.\n")
+        textPrint(screen, disclaimerText, 15, 'white', (260, HEIGHT - 70), outline=('black', 1))
+        # Waiting for pressing of the menu button
+        buttonMenu = button(WIDTH / 2 - 150, HEIGHT - 150, 300, 80, 'grey', 'darkgrey', "Menu", 'white', 45,'white')
         waitForInput([buttonMenu])
 
     buttonPlaying = button(WIDTH / 2 - 150, HEIGHT / 2 - 100, 300, 80, 'grey', 'darkgrey', "Start", 'white', 45, 'white')
