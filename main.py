@@ -75,7 +75,7 @@ while running:
                 state = result
             playerObject.xpos += 120
 
-    elif state == "quit":
+    elif state == "Quit":
         running = False
 
     elif state == "dead":

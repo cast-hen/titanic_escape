@@ -308,7 +308,7 @@ def parkour(player, game_manager):
     level = game_manager.level
     RespawnPos = RespawnPos_list[scene - 1]
 
-    CameraPosx = 0
+    CameraPosx = -500
     #RespawnPos = (-900, 450)
     playerObject.xpos = game_manager.Player_posx + 20
     playerObject.ypos = game_manager.Player_posy
@@ -336,7 +336,7 @@ def parkour(player, game_manager):
 
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
-        #screen.fill((135, 206, 250))
+
         if not scene == 26:
             screen.blit(image_background, (-CameraPosx - 500, 0))
         else:

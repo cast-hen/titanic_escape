@@ -23,8 +23,8 @@ class move:
         # Tekent de kaart op de achtergrond
         screen.blit(pygame.transform.scale(pygame.image.load("resources/textures/KaartCROP.png"), (288, 472)), (x - 144, y - 236))
         # Print de tekst op de kaart
-        textPrint(self.description, 20, 'white', (x, y + 150))
-        textPrint(self.name, 35, 'white', (x, y - 200), outline=('black', 2))
+        textPrint(screen, self.description, 20, 'white', (x, y + 150))
+        textPrint(screen, self.name, 35, 'white', (x, y - 200), outline=('black', 2))
         screen.blit(pygame.transform.scale(self.image, (160, 200)), (x - 80, y - 140))
 
 
@@ -52,17 +52,17 @@ def fight(enemy, player, screen):
         enemy_image = pygame.transform.scale(enemy.image, (129, 420))
         screen.blit(enemy_image, (1050 - (enemy_image.width / 2), height / 5 * 4.35 - enemy_image.height - 10))
         #draws the name of the player and enemy with a border
-        textPrint(player.name, 40, 'black', (250, 150), outline=('white', 2))
-        textPrint(enemy.name, 40, 'black', (1050, 150), outline=('white', 2))
+        textPrint(screen, player.name, 40, 'black', (250, 150), outline=('white', 2))
+        textPrint(screen, enemy.name, 40, 'black', (1050, 150), outline=('white', 2))
         #draws the healthbars
         pygame.draw.rect(screen, 'black', pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, 'black', pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, 'red', pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
         pygame.draw.rect(screen, 'red', pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
-        textPrint(str(playerCurrentHealth), 40, 'white', (250, 205))
-        textPrint(str(enemyCurrentHealth), 40, 'white', (1050, 205))
+        textPrint(screen, str(playerCurrentHealth), 40, 'white', (250, 205))
+        textPrint(screen, str(enemyCurrentHealth), 40, 'white', (1050, 205))
         #draws the text on the top of the screen
-        textPrint(Text, 70, 'black', (width / 2, 100), outline=('white', 2))
+        textPrint(screen, Text, 70, 'black', (width / 2, 100), outline=('white', 2))
 
     def scrollText(text, colour, location, size, scrollTime, Fight_Text):
         """
@@ -401,7 +401,7 @@ def fight(enemy, player, screen):
                 pygame.Surface.set_alpha(dimSurface, 150)
                 pygame.Surface.blit(screen, dimSurface)
                 pygame.draw.rect(screen, (255, 180, 0), [width / 3, height / 3, width / 3, height / 3])
-                textPrint("Are you sure you want to leave?", int(width * 0.02), 'black', (width / 2, height / 12 * 5))
+                textPrint(screen,"Are you sure you want to leave?", int(width * 0.02), 'black', (width / 2, height / 12 * 5))
                 confirmButton = button(width / 3, height / 2, round(width / 6), round(height / 6), (255, 80, 0),
                                        (255, 255, 255), "confirm", (0, 0, 0), width // 30, (0, 0, 0))
                 cancelButton = button(width / 2, height / 2, round(width / 6), round(height / 6), (255, 80, 0),
@@ -662,7 +662,7 @@ def chooseNewAttack(allMovesList, player):
         # Loop waarin gekeken wordt welke knop wordt ingedrukt
         while True:
             screen.fill((100, 100, 100))
-            textPrint("CHOOSE A NEW ATTACK", 50, 'black', (700, 50), outline=('white', 2))
+            textPrint(screen,"CHOOSE A NEW ATTACK", 50, 'black', (700, 50), outline=('white', 2))
             for i in range(len(options)):
                 options[i].displayMove(WIDTH / 2 + 328 * (i - 1), HEIGHT / 2 - 50)
             index = waitForInput(buttonList, True)

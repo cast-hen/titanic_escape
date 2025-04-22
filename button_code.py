@@ -51,7 +51,7 @@ class button:
             pygame.draw.rect(screen, self.colourNormal, [round(self.x + borderSize), round(self.y + borderSize),
                                                            round(self.width - (2 * borderSize)),
                                                            round(self.height - (2 * borderSize))])
-        textPrint(self.text, self.textSize, self.textColour, (self.x + (self.width / 2), self.y + (self.height / 2)))
+        textPrint(screen, self.text, self.textSize, self.textColour, (self.x + (self.width / 2), self.y + (self.height / 2)))
         if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[
             1] <= self.y + self.height and mouseDown == True:
             return True
@@ -59,9 +59,10 @@ class button:
             return False
 
 
-def textPrint(word, textSize, textColour, center, return_rect=None, outline=None):
+def textPrint(surface, word, textSize, textColour, center, return_rect=None, outline=None):
     """
     Prints the text on the screen. Can also delete the text by drawing the Rect of the text given.
+    :param surface: The surface on which the text will print
     :param word: What word will print
     :param textSize: How big is the text
     :param textColour: What color is the text. If delete is not None, the colour of the drawn Rect.
@@ -75,20 +76,20 @@ def textPrint(word, textSize, textColour, center, return_rect=None, outline=None
         text = font.render(word, True, outline[0])
         textRect = text.get_rect()
         textRect.center = (center[0] - outline[1], center[1] - outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
         textRect.center = (center[0] - outline[1], center[1] + outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
         textRect.center = (center[0] + outline[1], center[1] - outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
         textRect.center = (center[0] + outline[1], center[1] + outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
     text = font.render(word, True, textColour)
     textRect = text.get_rect()
     textRect.center = center
     if return_rect:
         return textRect
     else:
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
 
 
 def waitForInput(buttonList, keyEscape=None):

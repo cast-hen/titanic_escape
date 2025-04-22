@@ -266,8 +266,8 @@ class character:
         pygame.draw.rect(screen, 'black', pygame.Rect(20, 65, 210, 60))
         pygame.draw.rect(screen, 'red', pygame.Rect(25, 70, 200 * (self.hitpoints / self.maxHitpoints), 50))
 
-        textPrint(str(self.hitpoints), 40, 'white', (125, 95))
-        textPrint(self.name, 40, 'black', (125, 45), outline=('white', 2))
+        textPrint(screen,str(self.hitpoints), 40, 'white', (125, 95))
+        textPrint(screen,self.name, 40, 'black', (125, 45), outline=('white', 2))
 
         # Drawing the lives of the player in hearts
         for i in range(5):
@@ -278,7 +278,7 @@ class character:
 
 
         # Right section
-        textPrint("Level " + str(game_manager.level), 20, 'black', (WIDTH - 125, 25), outline=('white', 1))
+        textPrint(screen,"Level " + str(game_manager.level), 20, 'black', (WIDTH - 125, 25), outline=('white', 1))
         pygame.draw.rect(screen, 'black', pygame.Rect(WIDTH - 20 - 204, 33, 204, 20))
 
         progress_current_scene = (game_manager.Player_posx + 500) / 1866
@@ -319,28 +319,84 @@ class Game_Manager:
 
 game_manager = Game_Manager(1,1, -130, 450, time.time())
 
+
+def tutorial():
+    """
+    Shows the tutorial for the player. Movement and enemy levels explained.
+    :return: None
+    """
+    # Background
+    screen.blit(image_landscape, (0, 0))
+    # Titles
+    textPrint(screen,"Tutorial", 60, 'white', (WIDTH / 2, HEIGHT / 6))
+    textPrint(screen,"Controls", 40, 'white', (WIDTH / 4, HEIGHT / 4))
+    textPrint(screen,"Enemy rankings", 40, 'white', (WIDTH * 3 / 4, HEIGHT / 4))
+
+    # Controls
+    display_key_a = button(WIDTH / 4 - 130, HEIGHT / 2, 80, 80, 'black', '', "A", 'white', 45, 'white')
+    display_key_w = button(WIDTH / 4 - 40, HEIGHT / 2 - 100, 80, 80, 'black', '', "W", 'white', 45, 'white')
+    display_key_d = button(WIDTH / 4 + 50, HEIGHT / 2, 80, 80, 'black', '', "D", 'white', 45, 'white')
+    display_key_escape = button(WIDTH / 4 - 250, HEIGHT / 2 + 140, 80, 80, 'black', '', "Esc", 'white', 30, 'white')
+    display_key_a.check(False, screen)
+    display_key_w.check(False, screen)
+    display_key_d.check(False, screen)
+    display_key_escape.check(False, screen)
+    textPrint(screen,"Jump", 30, 'white', (WIDTH / 4 + 120, HEIGHT / 2 - 60))
+    textPrint(screen,"Go left", 30, 'white', (WIDTH / 4 - 210, HEIGHT / 2 + 40))
+    textPrint(screen,"Go right", 30, 'white', (WIDTH / 4 + 210, HEIGHT / 2 + 40))
+    textPrint(screen,"Pause menu", 30, 'white', (WIDTH / 4 - 50, HEIGHT / 2 + 180))
+
+    # Enemy rankings
+    image_lvls = pygame.transform.scale(pygame.image.load("resources/textures/lvls.png"), (135, 453))
+    screen.blit(image_lvls, (WIDTH * 3 / 4 + 50, HEIGHT / 4 + 50))
+    textPrint(screen,"Captain", 25, 'white', (WIDTH * 3 / 4 - 60, HEIGHT / 4 + 83))
+    textPrint(screen,"Chief engineer", 25, 'white', (WIDTH * 3 / 4 - 60, HEIGHT / 4 + 83 + 96))
+    textPrint(screen,"Second engineer", 25, 'white', (WIDTH * 3 / 4 - 60, HEIGHT / 4 + 83 + 2 * 96))
+    textPrint(screen,"Third engineer", 25, 'white', (WIDTH * 3 / 4 - 60, HEIGHT / 4 + 83 + 3 * 96))
+    textPrint(screen,"Fourth engineer", 25, 'white', (WIDTH * 3 / 4 - 60, HEIGHT / 4 + 83 + 4 * 96))
+    # Red arrow
+    surface_arrow = pygame.Surface((400, 30))
+    surface_arrow.fill('red')
+    textPrint(surface_arrow, "Increasing difficulty", 20, 'white', (175, 17))
+    surface_arrow = pygame.transform.rotate(surface_arrow, 270)
+    screen.blit(surface_arrow, (WIDTH * 3 / 4 + 200, HEIGHT / 4 + 100))
+    pygame.draw.polygon(screen, 'red', [(WIDTH * 3 / 4 + 180, HEIGHT / 4 + 100), (WIDTH * 3 / 4 + 250, HEIGHT / 4 + 100), (WIDTH * 3 / 4 + 215, HEIGHT / 4 + 50)])
+
+    # Waiting for pressing of the menu button
+    buttonMenu = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "Menu", 'white', 45, 'white')
+    waitForInput([buttonMenu])
+    screen.fill('black')
+
+
 def menu(name):
     """
-    Shows the menu screen
-    :return the pressed button (Start, Quit)
+    Shows the menu screen with the title of the game. With a button to go to tutorial() and a button to display the story.
+    :param name: The name of the player. Can be changed by typing.
+    :return the pressed button (Start, Quit) and the (new) name of the player.
     """
     def draw_scene():
         screen.blit(image_background, (0, 0))
         screen.blit(image_floor, (0, 490))
-        textPrint("Titanic: Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
+        textPrint(screen,"Titanic: Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
 
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
-                if possibleStates[i] == "typing":
-                    return True
-                else:
-                    return possibleStates[i], name
+                return possibleStates[i]
 
-    buttonPlaying = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "start", 'white', 50, 'white')
-    buttonQuit = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "quit", 'white', 50,'white')
+    def story():
+        screen.blit(image_landscape, (0, 0))
+        storyText = "Yippee"
+        textPrint(screen,storyText, 40, 'white', (WIDTH / 2, HEIGHT / 2), outline=('black', 2))
+        buttonMenu = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "Menu", 'white', 45,'white')
+        waitForInput([buttonMenu])
+
+    buttonPlaying = button(WIDTH / 2 - 150, HEIGHT / 2 - 100, 300, 80, 'grey', 'darkgrey', "Start", 'white', 45, 'white')
+    buttonTutorial = button(WIDTH / 2 - 150, HEIGHT / 2, 300, 80, 'grey', 'darkgrey', "How to play", 'white', 45, 'white')
+    buttonStory = button(WIDTH / 2 - 150, HEIGHT / 2 + 100, 300, 80, 'grey', 'darkgrey', "Story", 'white', 45, 'white')
+    buttonQuit = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "Quit", 'white', 45, 'white')
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
-    buttonList = [buttonPlaying, buttonQuit, buttonName]
-    possibleStates = ["Playing", "quit", "typing"]
+    buttonList = [buttonPlaying, buttonTutorial, buttonStory, buttonQuit, buttonName]
+    possibleStates = ["Playing", "Tutorial", "Story", "Quit", "Typing"]
     textCenter = (WIDTH // 5, HEIGHT // 2)
     typing = False
     cursor_time = time.time()
@@ -362,25 +418,28 @@ def menu(name):
                     returned_value = draw_scene()
                     if returned_value is not None:
                         return returned_value
-                    textPrint("Too long!", 40, 'red', textCenter, outline=('black', 3))
+                    textPrint(screen,"Too long!", 40, 'red', textCenter, outline=('black', 3))
                     pygame.display.flip()
                     time.sleep(1)
 
         returned_value = draw_scene()
-        if type(returned_value) == bool:
+        if returned_value == "Typing":
             typing = not typing
+        elif returned_value == "Tutorial":
+            tutorial()
+        elif returned_value == "Story":
+            story()
+        elif returned_value is not None: # Playing, Quit
+            return returned_value, name
 
-        elif returned_value is not None:
-            return returned_value
-
-        textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 3))
+        textPrint(screen,name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 3))
 
         # Drawing the flashing cursor.
         if typing and time.time() - cursor_time > 0.8:
             cursor_time = time.time()
             cursor_draw = not cursor_draw
         if typing and cursor_draw:
-            rect = textPrint(name, 40, 'white', (WIDTH / 5, HEIGHT / 2), return_rect=True)
+            rect = textPrint(screen,name, 40, 'white', (WIDTH / 5, HEIGHT / 2), return_rect=True)
             pygame.draw.line(screen, 'black', (textCenter[0] + rect.width / 2 + 8, textCenter[1] - rect.height / 2 - 2),(textCenter[0] + rect.width / 2 + 8, textCenter[1] + rect.height / 2 - 3), 9)
             pygame.draw.line(screen, 'white', (textCenter[0] + rect.width / 2 + 8, textCenter[1] - rect.height / 2),(textCenter[0] + rect.width / 2 + 8, textCenter[1] + rect.height / 2 - 6), 3)
         pygame.display.flip()
@@ -392,20 +451,29 @@ def Pause():
     :return the state the player should now be in
     """
     pauseTime = time.time()
-    buttonResume = button(WIDTH / 2 - 100, HEIGHT / 2, 200, 80, 'grey', 'darkgrey', "resume", 'white', 50,'white')
-    buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 125, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,'white')
+    buttonResume = button(WIDTH / 2 - 150, HEIGHT / 2, 300, 80, 'grey', 'darkgrey', "resume", 'white', 45,'white')
+    buttonTutorial = button(WIDTH / 2 - 150, HEIGHT / 2 + 100, 300, 80, 'grey', 'darkgrey', "How to play", 'white', 45, 'white')
+    buttonMenu = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "menu", 'white', 45,'white')
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
     pygame.Surface.set_alpha(dimSurface, 100)
-    pygame.Surface.blit(screen, dimSurface)
-    textPrint("Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
 
     currentTime = round((time.time() - game_manager.playTime), 2)
-    textPrint(str(currentTime) + " seconds playing", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300))
 
-    index = waitForInput([buttonResume, buttonMenu], True)
-    possibleStates = [None, "Menu", None]
-    game_manager.playTime += time.time() - pauseTime
-    return possibleStates[index]
+    currentScreen = screen.copy()
+
+    buttonList = [buttonResume, buttonTutorial, buttonMenu]
+    possibleStates = [None, "Tutorial", "Menu", None]
+    while True:
+        pygame.Surface.blit(screen, dimSurface)
+        textPrint(screen,"Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+        textPrint(screen,str(currentTime) + " seconds playing", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 335))
+        index = waitForInput(buttonList, True)
+        if possibleStates[index] == "Tutorial":
+            tutorial()
+            screen.blit(currentScreen, (0, 0))
+        else:
+            game_manager.playTime += time.time() - pauseTime
+            return possibleStates[index]
 
 
 def got_hurt(hitpoints, state=None):
@@ -459,8 +527,8 @@ def game_over(lives, state=None):
     screen.fill('red')
     dead = False
     if lives == 0:
-        textPrint("Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
-        textPrint("Play again?", 50, 'white', (WIDTH / 2, HEIGHT / 2))
+        textPrint(screen,"Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
+        textPrint(screen,"Play again?", 50, 'white', (WIDTH / 2, HEIGHT / 2))
         buttonYes = button(WIDTH / 2 - 150, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
         buttonNo = button(WIDTH / 2 + 25, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "NO", 'white', 40, 'white')
 
@@ -471,11 +539,11 @@ def game_over(lives, state=None):
             dead = True
         lives = 5
     else:
-        textPrint("You died", 100, 'white', (WIDTH / 2, HEIGHT / 2))
+        textPrint(screen,"You died", 100, 'white', (WIDTH / 2, HEIGHT / 2))
         message = "You have " + str(lives) + " lives left"
         if lives == 1:
             message = message[:-8] + "fe left"
-        textPrint(message, 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
+        textPrint(screen,message, 40, 'white', (WIDTH / 2, HEIGHT / 2 + 100))
         pygame.display.flip()
         time.sleep(2)
     return lives, state, dead
@@ -487,8 +555,8 @@ def LevelComplete():
     :return none:
     """
     screen.fill((0, 0, 0))
-    textPrint("Level Completed", 100, 'white', (WIDTH / 2, HEIGHT // 4))
-    textPrint("all hitpoints have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
+    textPrint(screen,"Level Completed", 100, 'white', (WIDTH / 2, HEIGHT // 4))
+    textPrint(screen,"all hitpoints have been restored", 80, 'white', (WIDTH / 2, HEIGHT // 4 + 300))
     pygame.display.update()
     time.sleep(3)
 
@@ -503,12 +571,12 @@ def end(name):
     screen.blit(image_landscape)
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
-    textPrint(name, 100, 'white', (WIDTH / 2, HEIGHT / 2 - 220) , outline=('black', 7))
-    textPrint("escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100), outline=('black', 7))
-    textPrint("Berend Sulman, Branko Opdam,", 40, 'white',(WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
-    textPrint("Maarten van Ammers & Stijn Zwart", 40, 'white',(WIDTH / 2, HEIGHT / 2 + 50), outline=('black', 2))
+    textPrint(screen,name, 100, 'white', (WIDTH / 2, HEIGHT / 2 - 220) , outline=('black', 7))
+    textPrint(screen,"escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100), outline=('black', 7))
+    textPrint(screen,"Berend Sulman, Branko Opdam,", 40, 'white',(WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
+    textPrint(screen,"Maarten van Ammers & Stijn Zwart", 40, 'white',(WIDTH / 2, HEIGHT / 2 + 50), outline=('black', 2))
     finalTime = round((time.time() - game_manager.playTime), 2)
-    textPrint("You finished in "+ str(finalTime) + " seconds", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300), outline=('black', 2))
+    textPrint(screen,"You finished in "+ str(finalTime) + " seconds", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300), outline=('black', 2))
 
     index = waitForInput([buttonMenu])
     possibleStates = ["Menu"]
