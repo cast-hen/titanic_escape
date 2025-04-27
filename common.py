@@ -314,7 +314,7 @@ class Game_Manager:
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Reset(self):
-        self.__init__(3, 26, -130, 450, time.time())
+        self.__init__(1, 1, -130, 450, time.time())
 
 
 game_manager = Game_Manager(1,1, -130, 450, time.time())
