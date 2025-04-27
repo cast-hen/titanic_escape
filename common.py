@@ -26,7 +26,7 @@ image_floating_ridge = pygame.transform.scale(pygame.image.load('resources/textu
 image_wall = pygame.image.load('resources/textures/background_wall.png').convert()
 image_fallingBlock1 = pygame.image.load('resources/textures/Falling_Debris1.png')
 image_fallingBlock2 = pygame.image.load('resources/textures/Falling_Debris2.png')
-image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/Lifeboat.png'), (605, 415))
+image_lifeboat = pygame.transform.scale(pygame.image.load('resources/textures/lifeboat.png'), (770, 305))
 texture_y_overlap = 30
 
 lifeImage = pygame.transform.scale(pygame.image.load("resources/textures/life.png"), (38,38))
@@ -314,7 +314,7 @@ class Game_Manager:
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
     def Reset(self):
-        self.__init__(1, 1, -130, 450, time.time())
+        self.__init__(3, 26, -130, 450, time.time())
 
 
 game_manager = Game_Manager(1,1, -130, 450, time.time())

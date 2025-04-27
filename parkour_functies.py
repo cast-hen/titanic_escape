@@ -247,7 +247,7 @@ cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObje
 cube26_1 = Objects(-14, 500, 614, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(600, 420, 260, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
-cube26_4 = Objects(940, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
+cube26_4 = Objects(840, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
 cube26_5 = Objects(940, 430, 10, 20, None, 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
@@ -317,7 +317,7 @@ def parkour(player, game_manager):
     InvincibilityFrames = 5
     pygame.mixer.stop()
     pygame.mixer.music.load("resources/sound/parjour song.wav")
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.play(-1)
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
 

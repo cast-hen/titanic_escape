@@ -155,7 +155,7 @@ def fight(enemy, player, screen):
     state = "turnPlayer"
     draw_scene("")
     pygame.mixer.stop()
-    pygame.mixer.music.load("resources/sound/battle_theme.mp3")
+    #pygame.mixer.music.load("resources/sound/battle_theme.mp3")
     pygame.mixer.music.play(-1)
     #the main fighting loop
     while fighting:
