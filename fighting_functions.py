@@ -414,6 +414,10 @@ def fight(enemy, player, screen):
                 else:
                     draw_scene("")
                     Fight_Text = ""
+            #draws the number of heals you have left
+            font = pygame.font.Font(mainFont, 40)
+            healAmmountText = font.render(str(playerHeals), True, (0, 0, 0))
+            screen.blit(healAmmountText, (int(width) - healAmmountText.get_rect().width - 15, int((height / 5) * 3) + 15))
             #various checks when the players turn is over
             if state == "turnEnemy":
                 #removes a turn if the player is enraged, resets if they are no longer enraged
