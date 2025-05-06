@@ -51,7 +51,7 @@ class button:
             pygame.draw.rect(screen, self.colourNormal, [round(self.x + borderSize), round(self.y + borderSize),
                                                            round(self.width - (2 * borderSize)),
                                                            round(self.height - (2 * borderSize))])
-        textPrint(self.text, self.textSize, self.textColour, (self.x + (self.width / 2), self.y + (self.height / 2)))
+        textPrint(screen, self.text, self.textSize, self.textColour, (self.x + (self.width / 2), self.y + (self.height / 2)))
         if self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[
             1] <= self.y + self.height and mouseDown == True:
             return True
@@ -59,14 +59,15 @@ class button:
             return False
 
 
-def textPrint(word, textSize, textColour, center, delete=None, outline=None):
+def textPrint(surface, word, textSize, textColour, center, return_rect=None, outline=None):
     """
     Prints the text on the screen. Can also delete the text by drawing the Rect of the text given.
+    :param surface: The surface on which the text will print
     :param word: What word will print
     :param textSize: How big is the text
     :param textColour: What color is the text. If delete is not None, the colour of the drawn Rect.
     :param center: location of center text in tuple
-    :param delete: True if job is to delete the text, fill to black
+    :param return_rect: If True the rectangle of the text will be returned.
     :param outline: tuple (outlineColour, outlineThickness). If not None there will be an outline around the text.
     :return: None
     """
@@ -75,72 +76,39 @@ def textPrint(word, textSize, textColour, center, delete=None, outline=None):
         text = font.render(word, True, outline[0])
         textRect = text.get_rect()
         textRect.center = (center[0] - outline[1], center[1] - outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
         textRect.center = (center[0] - outline[1], center[1] + outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
         textRect.center = (center[0] + outline[1], center[1] - outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
         textRect.center = (center[0] + outline[1], center[1] + outline[1])
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
     text = font.render(word, True, textColour)
     textRect = text.get_rect()
     textRect.center = center
-    if delete is not None:
-        pygame.draw.rect(screen, textColour, textRect)
+    if return_rect:
+        return textRect
     else:
-        screen.blit(text, textRect)
+        surface.blit(text, textRect)
 
 
-def waitForInput(buttonList, keyEscape=None, typeInfo=None):
+def waitForInput(buttonList, keyEscape=None):
     """
     Waits for input of the player in the form of pressing a button.
     :param buttonList: The buttons that are checked
     :param keyEscape: True if using the escape button is possible
-    :param typeInfo: If possible to type, tuple with (buttonToType, startText, textCenter, textSize)
     :return the index of the pressed button
     """
-    typing = False
-    if typeInfo is not None:
-        buttonToType, text, textCenter, textSize, outline = typeInfo
     while True:
         mouseDown = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseDown = True
-            if event.type == pygame.QUIT:
-                return "quit"
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE and keyEscape is not None:
-                    if typeInfo is None:
-                        return -1
-                    else:
-                        return -1, text
+                    return -1
 
-                if event.key == pygame.K_BACKSPACE and typing:
-                    textPrint(text, textSize, 'black', (textCenter[0], textCenter[1] - 3), True)
-                    text = text[:-1]
-                    textPrint(text, textSize, 'white', textCenter, outline=outline)
-                elif event.key == pygame.K_RETURN and typing:
-                    typing = False
-            elif event.type == pygame.TEXTINPUT and typing:
-                textPrint(text + "    ", textSize, 'black', (textCenter[0], textCenter[1] - 3), True)
-                if len(text) <= 10:
-                    text += event.text
-                else:
-                    textPrint("Too long!", textSize, 'red', textCenter)
-                    pygame.display.flip()
-                    time.sleep(1)
-                    textPrint("Too long!", textSize, 'black', (textCenter[0], textCenter[1] - 3), True)
-                textPrint(text, textSize, 'white', textCenter, outline=outline)
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
-                if typeInfo is None:
-                    return i
-                else:
-                    return i, text
-            pygame.display.update()
-
-        if typeInfo is not None:
-            if button.check(buttonToType, mouseDown, screen):
-                typing = not typing
+                return i
         pygame.display.flip()

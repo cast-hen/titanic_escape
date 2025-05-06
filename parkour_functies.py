@@ -247,7 +247,7 @@ cube25_6 = Objects(600, -800, 150, 150,'Falling Block', 1, 0, 0, [25],  MoveObje
 cube26_1 = Objects(-14, 500, 614, 367,'floor', 1, 0, 0, [26], "Collider")
 cube26_2 = Objects(600, 420, 260, 447,'floor', 1, 0, 0, [26], "Collider")
 cube26_3 = Objects(860, 452, 605, 415,'water', 1, 0, 0, [26], "Collider")
-cube26_4 = Objects(940, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
+cube26_4 = Objects(840, 390, 605, 415, 'lifeboat', 1, 0, 0, [26], "NonCollider")
 cube26_5 = Objects(940, 430, 10, 20, None, 1, 0, 0, [26], "Collider")
 cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [26], enemyBOSS_1)
 
@@ -280,7 +280,13 @@ platforms = [cube_LeftBorder,
              cube23_1, cube23_2, cube23_3, cube23_4, cube23_Enemy1, cube23_Enemy2,
              cube24_1, cube24_2, cube24_3, cube24_4, cube24_5, cube24_6, cube24_7, cube24_8, cube24_9, cube24_10, cube24_11, cube24_12,
              cube25_1, cube25_2, cube25_3, cube25_4, cube25_5, cube25_6,
-             cube26_1, cube26_3, cube26_4, cube26_2, cube26_5, cube26_Enemy1, cube_RisingWater]
+             cube26_1, cube26_3, cube26_4, cube26_2, cube26_5, cube26_Enemy1,
+             cube_RisingWater]
+
+# All the RespawnPos in a list.
+RespawnPos_list = [(270, 450), (-350, 350), (-300, 450), (-330, 50), (-380, 385), (-340, 350), (-340, 350), (0, 0),
+                   (-340, 350), (-340, 150), (-320, 400), (-340, 400), (-340, 400), (-300, 530), (-440, 600), (-440, 600), (0, 0),
+                   (-440, 500), (-300, 480), (-300, 480), (-300, 480), (-300, 480), (-300, 480), (-300, 600), (-300, 600), (-300, 600), (0, 0)]
 
 # Other contstants
 clock = pygame.time.Clock()
@@ -288,9 +294,10 @@ fps = 60
 jump_height = -25
 speed = 11
 
-def parkour(player, game_manager, startTime):
+def parkour(player, game_manager):
     """
     The entire code of the platforming part of the game
+    :param game_manager:
     :param player: The active player
     :return: the new state or the enemy that is encountered
     """
@@ -298,18 +305,19 @@ def parkour(player, game_manager, startTime):
     tick = 0
     running = True
     scene = game_manager.scene
-    mouseDown = False
-    CameraPosx = 0
-    RespawnPos = (-900, 450)
+    level = game_manager.level
+    RespawnPos = RespawnPos_list[scene - 1]
+
+    CameraPosx = -500
     playerObject.xpos = game_manager.Player_posx + 20
     playerObject.ypos = game_manager.Player_posy
     pos1 = (0, 0)
     CollisionGlitch = True
     TransitionGlitch = 0
-    InvisibilityFrames = 5
+    InvincibilityFrames = 5
     pygame.mixer.stop()
     pygame.mixer.music.load("resources/sound/parjour song.wav")
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.play(-1)
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
 
@@ -327,7 +335,7 @@ def parkour(player, game_manager, startTime):
 
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
-        #screen.fill((135, 206, 250))
+
         if not scene == 26:
             screen.blit(image_background, (-CameraPosx - 500, 0))
         else:
@@ -375,134 +383,59 @@ def parkour(player, game_manager, startTime):
                 playerObject.texture_type = player_idle
 
 
-        #spawnt alle objects
-
+        # Draws all the objects that are stationary.
         for platform in platforms:
-            if scene in platform.ObjectScene and not platform.texture_type == "water":
+            if scene in platform.ObjectScene and not type(platform.Type) == MoveObject:
                 platform.draw(screen, CameraPosx)
-                if type(platform.Type) == MoveObject:
-                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
-                elif type(platform.Type) == character:
+                if type(platform.Type) == character:
                     if not platform.Type.alive:
                         platforms.remove(platform)
-        if scene == 1:
-            RespawnPos = (270, 450)
-            playerObject.draw(screen, CameraPosx)
 
-        elif scene == 2:
-            RespawnPos = (-350, 350)
-            playerObject.draw(screen, CameraPosx)
+        # Draws the player (the rat).
+        playerObject.draw(screen, CameraPosx)
 
-        elif scene == 3:
-            RespawnPos = (-300, 450)
-            playerObject.draw(screen, CameraPosx)
+        # Draws the extended 3D part on the right side of the platforms.
+        for platform in platforms:
+            if scene in platform.ObjectScene:
+                platform.draw_3D_extension(screen, CameraPosx)
+        # Draws the moving objects like falling debris and water.
+        for platform in platforms:
+            if scene in platform.ObjectScene and type(platform.Type) == MoveObject:
+                platform.draw(screen, CameraPosx)
+                platform.xpos, platform.ypos = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
 
-        elif scene == 4:
-            RespawnPos = (-330, 50)
-            playerObject.draw(screen, CameraPosx)
+        # Draws the info of the player (upper corners).
+        player.displayInfo(level, scene)
 
-        elif scene == 5:
-            RespawnPos = (-380, 385)
-            playerObject.draw(screen, CameraPosx)
 
-        elif scene == 6:
-            RespawnPos = (-340, 350)
-            playerObject.draw(screen, CameraPosx)
-
-        elif scene == 7:
-            RespawnPos = (-340, 350)
-            playerObject.draw(screen, CameraPosx)
-
-        elif scene == 8:
+        if scene == 8:
             LevelComplete()
             scene += 1
+            level += 1
             player.maxHitpoints = 120
             player.hitpoints = player.maxHitpoints
             player.heals = 5
 
-        elif scene == 9:
-            RespawnPos = (-340, 350)
-            playerObject.draw(screen, CameraPosx)
-
-        elif scene == 10:
-            RespawnPos = (-340, 150)
-            playerObject.draw(screen, CameraPosx)
-
-        elif scene == 11:
-            RespawnPos = (-320, 400)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 12:
-            RespawnPos = (-340, 400)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 13:
-            RespawnPos = (-340, 300)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 14:
-            RespawnPos = (-300, 530)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 15:
-            RespawnPos = (-440, 600)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 16:
-            RespawnPos = (-440, 600)
-            playerObject.draw(screen, CameraPosx)
         elif scene == 17:
             LevelComplete()
             scene += 1
+            level += 1
             player.maxHitpoints = 150
             player.hitpoints = player.maxHitpoints
             player.heals = 8
             cube_RisingWater.ypos = 850
-        elif scene == 18:
-            RespawnPos = (-440, 500)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 19:
-            RespawnPos = (-300, 480)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 20:
-            RespawnPos = (-300, 480)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 21:
-            RespawnPos = (-300, 480)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 22:
-            RespawnPos = (-300, 480)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 23:
-            RespawnPos = (-300, 480)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 24:
-            RespawnPos = (-300, 600)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 25:
-            RespawnPos = (-300, 600)
-            playerObject.draw(screen, CameraPosx)
-        elif scene == 26:
-            RespawnPos = (-300, 600)
-            playerObject.draw(screen, CameraPosx)
-
 
         elif scene == 27:
-            end(player.name, startTime)
+            end(player.name)
             return "Menu"
 
-        # Draws the extended 3D part of the platforms
-        for platform in platforms:
-            if scene in platform.ObjectScene and not platform.texture_type == "water":
-                platform.draw_3D_extension(screen, CameraPosx)
-            if scene in platform.ObjectScene and platform.texture_type == "water":
-                platform.draw(screen, CameraPosx)
-                if type(platform.Type) == MoveObject:
-                    (platform.xpos, platform.ypos) = platform.Type.Move((int(platform.xpos), int(platform.ypos)), platform.Type.Speed)
 
-
-        player.displayInfo()
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
 
         # maakt de speler dood
         for Collider in Colliders:
-            if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvisibilityFrames == 0:
+            if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvincibilityFrames == 0:
 
                 playerObject.xpos = RespawnPos[0]
                 playerObject.ypos = RespawnPos[1]
@@ -512,7 +445,7 @@ def parkour(player, game_manager, startTime):
                 else:
                     player.hitpoints, state, dead = got_hurt(player.hitpoints)
                 CollisionGlitch = False
-                InvisibilityFrames += 50
+                InvincibilityFrames += 50
                 TransitionGlitch = 5
                 if dead:
                     return "dead"
@@ -523,9 +456,9 @@ def parkour(player, game_manager, startTime):
 
             #returns enemy waarmee je collide
             if type(Collider) == character:
-                if Collider.alive == True and InvisibilityFrames == 0:
+                if Collider.alive == True and InvincibilityFrames == 0:
                     return Collider
-        #print(InvisibilityFrames)
+        #print(InvincibilityFrames)
 
 
         # verandert camera position
@@ -537,14 +470,14 @@ def parkour(player, game_manager, startTime):
             CameraPosx = R_border - 500
 
         # linker scene transition
-        #if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvisibilityFrames == 0:
+        #if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvincibilityFrames == 0:
          #   playerObject.xpos = R_border + 700
          #   CameraPosx = R_border - 500
          #   playerObject.ypos -= 30
          #   scene -= 1
          #   keys = {"left": False, "right": False, "up": False}
          #   CollisionGlitch = False
-         #   InvisibilityFrames = 25
+         #   InvincibilityFrames = 25
         #rechter scene transition
         if playerObject.xpos > R_border + 800:
             TransitionGlitch = 5
@@ -552,10 +485,11 @@ def parkour(player, game_manager, startTime):
             playerObject.ypos -= 30
             CameraPosx = L_border - 500
             scene += 1
+            RespawnPos = RespawnPos_list[scene - 1]
             cube_RisingWater.ypos = 800
             keys = {"left": False, "right": False, "up": False}
             CollisionGlitch = False
-            InvisibilityFrames = 25
+            InvincibilityFrames = 25
             if scene in [19, 20, 22, 23, 25, 26]:
                 playerObject.ypos = 500
 
@@ -571,7 +505,7 @@ def parkour(player, game_manager, startTime):
                     print(pos1[0], pos1[1], mouse[0] + CameraPosx - pos1[0], mouse[1] - pos1[1])
                     pos1 = (0, 0)
 
-            # movement
+            # Key press detection
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_d:
                     keys["right"] = True
@@ -585,25 +519,23 @@ def parkour(player, game_manager, startTime):
                         return "Menu"
                     else:
                         keys = {"left": False, "right": False, "up": False}
-                    screen.fill((0, 0, 0))
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_d:
                     keys["right"] = False
                 elif event.key == pygame.K_a:
-
                     keys["left"] = False
                 elif event.key == pygame.K_w:
                     keys["up"] = False
 
 
-            if keys["up"] == True and playerObject.on_ground:
-                playerObject.yspeed = jump_height
+        if keys["up"] == True and playerObject.on_ground:
+            playerObject.yspeed = jump_height
 
         pygame.display.flip()
 
-        if InvisibilityFrames > 0:
-            InvisibilityFrames -= 1
+        if InvincibilityFrames > 0:
+            InvincibilityFrames -= 1
         if TransitionGlitch > 0:
             TransitionGlitch -= 1
         if tick < 16:
@@ -611,4 +543,4 @@ def parkour(player, game_manager, startTime):
         else:
             tick = 0
 
-        game_manager.Set(scene, playerObject.xpos, playerObject.ypos)
+        game_manager.Set(level, scene, playerObject.xpos, playerObject.ypos)
