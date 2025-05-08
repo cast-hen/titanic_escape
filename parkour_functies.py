@@ -151,7 +151,7 @@ cube13_8 = Objects(888, 0, 120, 120, 'Falling Block', 1, 0, 0, [13], MoveObject(
 cube13_9 = Objects(555, 500, 120, 120, 'Falling Block', 1, 0, 0, [13], MoveObject((555, -100), (555, 2500), 0.7, 10, False, 0))
 
 cube14_15_1 = Objects(-500, 650, 2000, 500, 'floor', 1, 0, 0, [14,15], "Collider")
-cube14_2 = Objects(-200, 190, 2000, 185, 'floor', 1, 0, 0, [14], "Collider")
+cube14_2 = Objects(-235, 225, 2000, 150, 'floor', 1, 0, 0, [14], "Collider")
 cube14_3 = Objects(-500, 0, 300, 375, 'wall', 1, 0, 0, [14], "Collider")
 cube14_4 = Objects(1100, 0, 300, 375, 'wall', 1, 0, 0, [14], "Collider")
 cube14_Enemy1 = Objects(69, cube14_15_1.ypos - enemy_paste_height, 100, enemy_paste_height, 'orange', 1, 0, 0, [14], enemyWillem_Henk_1)
@@ -190,7 +190,7 @@ cube19_20_1 = Objects(-500, 600, 630, 200, 'floor', 1, 0, 0, [19, 20], "Collider
 cube19_2 = Objects(-500, 0, 414, 380, 'wall', 1, 0, 0, [19], "Collider")
 cube19_4 = Objects(-106, 0, 651, 184, 'wall', 1, 0, 0, [19], "Collider")
 cube19_3 = Objects(130, 400, 264, 400, 'pillar', 1, 0, 0, [19], "Collider")
-cube19_5 = Objects(394, 520, 471, 268, 'floor', 1, 0, 0, [19], "Collider")
+cube19_5 = Objects(394, 520, 440, 268, 'floor', 1, 0, 0, [19], "Collider")
 cube19_6 = Objects(533, 0, 192, 407, 'wall', 1, 0, 0, [19], "Collider")
 cube19_7 = Objects(725, 0, 700, 150, 'wall', 1, 0, 0, [19], "Collider")
 cube19_8 = Objects(834, 300, 600, 364, 'floor', 1, 0, 0, [19], "Collider")

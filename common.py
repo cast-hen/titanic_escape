@@ -402,7 +402,7 @@ def menu(name):
                      "only some were rescued. However worst of all, none of the rats abort\n"
                      "the Titanic survived. Whilst the ship was falling apart, roofs coming\n"
                      "down and water filling up the ship, most of the rats scrambled to get\n"
-                     "to high ground. Only one singular rat was smart enough to make a sprint\n "
+                     "to high ground. Only one singular rat was smart enough to make a sprint\n"
                      "to the lifeboats, sadly the crew stopped this rat. This is where our\n"
                      "game comes in, you will be playing as the one smart rat and fighting\n"
                      "your way to the lifeboat.")
