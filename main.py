@@ -1,7 +1,7 @@
 from parkour_functies import *
 from common import *
 import pygame
-
+# Yippee
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
