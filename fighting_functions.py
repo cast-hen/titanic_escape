@@ -39,29 +39,30 @@ def fight(enemy, player, screen):
     def draw_scene(Text):
         """
         Draws the fighting scene
+        :param Text: the message of the action on top of the screen
         return: none
         """
-        #draws the background
+        # Draws the background
         screen.blit(image_background, (0, 0))
         mouse_pillar.draw(screen, 0)
         mouse_pillar.draw_3D_extension(screen, 0)
         enemy_pillar.draw(screen, 0)
         enemy_pillar.draw_3D_extension(screen, 0)
-        #draws the player and the enemy
+        # Draws the player and the enemy
         screen.blit(player.image, (250 - (player.image.width / 2), height / 5 * 3 - player.image.height - 10))
         enemy_image = pygame.transform.scale(enemy.image, (129, 420))
         screen.blit(enemy_image, (1050 - (enemy_image.width / 2), height / 5 * 4.35 - enemy_image.height - 10))
-        #draws the name of the player and enemy with a border
+        # Draws the name of the player and enemy with a border
         textPrint(screen, player.name, 40, 'black', (250, 150), outline=('white', 2))
         textPrint(screen, enemy.name, 40, 'black', (1050, 150), outline=('white', 2))
-        #draws the healthbars
+        # Draws the healthbars
         pygame.draw.rect(screen, 'black', pygame.Rect(145, 175, 210, 60))
         pygame.draw.rect(screen, 'black', pygame.Rect(945, 175, 210, 60))
         pygame.draw.rect(screen, 'red', pygame.Rect(150, 180, 200 * (playerCurrentHealth / player.maxHitpoints), 50))
         pygame.draw.rect(screen, 'red', pygame.Rect(950, 180, 200 * (enemyCurrentHealth / enemy.hitpoints), 50))
         textPrint(screen, str(playerCurrentHealth), 40, 'white', (250, 205))
         textPrint(screen, str(enemyCurrentHealth), 40, 'white', (1050, 205))
-        #draws the text on the top of the screen
+        # Draws the text on the top of the screen
         textPrint(screen, Text, 70, 'black', (width / 2, 100), outline=('white', 2))
 
     def scrollText(text, colour, location, size, scrollTime, Fight_Text):
@@ -75,15 +76,15 @@ def fight(enemy, player, screen):
         Fight_Text: the text at the top middle of the screen
         return: none
         """
-        #sets the text to be scrolled
+        # Sets the text to be scrolled
         font = pygame.font.Font(mainFont, size)
         toScrollText = font.render(text, True, colour)
-        #defines the x value depending on the given location
+        # Defines the x value depending on the given location
         if location == "player":
             x = 400
         elif location == "enemy":
             x = 900 - toScrollText.get_rect().width
-        #for loop where the text is slowly moved upwards
+        # For loop where the text is slowly moved upwards
         for i in range(0, scrollTime):
             timeBegin = time.time()
             draw_scene(Fight_Text)
@@ -92,7 +93,7 @@ def fight(enemy, player, screen):
             waitTime = 0.01 - (time.time() - timeBegin)
             if waitTime > 0:
                 time.sleep(waitTime)
-        #resets the screen
+        # Resets the screen
         draw_scene(Fight_Text)
         pygame.display.update()
     def blocked(location):
@@ -101,17 +102,17 @@ def fight(enemy, player, screen):
         location: a string, either "player or "enemy" of which character blocked the move
         return: none
         """
-        #sets the blocked text to be scrolled
+        # Sets the blocked text to be scrolled
         font = pygame.font.Font(mainFont, 40)
         blockedText = font.render("blocked", True, (100, 100, 255))
         blockedImage = pygame.transform.scale(pygame.image.load('resources/textures/move_block_sideProfile.png'),(120, 260))
-        #sets the x value and rectangle position depending on the given location
+        # Sets the x value and rectangle position depending on the given location
         if location == "player":
             x = 400
         elif location == "enemy":
             x = 900 - 120
             blockedImage = pygame.transform.flip(blockedImage, True, False)
-        #for loop where the text is scrolled upwards
+        # For loop where the text is scrolled upwards
         for i in range(0, 20):
             timeBegin = time.time()
             draw_scene("")
@@ -124,7 +125,7 @@ def fight(enemy, player, screen):
         time.sleep(0.5)
         draw_scene("The attack was blocked")
         pygame.display.update()
-    #defining the variables before the fight starts
+    # Defining the variables before the fight starts
     width = screen.get_width()
     height = screen.get_height()
     mouse_pillar = Objects(125, 400, 250, 500, "pillar", 1, 0, 0, [], "")
@@ -154,10 +155,11 @@ def fight(enemy, player, screen):
     fighting = True
     state = "turnPlayer"
     draw_scene("")
+    # Music
     pygame.mixer.stop()
-    #pygame.mixer.music.load("resources/sound/battle_theme.mp3")
+    pygame.mixer.music.load("resources/sound/battle_theme.mp3")
     pygame.mixer.music.play(-1)
-    #the main fighting loop
+    # The main fighting loop
     while fighting:
         draw_scene("Its your turn")
         Fight_Text = "Its your turn"
@@ -644,7 +646,9 @@ def fight(enemy, player, screen):
 def chooseNewAttack(allMovesList, player, background_surface):
     """
     Displays 3 moves the player can choose from to add to their deck
-    :param options: list of 3 moves the player can choose from
+    :param allMovesList: list of all the possible moves
+    :param player: the player, used for already chosen moves in moveset
+    :param background_surface: the background. This is a copy of the parkour screen.
     :return: the chosen move or the new state
     """
     allMoves = allMovesList

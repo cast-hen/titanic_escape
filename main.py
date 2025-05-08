@@ -26,9 +26,10 @@ while running:
     if state == "Menu":
         if playerName != "Rat":
             playerName = player.name
+        # Resetting
         player = character(playerName, 5,
                            pygame.transform.scale(pygame.image.load('resources/textures/rat_idle.png'), (200, 80)), 100,
-                           100, [devTestInstakill, comboPunch], [
+                           100, [punch, comboPunch], [
                                item("Full Restore", 2),
                                item("Bomb", 3),
                                item("Poison bottle", 2),
@@ -40,6 +41,7 @@ while running:
             if not(enemyList[i] in platforms):
                 enemyList[i].Type.alive = True
                 platforms.append(enemyList[i])
+        # Menu
         state, player.name = menu(player.name)
         playerName = player.name
         game_manager.Reset()

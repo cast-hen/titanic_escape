@@ -1,7 +1,7 @@
 import pygame
 import time
 import random
-from button_code import *
+from essential_functions import *
 
 
 class character:

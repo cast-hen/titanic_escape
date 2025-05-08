@@ -1,7 +1,6 @@
 from fighting_functions import *
 from common import *
 import pygame
-import random
 
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
@@ -38,8 +37,10 @@ enemyBOSS_1 = character("Captain Edward Smith", 1, pygame.transform.scale(pygame
     item("Full Restore", 1),
     item("Bomb", 2)
 ], 2, True, False)
-#All objects
+
+# Object of the player
 playerObject = Objects(game_manager.Player_posx, game_manager.Player_posy, 88, 32, pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (88, 32)), 2, 0, 0, [1], "Player")
+# Player textures
 player_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_walk.png"), (playerObject.width, playerObject.height))
 player_Left = pygame.transform.flip(player_Right, True, False)
 player_Jump_Right = pygame.transform.scale(pygame.image.load("resources/textures/rat_jump.png"), (playerObject.width, playerObject.height))
@@ -47,11 +48,12 @@ player_Jump_Left =  pygame.transform.flip(player_Jump_Right, True, False)
 player_idle = pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (playerObject.width, playerObject.height))
 player_idle_Left = pygame.transform.flip(player_idle, True, False)
 
-#No left border transition anymore? Then here rectangle to stop player going there.
+# No left border transition anymore? Then here rectangle to stop player going there.
 cube_LeftBorder = Objects(-501, 0, 1, HEIGHT, 'black', 1, 0, 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], "Collider")
 
 enemy_paste_height = enemy_image_size[1] # height of enemy image. Used for placement
 # For every enemy: ypos = ypos of cube it's standing on - enemy_paste_height
+# Every object
 cube1_1 = Objects(-300, 490, 700, 1500, 'floor', 1, 0, 0, [1], "Collider")
 cube1_2 = Objects(400, 580, 433, 950, 'floor', 1, 0, 0, [1], "Collider")
 cube1_3 = Objects(833, 428, 600, 2430, 'floor3D', 1, 0, 0, [1], "Collider")
@@ -206,7 +208,7 @@ cube21_4 = Objects(270, 470, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_5 = Objects(650, 390, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_6 = Objects(1020, 450, 100, 445, 'pillar', 1, 0, 0, [21], "Collider")
 cube21_7 = Objects(1241, 244, 200, 523,'floor', 1, 0, 0, [21], "Collider")
-#yippee - tot hier objects.texture_type hernoemd en rect aangepast
+
 cube22_1 = Objects(-500, 0, 392, 415,'wall', 1, 0, 0, [22], "Collider")
 cube22_2 = Objects(263, 406, 469, 361,'floor', 1, 0, 0, [22], "Collider")
 cube22_3 = Objects(920, 406, 100, 500,'pillar', 1, 0, 0, [22], "Collider")
@@ -254,7 +256,7 @@ cube26_Enemy1 = Objects(701, cube26_2.ypos - enemy_paste_height, 100, enemy_past
 cube_RisingWater = Objects(-500, 800, 2000, 750, 'water', 1, 0, 0, [18, 19, 21, 22, 24, 25], MoveObject((800, 1000), (800, 0), 0.1, 10, False, 0))
 enemyList = [cube1_Enemy1, cube3_Enemy1, cube4_Enemy1, cube6_Enemy1, cube9_Enemy1, cube10_Enemy1, cube14_Enemy1, cube14_Enemy2, cube16_Enemy1, cube20_Enemy1, cube20_Enemy2, cube23_Enemy1, cube23_Enemy2, cube26_Enemy1]
 
-# voeg hier nieuwe platformen to zodat ze collision krijgen.
+# Add here the new platforms that require collision.
 platforms = [cube_LeftBorder,
              cube1_2, cube1_1, cube1_3, cube1_4, cube1_Enemy1,
              cube2_1, cube2_1, cube2_2, cube2_3, cube2_4, cube2_5,
@@ -296,7 +298,7 @@ speed = 11
 
 def parkour(player, game_manager):
     """
-    The entire code of the platforming part of the game
+    The entire code of the platforming part of the game.
     :param game_manager:
     :param player: The active player
     :return: the new state or the enemy that is encountered
@@ -315,13 +317,14 @@ def parkour(player, game_manager):
     CollisionGlitch = True
     TransitionGlitch = 0
     InvincibilityFrames = 5
+    # Music
     pygame.mixer.stop()
     pygame.mixer.music.load("resources/sound/parjour song.wav")
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(-1)
     PlayerPos2 = (playerObject.xpos, playerObject.ypos)
     PlayerPos1 = PlayerPos2
 
-    # random ahhh movement fix, couldn't bother om een betere oplossig te vinden.
+    # Allows for constant movement
     keys = {"left": False, "right": False, "up": False}
 
     L_border = 0
@@ -336,6 +339,7 @@ def parkour(player, game_manager):
         mouse = pygame.mouse.get_pos()
         clock.tick(fps)
 
+        # Draws the background, scene 26 has a different background.
         if not scene == 26:
             screen.blit(image_background, (-CameraPosx - 500, 0))
         else:
@@ -346,21 +350,17 @@ def parkour(player, game_manager):
 
         #Collision glitch fix
         if CollisionGlitch:
-
             if Afstand(PlayerPos1, PlayerPos2) < 50 or Afstand(PlayerPos1, PlayerPos2) > 500 :
                 PlayerPos1 = PlayerPos2
             else:
-
                 (playerObject.xpos, playerObject.ypos) = PlayerPos1
-
-
             PlayerPos2 = (playerObject.xpos, playerObject.ypos)
-
         else:
             PlayerPos2 = (playerObject.xpos, playerObject.ypos)
             PlayerPos1 = PlayerPos2
             CollisionGlitch = True
 
+        # Makes the animation for the texture of the player
         if playerObject.yspeed != 0 and playerObject.xspeed < 0:
             playerObject.texture_type = player_Jump_Left
         elif playerObject.yspeed != 0 and playerObject.xspeed > 0:
@@ -394,7 +394,7 @@ def parkour(player, game_manager):
         # Draws the player (the rat).
         playerObject.draw(screen, CameraPosx)
 
-        # Draws the extended 3D part on the right side of the platforms.
+        # Draws the extended 3D part on the right side of the platforms above the player.
         for platform in platforms:
             if scene in platform.ObjectScene:
                 platform.draw_3D_extension(screen, CameraPosx)
@@ -407,7 +407,7 @@ def parkour(player, game_manager):
         # Draws the info of the player (upper corners).
         player.displayInfo(level, scene)
 
-
+        # Special scenes
         if scene == 8:
             LevelComplete()
             scene += 1
@@ -433,7 +433,7 @@ def parkour(player, game_manager):
 
         playerObject.xspeed = speed * (keys["right"] - keys["left"])
 
-        # maakt de speler dood
+        # Makes the player die
         for Collider in Colliders:
             if (playerObject.ypos >= HEIGHT - playerObject.height - 10 or Collider == "Death" or type(Collider) == MoveObject) and InvincibilityFrames == 0:
 
@@ -461,24 +461,14 @@ def parkour(player, game_manager):
         #print(InvincibilityFrames)
 
 
-        # verandert camera position
+        # Changes camera position
         if L_border <= playerObject.xpos <= R_border:
             CameraPosx = playerObject.xpos - 500
         elif L_border >= playerObject.xpos:
             CameraPosx = L_border - 500
         elif playerObject.xpos >= R_border:
             CameraPosx = R_border - 500
-
-        # linker scene transition
-        #if L_border - 500 > playerObject.xpos and not scene  in [1, 10, 19] and InvincibilityFrames == 0:
-         #   playerObject.xpos = R_border + 700
-         #   CameraPosx = R_border - 500
-         #   playerObject.ypos -= 30
-         #   scene -= 1
-         #   keys = {"left": False, "right": False, "up": False}
-         #   CollisionGlitch = False
-         #   InvincibilityFrames = 25
-        #rechter scene transition
+        # Right scene transition
         if playerObject.xpos > R_border + 800:
             TransitionGlitch = 5
             playerObject.xpos = -450
@@ -519,7 +509,7 @@ def parkour(player, game_manager):
                         return "Menu"
                     else:
                         keys = {"left": False, "right": False, "up": False}
-
+            # Deactivating the pressed keys
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_d:
                     keys["right"] = False
@@ -528,7 +518,7 @@ def parkour(player, game_manager):
                 elif event.key == pygame.K_w:
                     keys["up"] = False
 
-
+        # Jump
         if keys["up"] == True and playerObject.on_ground:
             playerObject.yspeed = jump_height
 
@@ -544,3 +534,4 @@ def parkour(player, game_manager):
             tick = 0
 
         game_manager.Set(level, scene, playerObject.xpos, playerObject.ypos)
+    return None

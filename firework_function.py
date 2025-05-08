@@ -7,7 +7,6 @@ pygame.init()
 screen = pygame.display.set_mode((1366, 668))
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
-word = "Thanks for Playing!"
 fontSize = 120
 colourGradients = [(224, 78, 31), (255, 186, 48), (255, 208, 114), (255, 251, 129), (184, 190, 184), (207, 213, 206)]
 endColour = (2, 2, 2)
@@ -17,10 +16,22 @@ pointDensity = 6  # Higher values mean less particles thus faster
 maxFireworkPhase = 25
 pointVelocity = 4 # pixels per frame
 explosionType = 1 # 0: Front point is the biggest. - 1: Points have random sizes
-extraCharWidth = 5
+extraCharWidth = 5 # The space between the letters
 
 def fireworkWord(word, fontSize):
+    """
+    Displays a word in the shape of an exploding firework.
+    :param word: the word that can be read in the firework
+    :param fontSize: the size of the word
+    :return: None
+    """
     def centerOfLetters(textFontSize, text):
+        """
+        Calculates the centers of every letter
+        :param textFontSize: the size of the letters
+        :param text: the text
+        :return: List with all the text centers
+        """
         textCenters = [0]  # center of letters
         charWidthList = character(textFontSize, (1, 1, 1), text)
         for i in range(len(text)):
@@ -37,6 +48,14 @@ def fireworkWord(word, fontSize):
 
 
     def character(textFontSize, colour, text, textHeight=None):
+        """
+        Calculates the width of a character and displays each character on the screen.
+        :param textFontSize: the size of the text
+        :param colour: the colour of the text
+        :param text: the word
+        :param textHeight: height of the text
+        :return: Every width of the characters in a list
+        """
         charWidthList = []
         font = pygame.font.Font('freesansbold.ttf', textFontSize)
         if not colour == (1, 1, 1):
@@ -56,6 +75,12 @@ def fireworkWord(word, fontSize):
 
 
     def findPoints(centers, charWidthList):
+        """
+        Finds the points in the different characters. Uses the difference between actual colour and backgroundcolour.
+        :param centers: the centers of the characters. Used for to describe the boundaries of the search area
+        :param charWidthList: the widths of the characters. Used for to describe the boundaries of the search area
+        :return: a list with all the points and the number of points (just for fun)
+        """
         pointList = []
         numberOfPoints = 0
         for index in range(len(word)):
@@ -73,6 +98,12 @@ def fireworkWord(word, fontSize):
 
 
     def draw(pointList, centers):
+        """
+        Draw the firework in its different phases
+        :param pointList: the points on which the fireworks should end
+        :param centers: the centers of the characters
+        :return: None
+        """
         if fireworkPhase + len(colourGradients) >= maxFireworkPhase:
             phase = maxFireworkPhase - len(colourGradients) - 1
         else:

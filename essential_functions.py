@@ -90,6 +90,7 @@ def textPrint(surface, word, textSize, textColour, center, return_rect=None, out
         return textRect
     else:
         surface.blit(text, textRect)
+        return None
 
 
 def waitForInput(buttonList, keyEscape=None):

@@ -1,6 +1,6 @@
 import pygame
 import math
-from button_code import *
+from essential_functions import *
 from firework_function import *
 
 screen = pygame.display.set_mode((1366, 668), pygame.RESIZABLE)

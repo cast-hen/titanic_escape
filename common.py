@@ -1,4 +1,4 @@
-from button_code import *
+from essential_functions import *
 from firework_function import *
 import pygame
 import time
@@ -9,7 +9,7 @@ tick = 0
 screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 WIDTH, HEIGHT = pygame.display.get_window_size()
 
-#Textures
+# Textures
 image_landscape = pygame.transform.scale(pygame.image.load('resources/textures/nighty_landscape.jpg').convert(), (1366, 1558))
 image_landscape_mirror = pygame.transform.flip(image_landscape, True, False)
 
@@ -78,7 +78,7 @@ class MoveObject:
 class Objects:
     def __init__(self, xpos, ypos, width, height, texture_type, mass, xspeed, yspeed, ObjectScene, Type):
         """
-        Create an object
+        Creates an object that can have collision and a specific texture, size and location.
         :param xpos: the x position - int
         :param ypos: the y position - int
         :param width: the width of the object - int
@@ -87,11 +87,10 @@ class Objects:
         :param mass: change how fast the player falls - float
         :param xspeed: the speed in x direction - int
         :param yspeed: the speed in y direction - int
-        :param ObjectScene: the scene the object appeares in - int
+        :param ObjectScene: the scene the object appears in - int
         :param Type: The type of block - string or object type
         :return: None
         """
-
         self.xpos = xpos
         self.ypos = ypos
         self.width = width
@@ -105,7 +104,7 @@ class Objects:
         self.ObjectScene = ObjectScene
         self.Type = Type
         self.surface = None
-
+        # Assigns the textures to the right type of objects
         if self.texture_type == "floor3D" or self.texture_type == "floor":
             self.surface = pygame.Surface((self.width, self.height + texture_y_overlap))
             self.surface.blit(image_floor3D, (0, 0))
@@ -134,7 +133,7 @@ class Objects:
 
     def update_pos(self, platforms, CameraPosx, scene):
         """
-        updates the position of all objects based on the camera position
+        Updates the position of all objects based on the camera position.
         :param platforms: a list of all the platforms - list[platforms]
         :param CameraPosx: the position of the camera - int
         :param scene: the current scene. - int
@@ -161,7 +160,7 @@ class Objects:
         self.Rect.topleft = (self.xpos - CameraPosx, self.ypos)
         self.on_ground = False
 
-        # platformcollision
+        # platform collision
         for platform in platforms:
             if scene in platform.ObjectScene:
                 if self.Rect.colliderect(platform.Rect) and platform.Type != "NonCollider":
@@ -188,28 +187,28 @@ class Objects:
 
     def draw(self, screen, CameraPosx):
         """
-        draws the scene
+        Draws the texture of the object on the screen
         :param CamerPosx: the position of the camera - int
         :param screen: the screen everything gets drawn on - int
         :return: None
         """
-        if type(self.texture_type) == pygame.Surface: #player, wall
+        if type(self.texture_type) == pygame.Surface: # player, wall
             self.Rect = screen.blit(self.texture_type, (self.xpos - CameraPosx, self.ypos))
-        elif type(self.Type) == character: #enemies
+        elif type(self.Type) == character: # enemies
             self.Rect = screen.blit(self.Type.image, (self.xpos - CameraPosx, self.ypos))
-        elif self.surface is not None: #platforms
+        elif self.surface is not None: # platforms
             if self.texture_type == "wall" or self.texture_type == "water":
                 screen.blit(self.surface, (self.xpos - CameraPosx, self.ypos))
             else:
                 screen.blit(self.surface, (self.xpos - CameraPosx,  self.ypos - texture_y_overlap))
                 screen.blit(image_floor3D_right_2, (self.xpos - CameraPosx + self.width - 30, self.ypos - texture_y_overlap))
             self.Rect = (self.xpos - CameraPosx, self.ypos, self.width, self.height)
-        elif self.texture_type != "lifeboat": #platforms with no texture
+        elif self.texture_type != "lifeboat": # platforms with no texture
             self.Rect = pygame.draw.rect(screen, self.texture_type,(self.xpos - CameraPosx, self.ypos, self.width, self.height))
 
     def draw_3D_extension(self, screen, CameraPosx):
         """
-        Gives all objects a texture
+        Draws the 3D extension of some of the objects. This will be drawn on top of the player, to get a 3D effect.
         :param CamerPosx: the position of the camera - int
         :param screen: The scene everything gets drawn. - int
         :return: The object the player collided with - object
@@ -229,7 +228,6 @@ class Objects:
 
 
 class character:
-
     def __init__(self, name, lives, image, hitpoints, maxHitpoints, moveset, items, heals, alive, NewMove):
         """
         updates the position of all objects based on the camera position
@@ -259,7 +257,9 @@ class character:
 
     def displayInfo(self, level, scene):
         """
-        Displays the info of the character on screen. Info consist of name, hitpoints and lives.
+        Displays the info of the character on screen. Info consist of name, hitpoints, lives, level and a progression bar.
+        :param level: The current level of the player. Used for the progression bar.
+        :param scene: The current scene of the player. Used for the progression bar.
         :return Nothing
         """
         # Left section
@@ -298,22 +298,24 @@ class character:
 class Game_Manager:
     def __init__(self, level, scene, Player_posx, Player_posy, playTime):
         """
-        Makes the game manager that stores important variables
+        Makes the game manager that stores important variables about the player.
+        :param level: the current level - int
         :param scene: the current scene - int
         :param Player_posx: The current x position of the player - int
         :param Player_posy: The current y position of the player - int
+        :param playTime: the moment the player started playing - int
         """
         self.level = level
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
         self.playTime = playTime
-    def Set(self, level, scene, Player_posx, Player_posy):
+    def Set(self, level, scene, Player_posx, Player_posy): # Sets the game_manager
         self.level = level
         self.scene = scene
         self.Player_posx = Player_posx
         self.Player_posy = Player_posy
-    def Reset(self):
+    def Reset(self): # Resets the game_manager
         self.__init__(1, 1, -130, 450, time.time())
 
 
@@ -374,6 +376,10 @@ def menu(name):
     :return the pressed button (Start, Quit) and the (new) name of the player.
     """
     def draw_scene():
+        """
+        Draws the menu. With a title and the 5 buttons (one of which is to change the name)
+        :return: None
+        """
         screen.blit(image_background, (0, 0))
         screen.blit(image_floor, (0, 490))
         textPrint(screen,"Titanic: Escape", 100, 'white', (WIDTH / 2, HEIGHT // 4), outline=('black', 7))
@@ -381,9 +387,15 @@ def menu(name):
         for i in range(len(buttonList)):
             if button.check(buttonList[i], mouseDown, screen):
                 return possibleStates[i]
+        return None
 
     def story():
-        screen.blit(image_landscape, (0, 0))
+        """
+        Displays the story of the game on the screen. With a disclaimer and a button to go back to the menu.
+        :return: None
+        """""
+        screen.blit(image_landscape, (0, 0)) # Background
+        # Texts
         textPrint(screen, "The rats of the Titanic", 60, 'white', (WIDTH / 2, 150), outline=('black', 5))
         storyText = ("in the year of 1912, on the 15th of april, the inevitable happened.\n"
                      "The titanic sank to the bottom of the ocean. A lot of people drowned,\n"
@@ -407,7 +419,7 @@ def menu(name):
         # Waiting for pressing of the menu button
         buttonMenu = button(WIDTH / 2 - 150, HEIGHT - 150, 300, 80, 'grey', 'darkgrey', "Menu", 'white', 45,'white')
         waitForInput([buttonMenu])
-
+    # Buttons
     buttonPlaying = button(WIDTH / 2 - 150, HEIGHT / 2 - 100, 300, 80, 'grey', 'darkgrey', "Start", 'white', 45, 'white')
     buttonTutorial = button(WIDTH / 2 - 150, HEIGHT / 2, 300, 80, 'grey', 'darkgrey', "How to play", 'white', 45, 'white')
     buttonStory = button(WIDTH / 2 - 150, HEIGHT / 2 + 100, 300, 80, 'grey', 'darkgrey', "Story", 'white', 45, 'white')
@@ -415,10 +427,12 @@ def menu(name):
     buttonName = button(WIDTH / 5 - 80, HEIGHT / 2 + 40, 160, 60, 'black', (40, 40, 40), "Change name", 'white', 20, 'black')
     buttonList = [buttonPlaying, buttonTutorial, buttonStory, buttonQuit, buttonName]
     possibleStates = ["Playing", "Tutorial", "Story", "Quit", "Typing"]
+    # Variables
     textCenter = (WIDTH // 5, HEIGHT // 2)
     typing = False
     cursor_time = time.time()
     cursor_draw = False
+    # Waits for player input
     while True:
         mouseDown = False
         for event in pygame.event.get():
@@ -440,6 +454,7 @@ def menu(name):
                     pygame.display.flip()
                     time.sleep(1)
 
+        # Draws the scene and checks for a button press.
         returned_value = draw_scene()
         if returned_value == "Typing":
             typing = not typing
@@ -450,6 +465,7 @@ def menu(name):
         elif returned_value is not None: # Playing, Quit
             return returned_value, name
 
+        # Prints the name
         textPrint(screen,name, 40, 'white', (WIDTH / 5, HEIGHT / 2), outline=('black', 3))
 
         # Drawing the flashing cursor.
@@ -468,27 +484,32 @@ def Pause():
     Pauses the game until the player selects an option
     :return the state the player should now be in
     """
-    pauseTime = time.time()
+    pauseTime = time.time() # Playing time is paused during the pause screen.
+    # Buttons
     buttonResume = button(WIDTH / 2 - 150, HEIGHT / 2, 300, 80, 'grey', 'darkgrey', "resume", 'white', 45,'white')
     buttonTutorial = button(WIDTH / 2 - 150, HEIGHT / 2 + 100, 300, 80, 'grey', 'darkgrey', "How to play", 'white', 45, 'white')
     buttonMenu = button(WIDTH / 2 - 150, HEIGHT / 2 + 200, 300, 80, 'grey', 'darkgrey', "menu", 'white', 45,'white')
+    # The surface that makes the screen darker.
     dimSurface = pygame.Surface((WIDTH, HEIGHT))
     pygame.Surface.set_alpha(dimSurface, 100)
 
     currentTime = round((time.time() - game_manager.playTime), 2)
-
-    currentScreen = screen.copy()
+    # Copies the current screen, so it can be pasted when going back from the tutorial.
+    parkour_screen = screen.copy()
 
     buttonList = [buttonResume, buttonTutorial, buttonMenu]
     possibleStates = [None, "Tutorial", "Menu", None]
+    # Loop makes switching between tutorial and pause screen possible.
     while True:
+        # Draw scene
         pygame.Surface.blit(screen, dimSurface)
         textPrint(screen,"Pause", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
         textPrint(screen,str(currentTime) + " seconds playing", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 335))
+        # Waits for input of the player
         index = waitForInput(buttonList, True)
         if possibleStates[index] == "Tutorial":
             tutorial()
-            screen.blit(currentScreen, (0, 0))
+            screen.blit(parkour_screen, (0, 0))
         else:
             game_manager.playTime += time.time() - pauseTime
             return possibleStates[index]
@@ -502,6 +523,11 @@ def got_hurt(hitpoints, state=None):
     :return: hitpoints, state
     """
     def draw_screen(y):
+        """
+        Draws the scene of the function
+        :param y: the location of the falling rat
+        :return: None
+        """
         screen.fill('brown')
         screen.blit(headText, headTextPos)
         screen.blit(subText, subTextPos)
@@ -523,6 +549,7 @@ def got_hurt(hitpoints, state=None):
     subTextRect.center = (WIDTH / 2, HEIGHT / 2)
     subTextPos = subTextRect.topleft
     rat_texture = pygame.transform.flip(pygame.transform.scale(pygame.image.load("resources/textures/rat_idle.png"), (200, 80)), False, True)
+    # Draws a rat falling
     y = -50
     for i in range(0, screen.get_height() // 2 + 100):
         beginTime = time.time()
@@ -534,17 +561,17 @@ def got_hurt(hitpoints, state=None):
     return hitpoints, state, False
 
 
-def game_over(lives, state=None):
+def game_over(lives):
     """
     Shows the Game Over screen
     :param lives: the amount of lives left of the player
-    :param state : The state of the game
-    :return: lives, state
+    :return: lives, state (str, None if not changed), dead (bool)
     """
     lives -= 1
     screen.fill('red')
+    state = None
     dead = False
-    if lives == 0:
+    if lives == 0: # Game over
         textPrint(screen,"Game over", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100))
         textPrint(screen,"Play again?", 50, 'white', (WIDTH / 2, HEIGHT / 2))
         buttonYes = button(WIDTH / 2 - 150, HEIGHT / 2 + 50, 125, 75, 'grey', 'darkgrey', "YES", 'white', 40, 'white')
@@ -556,7 +583,7 @@ def game_over(lives, state=None):
         if index == 0:
             dead = True
         lives = 5
-    else:
+    else: # Still lives left
         textPrint(screen,"You died", 100, 'white', (WIDTH / 2, HEIGHT / 2))
         message = "You have " + str(lives) + " lives left"
         if lives == 1:
@@ -582,13 +609,18 @@ def LevelComplete():
 def end(name):
     """
     Shows the credit screen and waits until the menu button is pressed.
-    :return possibleStates[index]:
+    :param name: The name of the player.
+    :return: new state = "Menu"
     """
     screen.fill('black')
+    # Draws the fireworks
     fireworkWord("Thanks for playing", 120)
+    # Background
     screen.blit(image_landscape)
+    # Menu button
     buttonMenu = button(WIDTH / 2 - 100, HEIGHT / 2 + 100, 200, 80, 'grey', 'darkgrey', "menu", 'white', 50,
                         'white')
+    # Text
     textPrint(screen,name, 100, 'white', (WIDTH / 2, HEIGHT / 2 - 220) , outline=('black', 7))
     textPrint(screen,"escaped the Titanic", 100, 'white', (WIDTH / 2, HEIGHT / 2 - 100), outline=('black', 7))
     textPrint(screen,"Berend Sulman, Branko Opdam,", 40, 'white',(WIDTH / 2, HEIGHT / 2 - 20), outline=('black', 2))
@@ -596,9 +628,9 @@ def end(name):
     finalTime = round((time.time() - game_manager.playTime), 2)
     textPrint(screen,"You finished in "+ str(finalTime) + " seconds", 40, 'white', (WIDTH / 2, HEIGHT / 2 + 300), outline=('black', 2))
 
-    index = waitForInput([buttonMenu])
-    possibleStates = ["Menu"]
-    return possibleStates[index]
+    # Waits until the menu button is pressed
+    waitForInput([buttonMenu])
+    return "Menu"
 
 
 def Afstand(pos1, pos2):
